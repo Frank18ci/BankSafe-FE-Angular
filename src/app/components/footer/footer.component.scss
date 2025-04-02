@@ -1,0 +1,11 @@
+.container-redes{
+    a{
+        transition: transform .3s ease;
+        
+    }
+    
+    
+}
+.container-redes a:hover{
+    transform: translateY(-3px);
+}

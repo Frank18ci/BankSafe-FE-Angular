@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+    box-sizing: border-box;
+}
+
+$navyblue: #1E3A5F;
+$electricblue: #0074E4;
+$lightgray: #F5F7FA;
+$darkgray: #3A3D40;
+$acceptgreen: #2ECC71;
+$alertorange: #E67E22;
+$errorred: #E74C3C;
+$primary: $navyblue;
+$info: $electricblue;
+$secondary: $darkgray;
+$light: $lightgray;
+$success: $acceptgreen;
+$warnning: $alertorange;
+$alert: $errorred;
+
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+
+
+// boostrap 5
+@import 'ngx-toastr/toastr-bs5-alert';

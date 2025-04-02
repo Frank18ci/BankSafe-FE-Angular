@@ -1,0 +1,15 @@
+@use '../../../../styles.scss' as *;
+
+.card-accion{
+    background-color: $lightgray;
+    a{
+        text-decoration: none;
+    }
+    transition: transform .3s ease;
+    i{
+        font-size: 5rem;
+    }
+}
+.card-accion:hover{
+    transform: translateY(-5px);
+}

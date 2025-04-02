@@ -1,0 +1,9 @@
+@use '../../../../styles.scss' as *;
+
+.card-tarjeta{
+    color: $darkgray;
+    h5{
+        color: $electricblue;
+    }
+    border: 2px $electricblue solid ;
+}
