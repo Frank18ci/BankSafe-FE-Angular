@@ -1,26 +1,61 @@
 <div class="w-100 d-flex justify-content-center align-items-center h-100vh">
-    <div class="rounded border border-1 shadow px-4 py-3 d-flex justify-content-center">
-        <form (ngSubmit)="login()" [formGroup]="loginForm">
-            <h1>Iniciar Sesion</h1>
-            <div class="form-group">
-              <label>
-                <i class="bi bi-person"></i>
-                Usuario
-                <input type="text" class="form-control" formControlName="username" />
-              </label>
+    <div class="rounded border border-1 shadow d-flex justify-content-center">
+        <div class="col-md-6 container-part-1-login px-3 py-3">
+          <div class="container-img-login d-flex align-items-center justify-content-center">
+            <div>
+              <img class="img-fluid" src="logo.png" alt="imagen logo">
             </div>
-            <div class="form-group">
-              <label>
-                <i class="bi bi-person"></i>
-                Contraseña
-                <input type="text" class="form-control" formControlName="password" />
-              </label>
-            </div>
-            <div class="mt-3 text-end">
-              <button class="btn btn-primary w-100" [disabled]="!loginForm.valid">
-                Acceder
-              </button>
-            </div>
-          </form>
+          </div>
+        </div>
+        <div class="col-md-6 px-3 py-3">
+          <div class="mx-1 d-flex justify-content-center">
+            <form (ngSubmit)="login()" [formGroup]="loginForm">
+              <h1 class="text-center fw-bold">Login</h1>
+              <div class="form-group">
+                <label class="col-12 mb-1">
+                  <i class="bi bi-person"></i>
+                  Tipo Documento
+                  <select name="" class="form-select" id="">
+                    @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
+                      <option value="{{tipoDocumentoUser.id}}">{{tipoDocumentoUser.tipo}}</option>
+                    }
+                  </select>
+                </label>
+              </div>
+              <div class="form-group mb-3">
+                <label class="col-12">
+                  <i class="bi bi-person"></i>
+                  Numero Documento
+                  <input type="text" class="form-control" formControlName="username" />
+                </label>
+              </div>
+              <hr>
+              <div class="form-group mb-1">
+                <label class="col-12">
+                  <i class="bi bi-person"></i>
+                  Numero Tarjeta
+                  <input type="text" class="form-control" formControlName="username" />
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="col-12">
+                  <i class="bi bi-person"></i>
+                  Contraseña
+                  <input type="text" class="form-control " formControlName="password" />
+                </label>
+              </div>
+              
+              <div class="mt-3 text-end">
+                <button class="btn btn-primary w-100" [disabled]="!loginForm.valid">
+                  Acceder
+                </button>
+              </div>
+              <div class="text-center">
+                <span>Si no tienes cuentas puedes </span>
+                <a href="">Crear Cuenta</a>
+              </div>
+            </form>
+          </div>
+        </div>
     </div>
 </div>

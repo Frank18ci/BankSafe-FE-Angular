@@ -1,3 +1,11 @@
+@use '../../../../styles.scss' as *;
 .h-100vh{
     height: 90vh;
+}
+.container-img-login{
+    height: 100%;
+}
+.container-part-1-login{
+    background-color: rgb(209, 209, 209);
+    //box-shadow: 2px 0 10px rgba(0, 0, 0, .15);
 }
