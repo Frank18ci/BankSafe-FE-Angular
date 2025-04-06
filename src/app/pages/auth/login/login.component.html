@@ -16,8 +16,13 @@
                   <i class="bi bi-person"></i>
                   Tipo Documento
                   <select name="" class="form-select" id="">
-                    @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
-                      <option value="{{tipoDocumentoUser.id}}">{{tipoDocumentoUser.tipo}}</option>
+                    @if(listaTipoDocumentoUser){
+                      <option>Elige tipo de documento</option>
+                      @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
+                        <option value="{{tipoDocumentoUser.id}}">{{tipoDocumentoUser.tipo}}</option>
+                      }
+                    } @else {
+                      <option>No han cargado</option>
                     }
                   </select>
                 </label>
@@ -52,7 +57,7 @@
               </div>
               <div class="text-center">
                 <span>Si no tienes cuentas puedes </span>
-                <a href="">Crear Cuenta</a>
+                <a href="auth/register">Crear Cuenta</a>
               </div>
             </form>
           </div>

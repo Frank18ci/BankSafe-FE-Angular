@@ -1,0 +1,23 @@
+<div class="container-xl my-4">
+    <div class="row">   
+        <div class="col-md-6 mb-2 mb-md-2 px-2">
+            <div>
+                <h3 class="text-primary">Datos</h3>
+                <div>
+                    <form (ngSubmit)="upLoadImagen2()" enctype="multipart/form-data">
+                        <input type="file" (change)="onFileSelected($event)">
+                        <button type="submit">Subir Imagen</button>
+                    </form>
+                </div>
+                <div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 px-2">
+            <div>
+                <h3 class="text-primary">Tarjetas</h3>
+            </div>
+        </div>
+    </div>
+</div>

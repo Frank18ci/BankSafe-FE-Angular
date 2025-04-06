@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { type ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { CardTarjetaComponent } from './card-tarjeta.component';
+import { CardTarjetaComponent } from "./card-tarjeta.component";
 
-describe('CardTarjetaComponent', () => {
-  let component: CardTarjetaComponent;
-  let fixture: ComponentFixture<CardTarjetaComponent>;
+describe("CardTarjetaComponent", () => {
+	let component: CardTarjetaComponent;
+	let fixture: ComponentFixture<CardTarjetaComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CardTarjetaComponent]
-    })
-    .compileComponents();
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [CardTarjetaComponent],
+		}).compileComponents();
 
-    fixture = TestBed.createComponent(CardTarjetaComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+		fixture = TestBed.createComponent(CardTarjetaComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it("should create", () => {
+		expect(component).toBeTruthy();
+	});
 });

@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-card-tarjeta',
-  imports: [],
-  templateUrl: './card-tarjeta.component.html',
-  styleUrl: './card-tarjeta.component.scss'
+	selector: "app-card-tarjeta",
+	imports: [],
+	templateUrl: "./card-tarjeta.component.html",
+	styleUrl: "./card-tarjeta.component.scss",
 })
-export class CardTarjetaComponent {
-
-}
+export class CardTarjetaComponent {}
