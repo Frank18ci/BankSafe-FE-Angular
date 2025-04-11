@@ -15,4 +15,11 @@ export class TarjetaService {
     findByNumeroTarjeta(numeroTarjeta: string){
       return this.http.get(this.url + "/tarjeta/buscar/" +numeroTarjeta)
     }
+
+    getAuthToken(){
+      return localStorage.getItem('token') || ''
+    }
+    getRefreshToken(){
+      return localStorage.getItem('refreshToken') || ''
+    }
 }

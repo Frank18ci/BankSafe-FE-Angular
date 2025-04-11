@@ -10,6 +10,7 @@ import type tipoDocumentoUser from "../../../model/TipoDocumentoUser";
 import { AuthService } from "../../../services/auth/auth.service";
 //import { LocalStorageService } from 'ngx-webstorage';
 import { TarjetaService } from "../../../services/Tarjeta/tarjeta.service";
+import { CookieService } from "ngx-cookie-service";
 @Component({
 	selector: "app-login",
 	imports: [ReactiveFormsModule],
@@ -21,6 +22,7 @@ export class LoginComponent {
 	private apiService = inject(AuthService);
 	private toastr = inject(ToastrService);
 	private tarjetaService = inject(TarjetaService)
+	private cookieService = inject(CookieService)
 	constructor(
 		
 	) {
@@ -52,6 +54,9 @@ export class LoginComponent {
 				this.tarjetaService.findByNumeroTarjeta(data.User.username).subscribe(data => {
 					console.log(data)	
 				})
+				console.log(data.token)
+				this.cookieService.set('token', data.token) 
+
 				//const tarjeta =
 				//this.storage.store('user', tarjetaService.find())
 			}

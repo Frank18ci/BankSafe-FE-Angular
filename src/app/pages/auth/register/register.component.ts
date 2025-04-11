@@ -16,6 +16,7 @@ import RoleUser from '../../../model/RoleUser';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 import Tarjeta from '../../../model/Tarjeta';
 import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -29,7 +30,8 @@ export class RegisterComponent {
   tipoTarjetaService = inject(TipoTarjetaService);
   userService = inject(UsuarioService);
   tarjetaService = inject(TarjetaService);
-
+  
+  router = inject(Router)
   listaTipoDocumentoUser: tipoDocumentoUser[] = [];
   listTipoMonedaTarjeta: TipoMonedaTarjeta[] = [];
   listTipoTarjeta: TipoTarjeta[] = [];
@@ -81,7 +83,7 @@ export class RegisterComponent {
     };
     return tarjeta;
   }
-
+  
   saveUserTarjeta() {
     const tarjeta: Tarjeta = this.convertFormGroudToTarjeta(
       this.formRegisterUserTarjeta
@@ -89,6 +91,7 @@ export class RegisterComponent {
     console.log('Datos guardos enviados', tarjeta);
     this.tarjetaService.save(tarjeta).subscribe((data) => {
       console.log('Datos guardos regresados', data);
+	  this.router.navigate(['auth/login'])
     });
   }
 }
