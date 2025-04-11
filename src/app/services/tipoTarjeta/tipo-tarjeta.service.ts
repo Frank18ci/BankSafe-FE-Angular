@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import tipoDocumentoUser from '../../model/TipoDocumentoUser';
+import TipoTarjeta from '../../model/TipoTarjeta';
 import { catchError, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TipoDocumentoUserService {
+export class TipoTarjetaService {
   private http = inject(HttpClient);
 	url = "http://localhost:8080";
   constructor() { }
   //CRUD
   list(){
-    return this.http.get<tipoDocumentoUser[]>(this.url + "/tipoDocumentoUser").pipe(
+    return this.http.get<TipoTarjeta[]>(this.url + "/tipoTarjeta").pipe(
           catchError(error => {
             if(error.status === 404){
               return of(null);
@@ -20,8 +20,5 @@ export class TipoDocumentoUserService {
             return throwError(()=> error);
           })
         )
-  }
-  find(id: number){
-    return this.http.get(this.url + `/tipoDocumentoUser/${id}`)
   }
 }

@@ -8,6 +8,8 @@ import {
 import { ToastrService } from "ngx-toastr";
 import type tipoDocumentoUser from "../../../model/TipoDocumentoUser";
 import { AuthService } from "../../../services/auth/auth.service";
+//import { LocalStorageService } from 'ngx-webstorage';
+import { TarjetaService } from "../../../services/Tarjeta/tarjeta.service";
 @Component({
 	selector: "app-login",
 	imports: [ReactiveFormsModule],
@@ -18,8 +20,9 @@ export class LoginComponent {
 	listaTipoDocumentoUser: tipoDocumentoUser[] = [];
 	private apiService = inject(AuthService);
 	private toastr = inject(ToastrService);
+	private tarjetaService = inject(TarjetaService)
 	constructor(
-
+		
 	) {
 		this.apiService.loadTipoDocumento().subscribe((lista) => {
 			if(lista){
@@ -43,8 +46,15 @@ export class LoginComponent {
 				: "";
 
 		this.apiService.login(this.user).subscribe((data: any) => {
-			console.log(data);
-			this.toastr.success(data.Message, data.Username, data.token);
+			if(data){
+				console.log(data);
+				this.toastr.success(data.Message, data.User.username, data.token);
+				this.tarjetaService.findByNumeroTarjeta(data.User.username).subscribe(data => {
+					console.log(data)	
+				})
+				//const tarjeta =
+				//this.storage.store('user', tarjetaService.find())
+			}
 		});
 	}
 }

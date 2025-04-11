@@ -9,13 +9,13 @@
         </div>
         <div class="col-md-6 px-3 py-3">
           <div class="mx-1 d-flex justify-content-center">
-            <form [formGroup]="formUser">
-              <h1 class="text-center fw-bold">Registro User</h1>
+            <form (submit)="saveUserTarjeta()" [formGroup]="formRegisterUserTarjeta">
+              <h1 class="fw-bold">User</h1>
               <div class="form-group">
                 <label class="col-md-6 mb-1 pe-md-3">
                   <i class="bi bi-person"></i>
                   Tipo Documento
-                  <select name="" class="form-select" id="">
+                  <select name="tipoDocumento" id="tipoDocumento" formControlName="tipoDocumento" class="form-select">
                     @if(listaTipoDocumentoUser){
                       <option>Elige tipo de documento</option>
                       @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
@@ -29,72 +29,76 @@
                 <label class="col-md-6">
                     <i class="bi bi-person"></i>
                     Numero Documento
-                    <input type="text" class="form-control" formControlName="username" />
+                    <input type="text" class="form-control" formControlName="numeroDocumento" />
                   </label>
               </div>
               <div class="form-group mb-3">
                 <label class="col-md-6 pe-3">
                   <i class="bi bi-person"></i>
                   Nombres
-                  <input type="text" class="form-control" formControlName="username" />
+                  <input type="text" class="form-control" formControlName="nombres" />
                 </label>
                 <label class="col-md-6">
                     <i class="bi bi-person"></i>
                     Apellidos
-                    <input type="text" class="form-control" formControlName="username" />
+                    <input type="text" class="form-control" formControlName="apellidos" />
                   </label>
               </div>
               <div class="form-group mb-3">
                 <label class="col-12">
                     <i class="bi bi-person"></i>
                     Fecha Nacimiento
-                    <input type="date" class="form-control" formControlName="username" />
+                    <input type="date" class="form-control" formControlName="fechaNacimiento" />
                   </label>
               </div>
               <hr>
-              <h1 class="text-center fw-bold">Registro Tarjeta</h1>
+              <h1 class="fw-bold">Tarjeta</h1>
               <div class="form-group">
                 <label class="col-md-6 mb-1 pe-md-3">
                   <i class="bi bi-person"></i>
                   Tipo Tarjeta
-                  <select name="" class="form-select" id="">
-                    @if(listaTipoDocumentoUser){
-                      <option>Elige tipo de documento</option>
-                      @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
-                        <option value="{{tipoDocumentoUser.id}}">{{tipoDocumentoUser.tipo}}</option>
+                  <select name="tipoTarjeta" class="form-select" id="tipoTarjeta" formControlName="tipoTarjeta">
+                    
+                      <option value="0">Elige tipo de tarjeta</option>
+                      @for (tipoTarjeta of listTipoTarjeta; track tipoTarjeta.id) {
+                        <option value="{{tipoTarjeta.id}}">{{tipoTarjeta.tipo}}</option>
                       }
-                    } @else {
-                      <option>No han cargado</option>
-                    }
+                    
                   </select>
                 </label>
                 <label class="col-md-6 mb-1 ">
                     <i class="bi bi-person"></i>
                     Tipo Moneda
-                    <select name="" class="form-select" id="">
-                      @if(listaTipoDocumentoUser){
+                    <select name="tipoMoneda" class="form-select" id="tipoMoneda" formControlName="tipoMoneda">
+                      
                         <option>Elige tipo de documento</option>
-                        @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
-                          <option value="{{tipoDocumentoUser.id}}">{{tipoDocumentoUser.tipo}}</option>
+                        @for (tipoMonedaTarjeta of listTipoMonedaTarjeta; track tipoMonedaTarjeta.id) {
+                          <option value="{{tipoMonedaTarjeta.id}}">{{tipoMonedaTarjeta.tipo}}</option>
                         }
-                      } @else {
-                        <option>No han cargado</option>
-                      }
+                      
                     </select>
                   </label>
               </div>
               <div class="form-group">
                 <label class="col-12">
                   <i class="bi bi-person"></i>
+                  Numero Tarjeta
+                  <input type="number" class="form-control " formControlName="numeroTarjeta" />
+                </label>
+              </div>
+              <div class="form-group">
+                <label class="col-12">
+                  <i class="bi bi-person"></i>
                   Contraseña
-                  <input type="text" class="form-control " formControlName="password" />
+                  <input type="text" class="form-control " formControlName="clave" />
                 </label>
               </div>
               
               <div class="mt-3 text-end">
-                <button class="btn btn-primary w-100" [disabled]="!formUser.valid">
+                <button class="btn btn-primary w-100" >
                   Registrar
                 </button>
+                
               </div>
               <div class="text-center">
                 <span>Si tienes cuentas puedes </span>
