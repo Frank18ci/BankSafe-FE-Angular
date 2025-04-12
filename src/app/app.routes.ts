@@ -9,7 +9,7 @@ export const routes: Routes = [
 	{
 		path: "",
 		component: InicioComponent,
-		canActivate: [userGuardGuard]
+		//canActivate: [userGuardGuard]
 	},
 	{
 		path: "auth",
@@ -30,7 +30,7 @@ export const routes: Routes = [
 			{
 				path: "configuracion",
 				component: ConfiguracionComponent,
-				canActivate: [userGuardGuard]
+				//canActivate: [userGuardGuard]
 			}
 		]
 	}

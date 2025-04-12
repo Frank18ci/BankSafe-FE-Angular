@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-configuracion',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FileUploadModule],
   templateUrl: './configuracion.component.html',
   styleUrl: './configuracion.component.scss'
 })
@@ -15,21 +16,18 @@ export class ConfiguracionComponent {
   })
   selectedFile: File = new File([], '');
   upLoadImagen(){
-    console.log("ejecuta metodo", this.formImagenUpdate.value.imagen)
-  }
-  upLoadImagen2(){
-    
     const formData = new FormData();
     formData.append('image', this.selectedFile);
-    console.log("ejecuta metodo")
     this.userService.uploadUserImage(formData).subscribe((res :any) =>{
-      console.log("Imagen subida", res)
+      console.log(res)
+      this.pathImg = res.url
+      console.log(this.pathImg)
     })
-    
-
   }
-  onFileSelected($event: any){
-    console.log("cambio")
-    this.selectedFile = $event.target.files[0]
+  pathImg: string = ''
+ 
+  onFileSelected(event: any){
+    this.selectedFile = event.target.files[0];
+    console.log(this.selectedFile)
   }
 }

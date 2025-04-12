@@ -1,23 +1,26 @@
 <div class="container-xl my-4">
-    <div class="row">   
-        <div class="col-md-6 mb-2 mb-md-2 px-2">
-            <div>
-                <h3 class="text-primary">Datos</h3>
-                <div>
-                    <form (ngSubmit)="upLoadImagen2()" enctype="multipart/form-data">
-                        <input type="file" (change)="onFileSelected($event)">
-                        <button type="submit">Subir Imagen</button>
-                    </form>
-                </div>
-                <div>
-    
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-md-6 mb-2 mb-md-2 px-2">
+      <div>
+        <h3 class="text-primary">Datos</h3>
+        <div>
+          <input
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            name="image"
+          />
+          <button (click)="upLoadImagen()">Subir Imagen</button>
         </div>
-        <div class="col-md-6 px-2">
-            <div>
-                <h3 class="text-primary">Tarjetas</h3>
-            </div>
+        <div>
+            <img [src]="'http://localhost:8080/user/images/' + pathImg" alt="">
         </div>
+      </div>
     </div>
+    <div class="col-md-6 px-2">
+      <div>
+        <h3 class="text-primary">Tarjetas</h3>
+      </div>
+    </div>
+  </div>
 </div>
