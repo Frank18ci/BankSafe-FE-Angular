@@ -4,6 +4,7 @@ import { LoginComponent } from "./pages/auth/login/login.component";
 import { RegisterComponent } from "./pages/auth/register/register.component";
 import { ConfiguracionComponent } from "./usuario/configuracion/configuracion.component";
 import { userGuardGuard } from "./UserGuard/user-guard.guard";
+import { CreditCardComponent } from "./pages/card/credit-card/credit-card.component";
 
 export const routes: Routes = [
 	{
@@ -31,6 +32,15 @@ export const routes: Routes = [
 				path: "configuracion",
 				component: ConfiguracionComponent,
 				//canActivate: [userGuardGuard]
+			}
+		]
+	},
+	{
+		path: "card",
+		children:[
+			{
+				path:"credit-card",
+				component: CreditCardComponent
 			}
 		]
 	}
