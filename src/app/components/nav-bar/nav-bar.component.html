@@ -36,7 +36,8 @@
                 <div class="nav-item dropdown">
                     <a class="d-flex align-items-center nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       <div class="container-img-user">
-                        <img class="img-fluid" src="user.png">
+                        {{usuario.nombres}}
+                        <img class="img-fluid" src="{{usuario.imagePath }}">
                       </div>
                     </a>
                     <ul class="dropdown-menu ">
@@ -47,9 +48,9 @@
                         <i class="bi bi-key-fill"></i>
                         Cambiar Clave</a></li>
                       <li><hr class="dropdown-divider fw-bold"></li>
-                      <li><a class="dropdown-item text-danger" href="auth/login">
+                      <li><button class="dropdown-item text-danger" (click)="removerCookies()">
                         <i class="bi bi-box-arrow-right"></i>
-                        Cerrar Sesión</a></li>
+                        Cerrar Sesión</button></li>
                     </ul>
                 </div>
         </div>

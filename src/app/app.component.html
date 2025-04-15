@@ -1,4 +1,8 @@
 
-<app-nav-bar></app-nav-bar>
+@if(login){
+    <app-nav-bar [usuario]="user"></app-nav-bar>
+}
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+@if(login){
+    <app-footer></app-footer>
+}

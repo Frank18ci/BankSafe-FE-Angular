@@ -11,6 +11,7 @@ import { AuthService } from "../../../services/auth/auth.service";
 //import { LocalStorageService } from 'ngx-webstorage';
 import { TarjetaService } from "../../../services/Tarjeta/tarjeta.service";
 import { CookieService } from "ngx-cookie-service";
+import { Router } from "@angular/router";
 @Component({
 	selector: "app-login",
 	imports: [ReactiveFormsModule],
@@ -21,11 +22,15 @@ export class LoginComponent {
 	listaTipoDocumentoUser: tipoDocumentoUser[] = [];
 	private apiService = inject(AuthService);
 	private toastr = inject(ToastrService);
-	private tarjetaService = inject(TarjetaService)
+	private router = inject(Router)
+	
 	private cookieService = inject(CookieService)
 	constructor(
 		
 	) {
+		if(this.cookieService.get('token')){
+			this.router.navigate([''])
+		}
 		this.apiService.loadTipoDocumento().subscribe((lista) => {
 			if(lista){
 				this.listaTipoDocumentoUser = lista;
@@ -49,16 +54,10 @@ export class LoginComponent {
 
 		this.apiService.login(this.user).subscribe((data: any) => {
 			if(data){
-				console.log(data);
 				this.toastr.success(data.Message, data.User.username, data.token);
-				this.tarjetaService.findByNumeroTarjeta(data.User.username).subscribe(data => {
-					console.log(data)	
-				})
-				console.log(data.token)
-				this.cookieService.set('token', data.token) 
-
-				//const tarjeta =
-				//this.storage.store('user', tarjetaService.find())
+				this.cookieService.set('token', data.token)
+				this.cookieService.set('username', data.User.username)
+				this.router.navigate([''])
 			}
 		});
 	}

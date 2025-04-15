@@ -33,7 +33,7 @@ export const routes: Routes = [
 			{
 				path: "configuracion",
 				component: ConfiguracionComponent,
-				//canActivate: [userGuardGuard]
+				canActivate: [userGuardGuard]
 			}
 		]
 	},
