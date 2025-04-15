@@ -5,6 +5,8 @@ import { RegisterComponent } from "./pages/auth/register/register.component";
 import { ConfiguracionComponent } from "./usuario/configuracion/configuracion.component";
 import { userGuardGuard } from "./UserGuard/user-guard.guard";
 import { CreditCardComponent } from "./pages/card/credit-card/credit-card.component";
+import { SolicitarPrestamoComponent } from "./pages/opciones/solicitar-prestamo/solicitar-prestamo.component";
+import { CambiarMonedaComponent } from "./pages/opciones/cambiar-moneda/cambiar-moneda.component";
 
 export const routes: Routes = [
 	{
@@ -41,6 +43,19 @@ export const routes: Routes = [
 			{
 				path:"credit-card",
 				component: CreditCardComponent
+			}
+		]
+	},
+	{
+		path: "opciones",
+		children:[
+			{
+				path:"solicitar-prestamo",
+				component: SolicitarPrestamoComponent
+			},
+			{
+				path:"cambiar-moneda",
+				component: CambiarMonedaComponent
 			}
 		]
 	}
