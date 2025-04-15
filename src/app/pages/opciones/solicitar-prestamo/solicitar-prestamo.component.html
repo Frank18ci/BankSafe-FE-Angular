@@ -1,3 +1,23 @@
 <div class="container-xl my-4">
-    <div>{{2 +2}} chambea</div>
+    
+    <div class="d-flex justify-content-center mt-4">
+        <form [formGroup]="profileForm" class="d-flex gap-3 align-items-center">
+            <div>
+                <input type="text"
+                       formControlName="name" placeholder="Ingresar Monto" class="form-control" style="height: 50px;" inputmode="numeric" pattern="[0-9]*"
+                       oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                       
+            </div>
+      
+            <div>
+                <select name="categoria" required class="form-select" style="width: 250px; height: 50px;">
+                    <option value="" disabled hidden selected>Fecha de Pago</option>
+                    <option value="alimentos">02 de Cada Mes</option>
+                    <option value="transporte">15 de Cada Mes</option>
+                    <option value="entretenimiento">30 de Cada Mes</option>
+                </select>    
+            </div>
+          
+        </form>
+      </div>
 </div>
