@@ -1,60 +1,96 @@
-
-<div class="bg-light py-2">
-    <nav class="container-xl">
-      <div class="d-flex justify-content-around align-items-center">
-        <img class="img-logo" src="logo.png" alt="logo">
-        <div>
-          <ul class="nav">
-            <li class="nav-item">
-              <a href="/" class="nav-link fw-bold">Inicio</a>
+<div class="bg-light py-3">
+  <nav class="container-xl">
+    <div class="d-flex justify-content-between align-items-center">
+      <a href="/">
+        <img class="img-logo" src="logo.png" alt="logo" />
+      </a>
+      <div>
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="/" class="nav-link fw-bold">Inicio</a>
+          </li>
+          <li mdbDropdown class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle fw-bold"
+              href="#"
+              role="button"
+              mdbDropdownToggle
+              aria-expanded="false"
+            >
+              Operaciones
+            </a>
+            <ul mdbDropdownMenu class="dropdown-menu">
+              <li><a class="dropdown-item" href="operaciones/transferencias-internas">Transferencias internas</a></li>
+              <li><a class="dropdown-item" href="operaciones/transferencias-interbancaria">Transferencias interbancarias</a></li>
+              <li><a class="dropdown-item" href="operaciones/pago-de-servicio">Pago de servicios</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="operaciones/cambio-de-moneda">Cambio de moneda</a></li>
+            </ul>
+          </li>
+          <li mdbDropdown class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle fw-bold"
+              href="#"
+              role="button"
+              mdbDropdownToggle
+              aria-expanded="false"
+            >
+              Explora
+            </a>
+            <ul mdbDropdownMenu class="dropdown-menu">
+              <li><a class="dropdown-item" href="explora/prestamos-y-creditos">Préstamos y créditos</a></li>
+              <li><a class="dropdown-item" href="explora/tarjetas">Tarjetas</a></li>
+              <li><a class="dropdown-item" href="explora/beneficios-y-promociones">Beneficios / Promociones</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="explora/seguridad-y-soporte">Seguridad y soporte</a></li>
+            </ul>
+          </li>
+          
+        </ul>
+      </div>
+      <div>
+        <div mdbDropdown class="nav-item dropdown">
+          <a
+            class="d-flex align-items-center nav-link dropdown-toggle fw-bold"
+            href="#"
+            role="button"
+            mdbDropdownToggle
+            aria-expanded="false"
+          >
+            <div class="container-img-user">
+              @if(usuario.imagePath != null){
+                <img class="img-fluid" src="{{ usuario.imagePath }}" />
+              } @else {
+                <i class="fa-solid fa-user"></i>
+              }
+            </div>
+          </a>
+          <ul mdbDropdownMenu class="dropdown-menu">
+            <li>
+              <a class="dropdown-item fw-bold" href="usuario/mi-perfil">
+                <i class="bi bi-gear-fill"></i>
+                Mi Perfil</a
+              >
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Operaciones
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Explora
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
+            <li>
+              <a class="dropdown-item fw-bold" href="usuario/configuracion">
+                <i class="bi bi-gear-fill"></i>
+                configuración</a
+              >
+            </li>
+            <li><hr class="dropdown-divider fw-bold" /></li>
+            <li>
+              <button
+                class="dropdown-item text-danger"
+                (click)="removerCookies()"
+              >
+                <i class="bi bi-box-arrow-right"></i>
+                Cerrar Sesión
+              </button>
             </li>
           </ul>
         </div>
-        <div>
-                <div class="nav-item dropdown">
-                    <a class="d-flex align-items-center nav-link dropdown-toggle fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <div class="container-img-user">
-                        {{usuario.nombres}}
-                        <img class="img-fluid" src="{{usuario.imagePath }}">
-                      </div>
-                    </a>
-                    <ul class="dropdown-menu ">
-                      <li><a class="dropdown-item fw-bold" href="usuario/configuracion">
-                        <i class="bi bi-gear-fill"></i>
-                        Configurar</a></li>
-                      <li><a class="dropdown-item fw-bold" href="#">
-                        <i class="bi bi-key-fill"></i>
-                        Cambiar Clave</a></li>
-                      <li><hr class="dropdown-divider fw-bold"></li>
-                      <li><button class="dropdown-item text-danger" (click)="removerCookies()">
-                        <i class="bi bi-box-arrow-right"></i>
-                        Cerrar Sesión</button></li>
-                    </ul>
-                </div>
-        </div>
       </div>
-      
-    </nav>
-  </div>
+    </div>
+  </nav>
+</div>

@@ -3,10 +3,11 @@ import { CookieService } from "ngx-cookie-service";
 import { TarjetaService } from "../../services/Tarjeta/tarjeta.service";
 import { Router } from "@angular/router";
 import User from "../../model/User";
+import { MdbDropdownModule } from "mdb-angular-ui-kit/dropdown";
 
 @Component({
 	selector: "app-nav-bar",
-	imports: [],
+	imports: [MdbDropdownModule],
 	templateUrl: "./nav-bar.component.html",
 	styleUrl: "./nav-bar.component.scss",
 })

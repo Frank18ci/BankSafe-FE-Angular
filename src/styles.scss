@@ -19,11 +19,18 @@ $success: $acceptgreen;
 $warnning: $alertorange;
 $alert: $errorred;
 
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+//@import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 
 
 // boostrap 5
-@import 'ngx-toastr/toastr-bs5-alert';
+//@import 'ngx-toastr/toastr-bs5-alert';
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+// 
+@import '@fortawesome/fontawesome-free/css/all.css';
+
+@import '../node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss';
