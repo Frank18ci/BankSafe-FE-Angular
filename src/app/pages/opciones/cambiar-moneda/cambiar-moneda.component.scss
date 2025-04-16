@@ -1,0 +1,41 @@
+.credit-card-component{
+    background-color: #2669D2;
+    animation: change-bg-lg 10s infinite alternate;
+    background-size: 100% 100%;
+    position: relative;
+    overflow: hidden;
+    .icon-card{
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: translateY(50%);
+        transform: translateX(40%);
+        i{
+            opacity: .7;
+            font-size: 8rem;
+        }
+    }
+}
+@keyframes change-bg-lg{
+    0%{
+        background: linear-gradient(
+            to bottom left,
+            #c1c8d1, 
+            #999fa8a9 
+            );
+    }
+    0%{
+        background: linear-gradient(
+            to bottom left,
+            #a5a8ad, 
+            #4b5361d2 
+            );
+    }
+    100%{
+        background: linear-gradient(
+            to bottom left,
+            #545a63a9,
+            #aeb6b6 
+            );
+    }
+}
