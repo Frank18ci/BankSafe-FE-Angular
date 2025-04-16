@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './cambiar-moneda.component.scss'
 })
 export class CambiarMonedaComponent {
-  nombre: string = "joseee"
 
 }

@@ -1,3 +1,210 @@
 <div class="container-xl my-4">
-    <div>{{2 +2}} chambea</div>
+    <div class="mx-auto" style="max-width: 800px;">
+
+        <!-- Primer Contenedor -->
+        <div class="shadow-sm p-4 rounded bg-secondary-subtle mb-0" style="box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+            <form [formGroup]="profileForm" class="row g-3">
+                <!-- Input Monto -->
+                <div class="col-md-4">
+                    <input type="text" formControlName="name" placeholder="Ingresar Monto" class="form-control"
+                        style="height: 50px;" inputmode="numeric" pattern="[0-9]*"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                </div>
+
+                <!-- Select Fecha de Pago -->
+                <div class="col-md-4">
+                    <select name="categoria" required class="form-select" style="height: 50px;">
+                        <option value="" disabled hidden selected>Fecha de Pago</option>
+                        <option value="alimentos">02 de Cada Mes</option>
+                        <option value="transporte">15 de Cada Mes</option>
+                        <option value="entretenimiento">30 de Cada Mes</option>
+                    </select>
+                </div>
+
+                <!-- Botón -->
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary" style="height: 50px;">Empezar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Segundo Contenedor sin margen -->
+        <div class="shadow-sm p-2 rounded bg-white" style="box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+            <p class="mb-0 text-center fs-6 fw-light">Horario de atención: Lun a Dom de 5:00am - 12:00am (medianoche)
+            </p>
+        </div>
+
+
+        <br>
+
+
+        <div class="text-center">
+            <h1 class="text-primary">Beneficios del Prestamo Online</h1>
+        </div>
+
+        <br>
+
+        <div class="container text-center">
+            <div class="row align-items-start">
+
+                <div class="col">
+                    <img href="#" alt="#">
+                    <h5>Flexibilidad de Montos</h5>
+                    <p>Montos desde S/ 100 hasta S/ 350,000</p>
+                </div>
+
+                <div class="col">
+                    <img href="#" alt="#">
+                    <h5>Ahorra Tiempo</h5>
+                    <p>¡No necesitas ir al banco!</p>
+                </div>
+
+                <div class="col">
+                    <img href="#" alt="#">
+                    <h5>Pago Automatico</h5>
+                    <p>El cobro será desde la cuenta que elijas</p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Preguntas Frecuentes</h2>
+            </div>
+
+            <div class="col-md-8">
+
+
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                                <div><strong>¿Como solicitar un préstamo online?</strong> </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="fw-light">
+                                    Ingresa a nuestra web <strong>www.solicitar-prestamo.banksafe.com</strong> , Ingresa
+                                    un monto y fecha de pago y sigue estos simples pasos:
+                                    <ol>
+                                        <li>Inicia sesión con tu número de Tarjeta de Débito y tu clave de Internet (6
+                                            dígitos). Si aún no tienes clave, puedes generarla dando <a href="#">clic
+                                                aquí</a> .</li>
+                                        <li>Ingresa y valida tus datos.</li>
+                                        <li>Elige las opciones de pago de tu préstamo.</li>
+                                        <li>Elige la cuenta donde te depositarán y la cuenta de cobro mensual.</li>
+                                        <li>Confirma el préstamo y listo. Tu dinero ya está en tu cuenta.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                aria-controls="flush-collapseTwo">
+                                <div><strong>¿Qué necesito para solicitar un préstamo online?</strong> </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="fw-light">
+                                    Necesitas tu DNI e ingresar desde un dispositivo con cámara para iniciar sesión por
+                                    reconocimiento facial.
+                                    <br>
+                                    También puedes ingresar con una tarjeta de débito BCP, la clave de 6 dígitos y que
+                                    la tarjeta esté asociada a una cuenta de ahorros, mancomunada o corriente en Soles
+                                    con más de 30 días de haber sido creada. La solicitud se puede realizar de lunes a
+                                    domingo entre las 5:00am - 12:00am ( medianoche )
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseThree" aria-expanded="false"
+                                aria-controls="flush-collapseThree">
+                                <div><strong>¿Debo presentar algún documento para solicitarlo?</strong> </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseThree" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="fw-light">
+                                    Puedes solicitar tu préstamo online sin necesidad de salir de casa. No necesitas
+                                    presentar ni firmar algún tipo de documento. De aprobarse el préstamo, se depositará
+                                    en la cuenta que elijas al instante y se enviará la documentación por email.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseFour" aria-expanded="false"
+                                aria-controls="flush-collapseFour">
+                                <div><strong>¿Puedo personalizar mi préstamo online?</strong> </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseFour" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="fw-light">
+                                    Dentro de la web podrás elegir el monto, plazo y cuota que más se ajuste a tus
+                                    necesidades según las opciones habilitadas luego de tu evaluación en línea. También
+                                    podrás elegir el tipo de envío de estado de cuenta, la cuenta a la cual te haremos
+                                    el desembolso y la cuenta de donde desees que se cobre la cuota.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseFive" aria-expanded="false"
+                                aria-controls="flush-collapseFive">
+                                <div><strong>¿Cuál es el monto mínimo o máximo para acceder?</strong> </div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseFive" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="fw-light">
+                                    El monto aprobado dependerá de la evaluación en línea, considerando un máximo de S/
+                                    350,000. El monto podría variar en el transcurso de los días, de no mantenerse las
+                                    condiciones crediticias que motivaron la aprobación.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseSix" aria-expanded="false"
+                                aria-controls="flush-collapseSix">
+                                <div><strong>¿En cuánto tiempo recibiré el préstamo?</strong></div>
+                            </button>
+                        </h2>
+                        <div id="flush-collapseSix" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="fw-light">Al solicitarlo en la web, podrás obtener el préstamo al instante y en la cuenta que elijas.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
 </div>
