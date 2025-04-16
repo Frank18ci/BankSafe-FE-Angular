@@ -10,6 +10,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import {
+  BrowserModule,
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
@@ -17,11 +18,19 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';
 import { CookieService } from 'ngx-cookie-service';
-import { tokenInterceptorInterceptor } from './auth/token-interceptor.interceptor';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
+import { tokenInterceptorInterceptor } from './securty/auth/token-interceptor.interceptor';
+import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
+import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
+import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
+import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    BrowserModule,
+    MdbCheckboxModule,
+    MdbCollapseModule,
+    MdbDropdownModule,
+    MdbRippleModule,
 	  CookieService,
     provideAnimations(),
     provideToastr(),
