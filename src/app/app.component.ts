@@ -25,13 +25,13 @@ export class AppComponent {
 			console.log(this.user)
 		})
 	}
-	login : boolean = false
+	login : boolean = true
 	constructor(){
 		if(this.cookieService.get('token') && this.cookieService.get("username")){
 			this.login = true;
 			this.consultaUsuario();
 		} else {
-			this.router.navigate(['auth/login'])
+			//this.router.navigate(['auth/register'])
 		}
 	}
 }

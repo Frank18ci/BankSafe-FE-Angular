@@ -25,3 +25,5 @@ $alert: $errorred;
 
 // boostrap 5
 @import 'ngx-toastr/toastr-bs5-alert';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
