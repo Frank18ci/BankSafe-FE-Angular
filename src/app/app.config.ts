@@ -19,8 +19,10 @@ import { routes } from './app.routes';
 import { CookieService } from 'ngx-cookie-service';
 import { tokenInterceptorInterceptor } from './securty/auth/token-interceptor.interceptor';
 import { provideToastr } from 'ngx-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export const appConfig: ApplicationConfig = {
   providers: [
+    NgbModule,
 	  CookieService,
     provideAnimations(),
     provideToastr(),

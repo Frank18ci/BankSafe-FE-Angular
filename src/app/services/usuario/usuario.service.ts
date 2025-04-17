@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import User from '../../model/User';
+import { catchError, of, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,14 @@ export class UsuarioService {
     return this.http.get(this.url + `/user/${id}`)
   }
   findI(id: number){
-    return this.http.get(this.url + `/user/userTarjetas/${id}`)
+    return this.http.get(this.url + `/user/userTarjetas/${id}`).pipe(
+              catchError(error => {
+                if(error.status === 404){
+                  return of(null);
+                }
+                return throwError(()=> error);
+              })
+            )
   }
   save(user: User){
     return this.http.post(this.url + "/user", user)

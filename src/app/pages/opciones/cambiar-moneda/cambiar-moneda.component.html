@@ -1,50 +1,52 @@
+
 <div class="container my-5">
-    <div class="row justify-content-center align-items-center">
-      
+    <div class="row justify-content-center align-items-center">    
       <!-- Columna 1: Convertidor -->
       <div class="col-md-4 mb-4 d-flex">
         <div class="card shadow-sm p-4 bg-secondary-subtle w-100">
+          <form [formGroup]="formGroupConvertir">
           <h3 class="text-center mb-4">Convertidor de Moneda</h3>
   
           <!-- Campo de ingreso en soles -->
           <div class="mb-3">
-            <label for="monto" class="form-label">Monto en Soles (S/)</label>
-            <input type="text" class="form-control" id="monto" placeholder="Ej. 100" inputmode="numeric" pattern="[0-9]*"
+            <label for="monto" class="form-label">Monto en {{tarjetaSeleccionada?.tipoMonedaTarjeta?.tipo}} </label>
+            <input type="text" class="form-control" formControlName="monto"  id="monto" placeholder="Ej. 100" [max]="tarjetaSeleccionada?.monto" inputmode="numeric" pattern="[0-9]*"
               oninput="this.value = this.value.replace(/[^0-9]/g, '')">
           </div>
   
           <!-- Selección de moneda -->
           <div class="mb-3">
             <label for="moneda" class="form-label">Convertir a:</label>
-            <select class="form-select" id="moneda">
-              <option value="usd">Dólares (USD)</option>
-              <option value="eur">Euros (EUR)</option>
-              <option value="gbp">Libras (GBP)</option>
-              <option value="clp">Pesos Chilenos (CLP)</option>
+            <select class="form-select" id="moneda" formControlName="tipo">
+              @for(tipoMoneda of tipoMonedas; track tipoMoneda.tipo){
+                <option [value]="tipoMoneda.tipo">{{tipoMoneda.tipo}} ({{tipoMoneda.simbolo}}) - Tipo Cambio - {{tipoMoneda.valor}}</option>
+              }
             </select>
           </div>
   
           <!-- Botón -->
           <div class="text-center mb-3">
-            <button class="btn btn-primary" onclick="convertir()">Convertir</button>
+            <button class="btn btn-primary" (click)="convertir()">Convertir</button>
           </div>
   
           <!-- Resultado -->
           <div class="mt-2 text-center">
             <h5>Resultado:</h5>
-            <p id="resultado" class="fs-5 fw-semibold">--</p>
+            <p id="resultado" class="fs-5 fw-semibold">{{resultado}}</p>
           </div>
   
           <!-- Botón Procesar-->
           <div class="text-center mt-3">
-            <button class="btn btn-primary">Procesar</button>
+            <button class="btn btn-primary">Enviar</button>
           </div>
+          </form>
         </div>
+        
       </div>
   
       <!-- Columna 2: Tarjetas -->
-      <div class="col-md-12 d-flex flex-column gap-3">
-        <div class="col-md-4 credit-card-component rounded text-white shadow-sm p-2">
+      <div class="col-md-6 d-flex flex-column gap-3">
+        <div class="credit-card-component rounded text-white shadow-sm p-2">
           <div class="icon-card mb-2">
             <i class="bi bi-shield-fill"></i>
           </div>
@@ -79,4 +81,26 @@
   
     </div>
   </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Your Card</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGroupTarjetaSelected">
+        <div class="mb-3">
+          <label for="idtarjeta">Tarjeta</label>
+          <select class="form-select" id="idtarjeta" formControlName="idtarjeta">
+            @for(tarjeta of usuario.tarjetas; track tarjeta.id){
+              <option [value]="tarjeta.id">{{tarjeta.numeroTarjeta}} - {{tarjeta.tipoTarjeta?.tipo}} - {{tarjeta.tipoMonedaTarjeta?.simbolo}} {{tarjeta.monto || 0}}</option>
+            }
+          </select>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-primary" (click)="seleccionarTarjeta()">Aceptar</button>
+    </div>
+  </ng-template>
   

@@ -22,4 +22,7 @@ export class TipoMonedaTarjetaService {
       })
     )
   }
+  listaByTipe(tipo: String): Observable<any>{
+    return this.http.get<TipoMonedaTarjeta[]>(this.url + "/cambioMoneda/" + tipo)
+  }
 }
