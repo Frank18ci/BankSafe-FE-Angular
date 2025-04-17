@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import type tipoDocumentoUser from "../../model/TipoDocumentoUser";
+import { catchError, of, throwError } from "rxjs";
+import { error } from "console";
 
 @Injectable({
 	providedIn: "root",
@@ -12,7 +14,13 @@ export class AuthService {
 	constructor() {}
 
 	login(user: any) {
-		return this.http.post(this.url + "/login", user);
+		return this.http.post(this.url + "/login", user).pipe(
+				  catchError(error => {
+					if(error.status === 404){
+					  return of(null);
+					}
+					return throwError(()=> error);
+				  }));
 	}
 	register(tarjetaRegister: any) {
 		return this.http.post(this.url + "/auth/register", tarjetaRegister);

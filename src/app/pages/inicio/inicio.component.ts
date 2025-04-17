@@ -39,14 +39,24 @@ export class InicioComponent {
       .findByNumeroTarjeta(this.cookieService.get('username'))
       .subscribe((data: any) => {
         this.userService.findI(data.user.id).subscribe((data: any) => {
-          this.cookieService.set('user', JSON.stringify(data), {
-            path: '/',
-          });
-          this.usuario = data;
-          console.log(this.usuario);
+          if(data){
+			this.cookieService.set('user', JSON.stringify(data), {
+				path: '/',
+			  });
+			  this.usuario = data;
+			  console.log(this.usuario);
+		  } else{
+			this.removerCookies()
+		  }
         });
       });
   }
+  removerCookies(){
+	this.cookieService.delete("user")
+	this.cookieService.delete("username")
+	this.cookieService.delete("token")
+	this.router.navigate(['auth/login'])
+}
   login = false;
   constructor() {
     if (this.cookieService.get('token') && this.cookieService.get('username')) {
