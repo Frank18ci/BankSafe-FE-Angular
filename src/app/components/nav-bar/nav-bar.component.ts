@@ -3,21 +3,27 @@ import { CookieService } from "ngx-cookie-service";
 import { TarjetaService } from "../../services/Tarjeta/tarjeta.service";
 import { Router } from "@angular/router";
 import User from "../../model/User";
-import { MdbDropdownModule } from "mdb-angular-ui-kit/dropdown";
+import Tarjeta from "../../model/Tarjeta";
+import UserI from "../../model/UserI";
 
 @Component({
 	selector: "app-nav-bar",
-	imports: [MdbDropdownModule],
+	imports: [],
 	templateUrl: "./nav-bar.component.html",
 	styleUrl: "./nav-bar.component.scss",
 })
 export class NavBarComponent {
-	@Input() usuario: User = {}
+	@Input() usuario: UserI = {}
 
 	private cookieService = inject(CookieService)
 	private router = inject(Router)
+	constructor(){
+		//console.log(this.usuario)
+	}
 	removerCookies(){
-		this.cookieService.deleteAll()
+		this.cookieService.delete("user")
+		this.cookieService.delete("username")
+		this.cookieService.delete("token")
 		this.router.navigate(['auth/login'])
 	}
 }

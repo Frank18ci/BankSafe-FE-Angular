@@ -5,13 +5,13 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from "@angular/forms";
-import { ToastrService } from "ngx-toastr";
 import type tipoDocumentoUser from "../../../model/TipoDocumentoUser";
 import { AuthService } from "../../../services/auth/auth.service";
-//import { LocalStorageService } from 'ngx-webstorage';
 import { TarjetaService } from "../../../services/Tarjeta/tarjeta.service";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+
 @Component({
 	selector: "app-login",
 	imports: [ReactiveFormsModule],
@@ -19,23 +19,23 @@ import { Router } from "@angular/router";
 	styleUrl: "./login.component.scss",
 })
 export class LoginComponent {
-	listaTipoDocumentoUser: tipoDocumentoUser[] = [];
+	
 	private apiService = inject(AuthService);
-	private toastr = inject(ToastrService);
+	
+	toastrService = inject(ToastrService)
+	
 	private router = inject(Router)
 	
 	private cookieService = inject(CookieService)
-	constructor(
-		
-	) {
+
+	validarExistenciaToken(){
 		if(this.cookieService.get('token')){
 			this.router.navigate([''])
 		}
-		this.apiService.loadTipoDocumento().subscribe((lista) => {
-			if(lista){
-				this.listaTipoDocumentoUser = lista;
-			}
-		});
+	}
+
+	constructor() {
+		this.validarExistenciaToken()
 	}
 	loginForm = new FormGroup({
 		username: new FormControl("", Validators.required),
@@ -54,7 +54,7 @@ export class LoginComponent {
 
 		this.apiService.login(this.user).subscribe((data: any) => {
 			if(data){
-				this.toastr.success(data.Message, data.User.username, data.token);
+				this.toastrService.success(data.Message, "Bienvenido");
 				this.cookieService.set('token', data.token)
 				this.cookieService.set('username', data.User.username)
 				this.router.navigate([''])

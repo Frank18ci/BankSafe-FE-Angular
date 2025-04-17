@@ -17,6 +17,7 @@ import { UsuarioService } from '../../../services/usuario/usuario.service';
 import Tarjeta from '../../../model/Tarjeta';
 import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
 import { Router } from '@angular/router';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -30,6 +31,7 @@ export class RegisterComponent {
   tipoTarjetaService = inject(TipoTarjetaService);
   userService = inject(UsuarioService);
   tarjetaService = inject(TarjetaService);
+  toastService = inject(ToastrService)
   
   router = inject(Router)
   listaTipoDocumentoUser: tipoDocumentoUser[] = [];
@@ -91,7 +93,8 @@ export class RegisterComponent {
     console.log('Datos guardos enviados', tarjeta);
     this.tarjetaService.save(tarjeta).subscribe((data) => {
       console.log('Datos guardos regresados', data);
-	  this.router.navigate(['auth/login'])
+	    this.router.navigate(['auth/login'])
+      this.toastService.success( "ok", "Cuenta Registrada")
     });
   }
 }

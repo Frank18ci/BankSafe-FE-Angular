@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
+import Tarjeta from "../../../model/Tarjeta";
 
 @Component({
 	selector: "app-card-tarjeta",
@@ -6,4 +7,6 @@ import { Component } from "@angular/core";
 	templateUrl: "./card-tarjeta.component.html",
 	styleUrl: "./card-tarjeta.component.scss",
 })
-export class CardTarjetaComponent {}
+export class CardTarjetaComponent {
+	@Input() tarjeta : Tarjeta = {}
+}

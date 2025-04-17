@@ -9,17 +9,18 @@
           <li class="nav-item">
             <a href="/" class="nav-link fw-bold">Inicio</a>
           </li>
-          <li mdbDropdown class="nav-item dropdown">
+          <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle fw-bold"
               href="#"
               role="button"
-              mdbDropdownToggle
+              data-bs-toggle="dropdown"
+              data-bs-target="#dropdownOperaciones"
               aria-expanded="false"
             >
               Operaciones
             </a>
-            <ul mdbDropdownMenu class="dropdown-menu">
+            <ul id="dropdownOperaciones" class="dropdown-menu">
               <li><a class="dropdown-item" href="operaciones/transferencias-internas">Transferencias internas</a></li>
               <li><a class="dropdown-item" href="operaciones/transferencias-interbancaria">Transferencias interbancarias</a></li>
               <li><a class="dropdown-item" href="operaciones/pago-de-servicio">Pago de servicios</a></li>
@@ -27,17 +28,19 @@
               <li><a class="dropdown-item" href="operaciones/cambio-de-moneda">Cambio de moneda</a></li>
             </ul>
           </li>
-          <li mdbDropdown class="nav-item dropdown">
+          
+          <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle fw-bold"
               href="#"
               role="button"
-              mdbDropdownToggle
+              data-bs-toggle="dropdown"
+              data-bs-target="#dropdownExplora"
               aria-expanded="false"
             >
               Explora
             </a>
-            <ul mdbDropdownMenu class="dropdown-menu">
+            <ul id="dropdownExplora" class="dropdown-menu">
               <li><a class="dropdown-item" href="explora/prestamos-y-creditos">Préstamos y créditos</a></li>
               <li><a class="dropdown-item" href="explora/tarjetas">Tarjetas</a></li>
               <li><a class="dropdown-item" href="explora/beneficios-y-promociones">Beneficios / Promociones</a></li>
@@ -49,12 +52,13 @@
         </ul>
       </div>
       <div>
-        <div mdbDropdown class="nav-item dropdown">
+        <div  class="nav-item dropdown">
           <a
             class="d-flex align-items-center nav-link dropdown-toggle fw-bold"
             href="#"
             role="button"
-            mdbDropdownToggle
+            data-bs-toggle="dropdown"
+              data-bs-target="#dropdownUsuario"
             aria-expanded="false"
           >
             <div class="container-img-user">
@@ -65,7 +69,7 @@
               }
             </div>
           </a>
-          <ul mdbDropdownMenu class="dropdown-menu">
+          <ul id="dropdownUsuario" class="dropdown-menu">
             <li>
               <a class="dropdown-item fw-bold" href="usuario/mi-perfil">
                 <i class="bi bi-gear-fill"></i>

@@ -14,27 +14,20 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideToastr } from 'ngx-toastr';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { CookieService } from 'ngx-cookie-service';
 import { tokenInterceptorInterceptor } from './securty/auth/token-interceptor.interceptor';
-import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
-import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown';
-import { MdbRippleModule } from 'mdb-angular-ui-kit/ripple';
-import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
-
+import { provideToastr } from 'ngx-toastr';
 export const appConfig: ApplicationConfig = {
   providers: [
-    BrowserModule,
-    MdbCheckboxModule,
-    MdbCollapseModule,
-    MdbDropdownModule,
-    MdbRippleModule,
 	  CookieService,
     provideAnimations(),
     provideToastr(),
-    provideHttpClient(withFetch(), withInterceptors([tokenInterceptorInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([tokenInterceptorInterceptor])
+    ),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),

@@ -5,9 +5,10 @@
     a{
         text-decoration: none;
     }
+    min-height: 4rem;
     transition: transform .3s ease;
     i{
-        font-size: 5rem;
+        font-size: 2rem;
     }
 }
 .card-accion:hover{
