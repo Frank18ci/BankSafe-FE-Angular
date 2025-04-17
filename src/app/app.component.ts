@@ -1,5 +1,5 @@
-import { Component, inject, OnChanges, SimpleChanges } from "@angular/core";
-import { Router, RouterOutlet } from "@angular/router";
+import { Component, inject, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { FooterComponent } from "./components/footer/footer.component";
 import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
 import { CookieService } from "ngx-cookie-service";
@@ -15,43 +15,34 @@ import UserI from "./model/UserI";
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.scss",
 })
-export class AppComponent implements OnChanges{
+export class AppComponent implements OnInit{
 	private cookieService = inject(CookieService)
-	private tarjetaService = inject(TarjetaService)
-	private userService = inject(UsuarioService)
 	private router = inject(Router)
-	user: UserI = {}
+	
 	title = "Bank-Safe";
-	consultaUsuario(){
-		if(this.cookieService.get('user')){
-			this.user = JSON.parse(this.cookieService.get('user'))
-		} else{
-			this.tarjetaService.findByNumeroTarjeta(this.cookieService.get('username')).subscribe((data :any) =>{
-				this.userService.findI(data.user.id).subscribe((data :any) =>{
-					this.cookieService.set('user', JSON.stringify(data))
-					this.user = data
-					console.log(this.user)
-				})
-			})
-		}
-			
-		
-	}
-	ngOnChanges(changes: SimpleChanges): void {
-		if(this.cookieService.get('token') && this.cookieService.get("username")){
-			this.login = true;
-			this.consultaUsuario();
-		} else {
-			this.router.navigate(['auth/login'])
-		}
-	}
 	login : boolean = false
-	constructor(){
-		if(this.cookieService.get('token') && this.cookieService.get("username")){
+
+	verificarLogin() {
+		const rutasPublicas = ['/auth/login', '/auth/register'];
+		const currentUrl = this.router.url;
+		const token = this.cookieService.get('token');
+		const username = this.cookieService.get('username');
+		if (token && username) {
 			this.login = true;
-			this.consultaUsuario();
-		} else {
-			//this.router.navigate(['auth/login'])
-		}
+		  } else {
+			this.login = false;
+			if (!rutasPublicas.some(r => currentUrl.startsWith(r))) {
+				this.router.navigate(['auth/login']);
+			  }
+		  }
+	  }
+
+	ngOnInit(): void {
+		this.router.events.subscribe((event) =>{
+			if(event instanceof NavigationEnd){
+				this.verificarLogin();
+			}
+		});
+		
 	}
 }

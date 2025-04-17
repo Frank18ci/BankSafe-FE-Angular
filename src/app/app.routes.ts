@@ -20,7 +20,7 @@ export const routes: Routes = [
 	{
 		path: "",
 		component: InicioComponent,
-		//canActivate: [userGuardGuard]
+		canActivate: [userGuardGuard]
 	},
 	{
 		path: "auth",
@@ -41,14 +41,13 @@ export const routes: Routes = [
 			{
 				path: "mi-perfil",
 				component: MiPerfilComponent,
-				//canActivate: [userGuardGuard]
 			},
 			{
 				path: "configuracion",
 				component: ConfiguracionComponent,
-				//canActivate: [userGuardGuard]
 			}
-		]
+		],
+		canActivate: [userGuardGuard]
 	},
 	{
 		path: "card",
