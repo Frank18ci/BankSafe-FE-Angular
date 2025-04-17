@@ -55,8 +55,12 @@ export class LoginComponent {
 		this.apiService.login(this.user).subscribe((data: any) => {
 			if(data){
 				this.toastrService.success(data.Message, "Bienvenido");
-				this.cookieService.set('token', data.token)
-				this.cookieService.set('username', data.User.username)
+				this.cookieService.set('token', data.token, {
+					path: '/'
+				})
+				this.cookieService.set('username', data.User.username, {
+					path: '/'
+				})
 				this.router.navigate([''])
 			}
 		});
