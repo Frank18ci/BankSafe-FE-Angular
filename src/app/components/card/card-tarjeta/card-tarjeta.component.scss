@@ -3,7 +3,13 @@
 .card-tarjeta{
     color: $darkgray;
     h5{
-        color: $electricblue;
+        color: $primary;
     }
-    border: 2px $electricblue solid ;
+    border: 1px gray solid ;
+}
+.text-gray{
+    color: gray;
+}
+.saldo-disponible{
+    font-size: .9rem;
 }

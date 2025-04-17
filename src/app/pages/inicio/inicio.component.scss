@@ -1,0 +1,11 @@
+.container-welcome-user{
+    position: relative;
+    svg{
+        rotate: 180deg;
+    }
+    .message-welcome-user{
+        position: absolute;
+        top: .5rem;
+        left: 5rem;
+    }
+}

@@ -1,12 +1,8 @@
-<div class="w-100 d-flex justify-content-center align-items-center h-100vh">
-    <div class="rounded border border-1 shadow d-flex justify-content-center">
-        <div class="col-md-6 container-part-1-login px-3 py-3">
-          <div class="container-img-login d-flex align-items-center justify-content-center">
-            <div>
-              <img class="img-fluid" src="logo.png" alt="imagen logo">
-            </div>
-          </div>
-        </div>
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="row shadow border rounded overflow-hidden m-2 m-md-0">
+      <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-4">
+        <img class="img-fluid" src="logo.png" alt="imagen logo">
+      </div>
         <div class="col-md-6 px-3 py-3">
           <div class="mx-1 d-flex justify-content-center">
             <form (submit)="saveUserTarjeta()" [formGroup]="formRegisterUserTarjeta">
@@ -90,7 +86,7 @@
                 <label class="col-12">
                   <i class="bi bi-person"></i>
                   Contraseña
-                  <input type="text" class="form-control " formControlName="clave" />
+                  <input type="password" class="form-control " formControlName="clave" />
                 </label>
               </div>
               
@@ -100,9 +96,9 @@
                 </button>
                 
               </div>
-              <div class="text-center">
+              <div class="text-center mt-1">
                 <span>Si tienes cuentas puedes </span>
-                <a href="auth/login">Iniciar Session</a>
+                <a class="text-decoration-underline text-primary fw-semibold"  href="auth/login">Iniciar Session</a>
               </div>
             </form>
           </div>

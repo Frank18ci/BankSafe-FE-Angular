@@ -20,6 +20,9 @@ export class UsuarioService {
   find(id: number){
     return this.http.get(this.url + `/user/${id}`)
   }
+  findI(id: number){
+    return this.http.get(this.url + `/user/userTarjetas/${id}`)
+  }
   save(user: User){
     return this.http.post(this.url + "/user", user)
   }

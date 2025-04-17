@@ -1,28 +1,60 @@
+<div class="text-primary container-welcome-user">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1240 320"
+    preserveAspectRatio="none"
+    style="display: block; height: auto; max-height: 250px; width: 100%"
+  >
+    <path
+      fill="#1E3A5F"
+      fill-opacity="1"
+      d="M0,96L48,106.7C96,117,192,139,288,144C384,149,480,139,576,133.3C672,128,768,128,864,149.3C960,171,1056,213,1152,208C1248,203,1344,149,1392,122.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+    ></path>
+  </svg>
+
+  <div class="container-xl fs-6 fs-md-3 text-white message-welcome-user">
+    {{ fecha }}
+    <p class="fw-semibold ps-5 ps-md-0">Bienvenido, {{usuario.nombres}}</p>
+  </div>
+</div>
 <div class="container-xl">
-      
-    <main class="row my-5">
-        <div class="col-md-5 py-2 py-md-0">
-            <h4 class="text-primary fw-bold">
-                Acciones
-            </h4>
-            <div class="py-2 row">
-                <app-card-accion title="Cambiar moneda" icon="fa-solid fa-money-bill" url="opciones/cambiar-moneda" class="col-md-6"></app-card-accion>
-                <app-card-accion title="Transferir" icon="fa-solid fa-money-bill" url="opciones/tranferencia" class="col-md-6"></app-card-accion>
-                <app-card-accion title="Solicitar Prestamo" icon="fa-solid fa-money-bill" url="opciones/solicitar-prestamo" class="col-md-6"></app-card-accion>
-                <app-card-accion title="Solicitar Tarjeta" icon="fa-solid fa-money-bill" url="opciones/solicitar-tarjeta" class="col-md-6"></app-card-accion>
-            </div>            
-        </div>
-        <div class="offset-md-1 col-md-6">
-            <h4 class="text-primary fw-bold">
-                Tarjetas
-            </h4>
-            <div class="py-2">
-                <a href="card/credit-card">
-                    <app-card-tarjeta></app-card-tarjeta>  
-                </a>
-                <app-card-tarjeta></app-card-tarjeta>
-                <app-card-tarjeta></app-card-tarjeta>
-            </div>
-        </div>
-    </main>
+  <main class="row my-5">
+    <div class="col-md-5 py-2 py-md-0">
+      <h4 class="text-primary fw-bold">Acciones</h4>
+      <div class="py-2 row">
+        <app-card-accion
+          title="Cambiar moneda"
+          icon="fa-solid fa-money-bill"
+          url="opciones/cambiar-moneda"
+          class="col-md-6"
+        ></app-card-accion>
+        <app-card-accion
+          title="Transferir"
+          icon="fa-solid fa-money-bill"
+          url="opciones/tranferencia"
+          class="col-md-6"
+        ></app-card-accion>
+        <app-card-accion
+          title="Solicitar Prestamo"
+          icon="fa-solid fa-money-bill"
+          url="opciones/solicitar-prestamo"
+          class="col-md-6"
+        ></app-card-accion>
+        <app-card-accion
+          title="Solicitar Tarjeta"
+          icon="fa-solid fa-money-bill"
+          url="opciones/solicitar-tarjeta"
+          class="col-md-6"
+        ></app-card-accion>
+      </div>
+    </div>
+    <div class="offset-md-1 col-md-6">
+      <h4 class="text-primary fw-bold">Tarjetas</h4>
+      <div class="py-2">
+        @for(t of usuario.tarjetas; track t.id){
+            <app-card-tarjeta [tarjeta]="t"></app-card-tarjeta>
+        }
+      </div>
+    </div>
+  </main>
 </div>

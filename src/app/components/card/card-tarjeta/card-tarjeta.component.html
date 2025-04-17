@@ -1,11 +1,12 @@
-<div class="card-tarjeta shadow p-2 rounded my-3">
+<div class="card-tarjeta shadow px-5 py-3 rounded my-3">
     <div class="d-flex justify-content-between">
         <div>
-            <h5 class="fw-bold">Tarjeta de Credito</h5>
-            <p><span>Nro°</span> 5445 2322 2342 2354</p>
+            <h5 class="fw-bold">Tarjeta de {{tarjeta.tipoTarjeta?.tipo}}</h5>
+            <p><span>Nro°</span> {{tarjeta.numeroTarjeta}}</p>
         </div>
-        <div class="d-flex align-items-center fw-bold">
-            <p>S/. 234,232.00</p>
+        <div class="d-flex flex-column justify-content-center align-items-center fw-bold">
+            <p class="m-0">S/. {{tarjeta.monto}}</p>
+            <p class="m-0 saldo-disponible fw-normal text-gray">Saldo disponible</p>
         </div>
     </div>
 </div>
