@@ -1,11 +1,18 @@
 import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-transferencia',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './transferencia.component.html',
   styleUrl: './transferencia.component.scss'
 })
 export class TransferenciaComponent {
-  alumno = {nombre: "Rosbel", edad: 30}
+  formRegistroTransferencia = new FormGroup({
+      nombre: new FormControl("", Validators.min(10))    
+  })
+  subirNombre(){
+    this.nombre = this.formRegistroTransferencia.value.nombre || ""
+  }
+  nombre = "aa"
 }

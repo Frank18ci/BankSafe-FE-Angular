@@ -1,3 +1,11 @@
 <div class="container-xl my-4">
-    HGolaaa {{alumno.nombre }}  {{alumno.edad}}
+    <form action="" [formGroup]="formRegistroTransferencia">
+        <div>
+            <label for="">Nombre</label>
+            <input type="text" formControlName="nombre">
+            <div>Este campo no es valido</div>
+        </div>
+        <button (click)="subirNombre()" [disabled]="formRegistroTransferencia.invalid">Enviar</button>
+    </form>
+    {{nombre}}
 </div>
