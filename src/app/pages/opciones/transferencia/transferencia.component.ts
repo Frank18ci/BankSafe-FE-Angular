@@ -5,9 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 
 @Component({
   selector: 'app-transferencia',
-  imports: [FormsModule, CommonModule],
-  selector: 'app-transferencia',
-  imports: [ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './transferencia.component.html',
   styleUrl: './transferencia.component.scss'
 })
