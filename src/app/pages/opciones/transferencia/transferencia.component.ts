@@ -1,11 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-transferencia',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './transferencia.component.html',
   styleUrl: './transferencia.component.scss'
 })
 export class TransferenciaComponent {
-  alumno = {nombre: "Rosbel", edad: 30}
+  tarjetaSeleccionada: string = ''; 
+  tarjetaSeleccionadaBoton: string = '';
+  tarjetas = [
+    { moneda: 'Libras (GBP)', simbolo: '£', monto: 500, valor: 'GBP1' }
+  ];
 }
