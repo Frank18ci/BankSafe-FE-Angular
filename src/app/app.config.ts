@@ -10,16 +10,16 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import {
-  BrowserModule,
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { CookieService } from 'ngx-cookie-service';
 import { tokenInterceptorInterceptor } from './securty/auth/token-interceptor.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     NgbModule,
