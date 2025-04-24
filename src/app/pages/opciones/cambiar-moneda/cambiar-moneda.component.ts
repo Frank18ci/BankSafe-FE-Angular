@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, Input, OnInit, signal, TemplateRef, ViewChild, WritableSignal } from '@angular/core';
 import { TipoMonedaTarjetaService } from '../../../services/tipoMonedaTarjeta/tipo-moneda-tarjeta.service';
 import TipoMonedaTarjeta from '../../../model/TipoMonedaTarjeta';
 import { Router } from '@angular/router';
@@ -8,6 +8,9 @@ import UserI from '../../../model/UserI';
 import { CookieService } from 'ngx-cookie-service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import Tarjeta from '../../../model/Tarjeta';
+import { Page } from '../../../model/Page';
+import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
+import Transaccion from '../../../model/Transaccion';
 
 @Component({
   selector: 'app-cambiar-moneda',
@@ -17,6 +20,7 @@ import Tarjeta from '../../../model/Tarjeta';
 })
 export class CambiarMonedaComponent implements AfterViewInit{
   tipoMonedaService = inject(TipoMonedaTarjetaService)
+  tarjetaService = inject(TarjetaService)
   private userService = inject(UsuarioService);
   tipoMonedas : TipoMonedaTarjeta[] = []
   router = inject(Router)
@@ -107,7 +111,69 @@ export class CambiarMonedaComponent implements AfterViewInit{
     const valorConversion = this.tipoMonedas.filter(t => t.tipo ==this.formGroupConvertir.value.tipo)[0].valor
     this.resultado = this.formGroupConvertir.value.monto * valorConversion
   }
+
+
+  //Buscar tarjeta seccion
+  @ViewChild('numeroTarjetaB') numeroTarjetaB!:ElementRef<HTMLInputElement>
+  tarjetadSelecionadas : Page = {
+    content: [],
+    pageable: {
+      pageNumber: 0,
+      pageSize: 0,
+      sort: {
+        empty: false,
+        sorted: false,
+        unsorted: false
+      },
+      offset: 0,
+      paged: false,
+      unpaged: false
+    },
+    last: false,
+    totalElements: 0,
+    totalPages: 0,
+    size: 0,
+    number: 0,
+    sort: {
+      empty: false,
+      sorted: false,
+      unsorted: false
+    },
+    numberOfElements: 0,
+    first: false,
+    empty: false
+  }
+  buscarTarjeta(){
+      this.tarjetaService.getPageByNumeroTarjeta().subscribe(data =>{
+        this.tarjetadSelecionadas = data
+      })
+      console.log(this.numeroTarjetaB.nativeElement.value)
+  }
+
+  //funcion de realizar transferencia 
+  formGroupTarjetaDestino = new FormGroup({
+    tarjetaId : new FormControl()
+  })
+  transferenciaARealizar : Transaccion = {
+    id: 0,
+    monto: 0,
+    tipoTransacion: {
+      id: 0,
+      tipo: ''
+    },
+    tarjetaOrigen: {},
+    tarjetaDestino: {}
+  }
+  realizarTransferencia(){
+    if(this.tarjetaSeleccionada){
+      this.transferenciaARealizar.tarjetaOrigen = this.tarjetaSeleccionada
+    }
+    this.transferenciaARealizar.tarjetaDestino.id = this.formGroupTarjetaDestino.value.tarjetaId
+    this.transferenciaARealizar.monto = this.resultado
+    console.log(this.transferenciaARealizar)
+
+  }
+
   constructor(){
-    
   }
 }

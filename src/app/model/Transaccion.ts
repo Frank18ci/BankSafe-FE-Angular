@@ -6,5 +6,5 @@ export default interface Transaccion{
     monto: number,
     tipoTransacion : TipoTransacion,
     tarjetaOrigen: Tarjeta,
-    tarjetaDestino: Tarjeta
+    tarjetaDestino: Tarjeta,
 }
