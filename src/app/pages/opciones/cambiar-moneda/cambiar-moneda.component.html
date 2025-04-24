@@ -1,11 +1,10 @@
-
 <div class="container my-5">
-    <div class="row justify-content-center align-items-center">    
+    <div class="row justify-content-center ">    
       <!-- Columna 1: Convertidor -->
       <div class="col-md-4 mb-4 d-flex">
-        <div class="card shadow-sm p-4 bg-secondary-subtle w-100">
+        <div class=" w-100">
           <form [formGroup]="formGroupConvertir">
-          <h3 class="text-center mb-4">Convertidor de Moneda</h3>
+          <h3 class="text-start mb-4">Convertidor de Moneda</h3>
   
           <!-- Campo de ingreso en soles -->
           <div class="mb-3">
@@ -24,68 +23,82 @@
             </select>
           </div>
   
-          <!-- Botón -->
-          <div class="text-center mb-3">
-            <button class="btn btn-primary" (click)="convertir()">Convertir</button>
+          <div class="row align-items-center">
+            <div class="col-md-6">
+              <div class="text-center mb-3">
+                <button class="btn btn-primary" (click)="convertir()">Convertir</button>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mt-2 text-center">
+                <h5>Resultado: <span class="fs-5 fw-semibold">{{resultado}}</span></h5>
+              </div>
+            </div>
           </div>
+          <!-- Botón -->
+          
   
           <!-- Resultado -->
-          <div class="mt-2 text-center">
-            <h5>Resultado:</h5>
-            <p id="resultado" class="fs-5 fw-semibold">{{resultado}}</p>
-          </div>
-  
-          <!-- Botón Procesar-->
-          <div class="text-center mt-3">
-            <button class="btn btn-primary">Enviar</button>
-          </div>
+          
           </form>
         </div>
         
       </div>
   
-      <!-- Columna 2: Tarjetas -->
-      <div class="col-md-6 d-flex flex-column gap-3">
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
+
+      <div class="col-md-6 d-flex flex-column">
+        <h3>Tarjetas</h3>
+
+     
+        <div class="row">
+          <div class="col-md-10">
+            <div class="form-group my-3">
+              <label class="form-label" for="numeroTarjeta">Numero Tarjeta</label>
+              <input type="text" #numeroTarjetaB id="numeroTarjeta" class="form-control" placeholder="Ejemplo 1234" /> 
+            </div>
           </div>
-          <p class="fs-4 fw-bolder">Cuenta en Dolares (USD)</p>
-          <p class="fs-5 fw-bold">$ 12,000.00</p>
-        </div>
-  
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
+          <div class="col-md-2 d-flex justify-content-end align-items-center">
+            <div>
+              <button (click)="buscarTarjeta()" class="btn btn-primary">Buscar</button>
+            </div>
           </div>
-          <p class="fs-4 fw-bolder">Cuenta en Euros (EUR)</p>
-          <p class="fs-5 fw-bold">$ 10,500.00</p>
         </div>
-  
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
+        @if(tarjetadSelecionadas.size > 0){
+          <form [formGroup]="formGroupTarjetaDestino">
+
+          <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+            @for(tarjeta of tarjetadSelecionadas.content; track tarjeta.id){
+              <input type="radio" class="btn-check" name="vbtn-radio-tarjeta" [id]="'tarjeta-' + tarjeta.numeroTarjeta" formControlName="tarjetaId" [value]="tarjeta.numeroTarjeta" autocomplete="off">
+              <label class="btn btn-outline-primary p-1 mt-1 rounded" [for]="'tarjeta-' + tarjeta.numeroTarjeta">
+                <div class="credit-card-component rounded text-white shadow-sm p-2">
+                  <div class="icon-card mb-2">
+                    <i class="bi bi-shield-fill"></i>
+                  </div>
+                  <p class="fs-4 fw-bolder">{{tarjeta.tipoTarjeta.tipo}}</p>
+                  <p class="fs-5 fw-bold">{{tarjeta.numeroTarjeta}}</p>
+                </div>
+              </label>
+          }
           </div>
-          <p class="fs-4 fw-bolder">Cuenta en Libras (GBP)</p>
-          <p class="fs-5 fw-bold">$ 500.00</p>
-        </div>
-  
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
+        </form>
+        }@else {
+          <div class="alert alert-warning" role="alert">
+            Busca una tarjeta
           </div>
-          <p class="fs-4 fw-bolder">Cuenta en Pesos Chilenos (CLP)</p>
-          <p class="fs-5 fw-bold">$ 22,500.00</p>
-        </div>
+        }
+
       </div>
-  
     </div>
+    <div>
+      <div class="text-end mt-3">
+        <button (click)="realizarTransferencia()" class="btn btn-success">Enviar</button>
+      </div>
+    </div>      
   </div>
 
   <ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Select Your Card</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
       <form [formGroup]="formGroupTarjetaSelected">

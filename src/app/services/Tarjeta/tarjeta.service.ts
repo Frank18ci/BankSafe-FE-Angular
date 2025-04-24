@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import Tarjeta from '../../model/Tarjeta';
+import { Page } from '../../model/Page';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class TarjetaService {
     }
     getRefreshToken(){
       return localStorage.getItem('refreshToken') || ''
+    }
+
+    getPageByNumeroTarjeta(){
+      return this.http.get<Page>(this.url + "/tarjeta/page");
     }
 }

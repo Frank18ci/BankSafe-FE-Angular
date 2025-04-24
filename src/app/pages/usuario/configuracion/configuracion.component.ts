@@ -10,6 +10,7 @@ import { FileUploadModule } from 'primeng/fileupload';
   styleUrl: './configuracion.component.scss'
 })
 export class ConfiguracionComponent {
+
   userService = inject(UsuarioService)
   formImagenUpdate = new FormGroup({
     imagen: new FormControl('')
@@ -26,8 +27,12 @@ export class ConfiguracionComponent {
   }
   pathImg: string = ''
  
-  onFileSelected(event: any){
-    this.selectedFile = event.target.files[0];
-    console.log(this.selectedFile)
+  onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+  console.log(this.selectedFile);
+
+  if (this.selectedFile) {
+    this.upLoadImagen();
+    }
   }
 }
