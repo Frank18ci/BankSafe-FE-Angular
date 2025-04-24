@@ -6,17 +6,19 @@
             <h5 class="mb-0">Mis Tarjetas</h5>
           </div>
           <div class="card-body">
-            <div *ngFor="let tarjeta of tarjetas" class="mb-3">
+            @for(tarjeta of usuario.tarjetas; track tarjeta.id){
+              <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <h6 class="mb-0">{{ tarjeta.tipo }}</h6>
-                    <p class="text-muted mb-0">**** **** **** {{ tarjeta.ultimosDigitos }}</p>
+                    <h6 class="mb-0">{{ tarjeta.tipoTarjeta?.tipo }}</h6>
+                    <p class="text-muted mb-0">**** **** **** {{ tarjeta.numeroTarjeta }}</p>
                   </div>
                   <div>
-                    <p class="text-muted mb-0">Transacciones: {{ tarjeta.transacciones }}</p>
+                    <p class="text-muted mb-0">Saldo: {{ tarjeta.monto }}</p>
                   </div>
                 </div>
               </div>
+            }
           </div>
         </div>
       </div>
@@ -30,9 +32,9 @@
           </div>
           <div class="card-body">
             <ul>
-              <li><strong>Visa:</strong> Tarjeta aceptada en todo el mundo.</li>
-              <li><strong>MasterCard:</strong> Ideal para compras internacionales.</li>
-              <li><strong>American Express:</strong> Beneficios exclusivos y recompensas.</li>
+              @for(tipoTarjeta of tipoTarjetas; track tipoTarjeta.id){
+                <li><strong>{{tipoTarjeta.tipo}}</strong></li>
+              }
             </ul>
           </div>
         </div>
@@ -48,16 +50,28 @@
               <div class="mb-3">
                 <label for="tipo" class="form-label">Tipo de Tarjeta</label>
                 <select id="tipo" class="form-select" formControlName="tipo">
-                  <option value="Visa">Visa</option>
-                  <option value="MasterCard">MasterCard</option>
-                  <option value="American Express">American Express</option>
+                  @for(tipoTarjeta of tipoTarjetas; track tipoTarjeta.id){
+                    <option value="{{tipoTarjeta.id}}">{{tipoTarjeta.tipo}}</option>
+                  }
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Moneda</label>
+                <select id="tipo" class="form-select" formControlName="tipoMoneda">
+                  @for(tipoMonedaTarjeta of tipoMonedaTarjetas; track tipoMonedaTarjeta.id){
+                    <option value="{{tipoMonedaTarjeta.id}}">{{tipoMonedaTarjeta.tipo}}</option>
+                  }
                 </select>
               </div>
               <div class="mb-3">
                 <label for="limite" class="form-label">Límite de Crédito</label>
                 <input type="number" id="limite" class="form-control" formControlName="limite" placeholder="Ej: 5000">
               </div>
-              <button type="submit" class="btn btn-primary w-100" >Solicitar</button>
+              <div class="mb-3">
+                <label for="claveInternet" class="form-label">Clave Internet</label>
+                <input type="number" id="claveInternet" class="form-control" formControlName="claveInternet" placeholder="123456">
+              </div>
+              <button type="submit" class="btn btn-primary w-100" [disabled]="formularioTarjeta.invalid" >Solicitar</button>
             </form>
           </div>
         </div>
