@@ -1,0 +1,38 @@
+.list-group-item {
+    font-size: 1.1rem;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    transition: all 0.2s ease-in-out;
+    background-color: white;
+  }
+  
+  .list-group-item:last-child {
+    border-bottom: none;
+  }
+  
+  .list-item-hover:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .text-primary {
+    color: #F5F7FA ;
+  }
+  
+  // Animación de fade-in
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeInUp 1.6s ease-out both;
+  }
+  

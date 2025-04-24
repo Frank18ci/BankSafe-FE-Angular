@@ -1,1 +1,66 @@
-<p>solicitar-tarjeta works!</p>
+<div class="container my-5">
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Mis Tarjetas</h5>
+          </div>
+          <div class="card-body">
+            <div *ngFor="let tarjeta of tarjetas" class="mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="mb-0">{{ tarjeta.tipo }}</h6>
+                    <p class="text-muted mb-0">**** **** **** {{ tarjeta.ultimosDigitos }}</p>
+                  </div>
+                  <div>
+                    <p class="text-muted mb-0">Transacciones: {{ tarjeta.transacciones }}</p>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-info text-white">
+            <h5 class="mb-0">Tipos de Tarjetas</h5>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li><strong>Visa:</strong> Tarjeta aceptada en todo el mundo.</li>
+              <li><strong>MasterCard:</strong> Ideal para compras internacionales.</li>
+              <li><strong>American Express:</strong> Beneficios exclusivos y recompensas.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Solicitar Nueva Tarjeta</h5>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="formularioTarjeta" (ngSubmit)="solicitarTarjeta()">
+              <div class="mb-3">
+                <label for="tipo" class="form-label">Tipo de Tarjeta</label>
+                <select id="tipo" class="form-select" formControlName="tipo">
+                  <option value="Visa">Visa</option>
+                  <option value="MasterCard">MasterCard</option>
+                  <option value="American Express">American Express</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="limite" class="form-label">Límite de Crédito</label>
+                <input type="number" id="limite" class="form-control" formControlName="limite" placeholder="Ej: 5000">
+              </div>
+              <button type="submit" class="btn btn-primary w-100" >Solicitar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
