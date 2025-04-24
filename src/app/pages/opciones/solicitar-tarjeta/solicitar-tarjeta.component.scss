@@ -1,0 +1,16 @@
+.card {
+    border-radius: 10px;
+  }
+  
+  .card-header {
+    font-weight: bold;
+  }
+  
+  .form-select, .form-control {
+    border-radius: 5px;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
