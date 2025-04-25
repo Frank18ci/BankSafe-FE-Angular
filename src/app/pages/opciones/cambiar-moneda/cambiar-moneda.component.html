@@ -64,23 +64,20 @@
           </div>
         </div>
         @if(tarjetadSelecionadas.size > 0){
-          <form [formGroup]="formGroupTarjetaDestino">
-
-          <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
-            @for(tarjeta of tarjetadSelecionadas.content; track tarjeta.id){
-              <input type="radio" class="btn-check" name="vbtn-radio-tarjeta" [id]="'tarjeta-' + tarjeta.numeroTarjeta" formControlName="tarjetaId" [value]="tarjeta.numeroTarjeta" autocomplete="off">
-              <label class="btn btn-outline-primary p-1 mt-1 rounded" [for]="'tarjeta-' + tarjeta.numeroTarjeta">
-                <div class="credit-card-component rounded text-white shadow-sm p-2">
-                  <div class="icon-card mb-2">
-                    <i class="bi bi-shield-fill"></i>
-                  </div>
-                  <p class="fs-4 fw-bolder">{{tarjeta.tipoTarjeta.tipo}}</p>
-                  <p class="fs-5 fw-bold">{{tarjeta.numeroTarjeta}}</p>
+          <div class="btn-group-vertical w-100 p-1" role="group" aria-label="Vertical radio toggle button group">
+            @for (tarjeta of tarjetadSelecionadas.content; track tarjeta.id) {
+              <input type="radio" class="btn-check" (change)="cambioInput($event)" name="vbtn-radio" [value]="tarjeta.id" [id]="tarjeta.id" autocomplete="off">
+            <label class="btn btn-outline-primary p-1" [for]="tarjeta.id">
+              <div class="credit-card-component rounded text-dark shadow-sm p-2">
+                <div class="icon-card mb-2">
+                  <i class="bi bi-shield-fill"></i>
                 </div>
-              </label>
-          }
+                <p class="fs-4 fw-bolder">Tarjeta de {{tarjeta.tipoTarjeta?.tipo}} - {{tarjeta.id}} ({{tarjeta.tipoMonedaTarjeta?.simbolo}})</p>
+                <p class="fs-5 fw-bold">{{tarjeta.monto}}</p>
+              </div>
+            </label>
+            }
           </div>
-        </form>
         }@else {
           <div class="alert alert-warning" role="alert">
             Busca una tarjeta
