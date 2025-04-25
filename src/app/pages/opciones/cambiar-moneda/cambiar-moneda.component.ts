@@ -11,6 +11,9 @@ import Tarjeta from '../../../model/Tarjeta';
 import { Page } from '../../../model/Page';
 import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
 import Transaccion from '../../../model/Transaccion';
+import { TransacionService } from '../../../services/transacion/transacion.service';
+import { ToastrService } from 'ngx-toastr';
+import TransaccionConversionMoneda from '../../../model/TransaccionConversionMoneda';
 
 @Component({
   selector: 'app-cambiar-moneda',
@@ -25,8 +28,9 @@ export class CambiarMonedaComponent implements AfterViewInit{
   tipoMonedas : TipoMonedaTarjeta[] = []
   router = inject(Router)
   cookieService = inject(CookieService);
-
+  transacionService = inject(TransacionService)
   modalService = inject(NgbModal)
+  toastrService = inject(ToastrService)
   closeResult: WritableSignal<string> = signal('');
 
   formGroupTarjetaSelected = new FormGroup({
@@ -112,8 +116,24 @@ export class CambiarMonedaComponent implements AfterViewInit{
     this.resultado = this.formGroupConvertir.value.monto * valorConversion
   }
 
-
+  transferenciaARealizar : TransaccionConversionMoneda = {
+    id: 0,
+    montoTarjetaOrigen: 0,
+    montoTarjetaDestino: 0,
+    tipoTransacion: {
+      id: 0,
+      tipo: ''
+    },
+    tarjetaOrigen: {},
+    tarjetaDestino: {}
+  }
   //Buscar tarjeta seccion
+  cambioInput(event : Event){
+    const inputElement = event.target as HTMLInputElement;
+    this.transferenciaARealizar.tarjetaDestino.id = parseInt(inputElement.value);
+    console.log(this.transferenciaARealizar)
+  }
+
   @ViewChild('numeroTarjetaB') numeroTarjetaB!:ElementRef<HTMLInputElement>
   tarjetadSelecionadas : Page = {
     content: [],
@@ -154,24 +174,20 @@ export class CambiarMonedaComponent implements AfterViewInit{
   formGroupTarjetaDestino = new FormGroup({
     tarjetaId : new FormControl()
   })
-  transferenciaARealizar : Transaccion = {
-    id: 0,
-    monto: 0,
-    tipoTransacion: {
-      id: 0,
-      tipo: ''
-    },
-    tarjetaOrigen: {},
-    tarjetaDestino: {}
-  }
+
   realizarTransferencia(){
     if(this.tarjetaSeleccionada){
       this.transferenciaARealizar.tarjetaOrigen = this.tarjetaSeleccionada
     }
-    this.transferenciaARealizar.tarjetaDestino.id = this.formGroupTarjetaDestino.value.tarjetaId
-    this.transferenciaARealizar.monto = this.resultado
+    this.transferenciaARealizar.montoTarjetaOrigen =  this.formGroupConvertir.value.monto
+    this.transferenciaARealizar.montoTarjetaDestino = this.resultado
     console.log(this.transferenciaARealizar)
-
+    this.transacionService.realizarCambioyTransferencia(this.transferenciaARealizar).subscribe(data =>{
+      console.log("Resutado", data)
+      this.toastrService.success("Bien" , "Transacion")
+    }, error => {
+      this.toastrService.error("Mal" ,error)
+    })
   }
 
   constructor(){

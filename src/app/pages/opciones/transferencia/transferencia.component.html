@@ -1,100 +1,100 @@
 <div class="container-xl my-4">
-    <h1 class="fw-light fw-bold text-primary">Tranferencia</h1>
-    <div class="d-flex flex-column flex-md-row gap-4">
+  <h1 class="fw-light fw-bold text-primary">Tranferencia</h1>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <div class="border rounded shadow p-4 bg-white">
+        <label class="form-label fs-5 fw-light"
+          >Seleccione su Tarjeta:</label>
+
+        <div class="d-flex flex-column">
+          
         
-
-    <!-- Contenedor 1 -->
-    <div class="col-md-6 mb-3 border rounded shadow p-4 bg-white">
-      <label class="form-label fs-5 fw-light">Seleccione el tipo de tarjeta de crédito:</label>
-      
-      <div class="row">
-
-        <input type="radio" class="btn-check" name="options-base" id="option1" autocomplete="off" [(ngModel)]="tarjetaSeleccionada" value="USD">
-      <label class="btn" for="option1">
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
-          </div>
-          <p class="fs-4 fw-bolder">Cuenta en Dolares (USD)</p>
-          <p class="fs-5 fw-bold">$ 12,000.00</p>
+        <div class="btn-group-vertical w-100 p-1" role="group" aria-label="Vertical radio toggle button group">
+          @for (tarjeta of usuario.tarjetas; track tarjeta.id) {
+            <input type="radio" class="btn-check" (change)="cambioInput($event)" name="vbtn-radio" [value]="tarjeta.id" [id]="tarjeta.id" autocomplete="off">
+          <label class="btn btn-outline-primary p-1" [for]="tarjeta.id">
+            <div class="credit-card-component rounded text-dark shadow-sm p-2">
+              <div class="icon-card mb-2">
+                <i class="bi bi-shield-fill"></i>
+              </div>
+              <p class="fs-4 fw-bolder">Tarjeta de {{tarjeta.tipoTarjeta?.tipo}} ({{tarjeta.tipoMonedaTarjeta?.simbolo}})</p>
+              <p class="fs-5 fw-bold">{{tarjeta.monto}}</p>
+            </div>
+          </label>
+          }
         </div>
-      </label>
-    
-      <input type="radio" class="btn-check" name="options-base" id="option2" autocomplete="off" [(ngModel)]="tarjetaSeleccionada" value="EUR">
-      <label class="btn" for="option2">
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
+          <div class="mb-3">
+            <label for="monto" class="form-label fw-light fs-5">Monto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="monto"
+              placeholder="Ingrese el monto"
+              [disabled]="!tarjetaSeleccionada"
+              pattern="[0-9]*"
+              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+            />
           </div>
-          <p class="fs-4 fw-bolder">Cuenta en Euros (EUR)</p>
-          <p class="fs-5 fw-bold">$ 10,500.00</p>
-        </div>
-      </label>
-    
-      <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off" [(ngModel)]="tarjetaSeleccionada" value="GBP">
-      <label class="btn" for="option3">
-        <div class="credit-card-component rounded text-white shadow-sm p-2">
-          <div class="icon-card mb-2">
-            <i class="bi bi-shield-fill"></i>
+
+          <div class="text-end mt-3">
+            <button
+              class="btn btn-success"
+              [disabled]="!tarjetaSeleccionadaBoton"
+            >
+              Continuar
+            </button>
           </div>
-          <p class="fs-4 fw-bolder">Cuenta en Libras (GBP)</p>
-          <p class="fs-5 fw-bold">$ 500.00</p>
         </div>
-      </label>
-
-      <div class="mb-3">
-      <label for="monto" class="form-label fw-light fs-5">Monto</label>
-      <input type="text" class="form-control"
-             id="monto"
-             placeholder="Ingrese el monto"
-             [disabled]="!tarjetaSeleccionada" 
-             pattern="[0-9]*"
-             oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-      </div>
-
-
-      <div class="text-end mt-3">
-        <button class="btn btn-success" [disabled]="!tarjetaSeleccionadaBoton">
-          Continuar
-        </button>
-      </div>
-
       </div>
     </div>
-    
 
-
-      
-      <!-- Contenedor 2 -->
-      <div class="col-md-6 mb-3 border rounded shadow p-4 bg-white">
-        <div class="mb-3">
-          <label for="buscador" class="form-label fs-5 fw-light">Buscar Contactos</label>
-          <div class="input-group">
-            <input type="text" id="buscador" class="form-control" placeholder="Escribe un nombre..." [disabled]="!tarjetaSeleccionada" >
-            <button class="btn btn-primary" type="button" [disabled]="!tarjetaSeleccionada" > Buscar </button>
-          </div>
-
-          <label class="form-label fs-5 fw-light">Seleccione una tarjeta:</label>
-
-  <div *ngFor="let tarjeta of tarjetas; let i = index">
-    <input type="radio" class="btn-check"
-           name="options-base"
-           [id]="'option' + i"
-           [(ngModel)]="tarjetaSeleccionadaBoton"
-           [value]="tarjeta.valor" />
-    
-    <label class="btn w-100 mb-2" [for]="'option' + i">
-      <div class="credit-card-component rounded text-white shadow-sm p-2 bg-primary">
-        <div class="icon-card mb-2">
-          <i class="bi bi-shield-fill"></i>
+    <div class="col-md-6 mb-3">
+      <div class="border rounded shadow p-4 bg-white">
+        <label for="buscador" class="form-label fs-5 fw-light"
+          >Buscar Contactos</label
+        >
+        <div class="input-group">
+          <input
+            type="text"
+            id="buscador"
+            class="form-control"
+            placeholder="Escribe un nombre..."
+            [disabled]="!tarjetaSeleccionada"
+          />
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="!tarjetaSeleccionada"
+          >
+            Buscar
+          </button>
         </div>
-        <p class="fs-4 fw-bolder">Cuenta en {{ tarjeta.moneda }}</p>
-        <p class="fs-5 fw-bold">{{ tarjeta.simbolo }} {{ tarjeta.monto | number:'1.2-2' }}</p>
+        <label class="form-label fs-5 fw-light">Seleccione una tarjeta:</label>
+        <div *ngFor="let tarjeta of tarjetas; let i = index">
+          <input
+            type="radio"
+            class="btn-check"
+            name="options-base"
+            [id]="'option' + i"
+            [(ngModel)]="tarjetaSeleccionadaBoton"
+            [value]="tarjeta.valor"
+          />
+
+          <label class="btn w-100 mb-2" [for]="'option' + i">
+            <div
+              class="credit-card-component rounded text-white shadow-sm p-2 bg-primary"
+            >
+              <div class="icon-card mb-2">
+                <i class="bi bi-shield-fill"></i>
+              </div>
+              <p class="fs-4 fw-bolder">Cuenta en {{ tarjeta.moneda }}</p>
+              <p class="fs-5 fw-bold">
+                {{ tarjeta.simbolo }} {{ tarjeta.monto | number : "1.2-2" }}
+              </p>
+            </div>
+          </label>
+        </div>
       </div>
-    </label>
+    </div>
   </div>
-  
-        </div>
-
-      </div>
 </div>
