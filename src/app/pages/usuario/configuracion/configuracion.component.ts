@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FileUploadModule } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-configuracion',
-  imports: [ReactiveFormsModule, FileUploadModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './configuracion.component.html',
   styleUrl: './configuracion.component.scss'
 })
