@@ -6,24 +6,30 @@
           <h5 class="mb-0">Mis Tarjetas</h5>
         </div>
         <div class="card-body">
-          <div *ngFor="let tarjeta of tarjetas" class="mb-3">
-            <div class="d-flex align-items-center">
-              <img src="assets/images/card-icon.png" alt="Tarjeta" class="me-3" width="50">
-              <div>
-                <h6 class="mb-0">{{ tarjeta.tipo }}</h6>
-                <p class="text-muted mb-0">**** **** **** {{ tarjeta.ultimosDigitos }}</p>
+          @for(tarjeta of usuarioCargado.tarjetas; track tarjeta.id){
+            <div class="mb-3">
+              <div class="d-flex align-items-center">
+                <!-- <img src="assets/images/card-icon.png" alt="Tarjeta" class="me-3" width="50"> -->
+                <div>
+                  <h6 class="mb-0">{{ tarjeta.tipoTarjeta?.tipo }}</h6>
+                  <p class="text-muted mb-0">**** **** **** {{ tarjeta.numeroTarjeta }}</p>
+                </div>
               </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>
 
     <div class="col-md-4 mb-4">
       <div class="text-center">
-        <img src="assets/images/default-profile.png" alt="Foto de perfil" class="rounded-circle shadow" width="150" height="150">
-        <h2 class="mt-3">{{ usuario.nombre }}</h2>
-        <p class="text-muted">{{ usuario.email }}</p>
+        <div class="d-flex justify-content-center">
+          <div class="overflow-hidden rounded-circle" style="width: 200px; height: 200px;">
+            <img [src]="urlImg" alt="Foto de perfil" class="img-fluid shadow-sm border border-primary" style="object-fit: cover; width: 100%; height: 100%; object-position: center;">
+          </div>
+        </div>
+        <h2 class="mt-3">{{ usuarioCargado.nombres }}  {{usuarioCargado.apellidos}}</h2>
+        <p class="text-muted">{{ usuarioCargado.correo }}</p>
       </div>
     </div>
   </div>
