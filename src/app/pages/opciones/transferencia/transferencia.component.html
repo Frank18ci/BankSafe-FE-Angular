@@ -3,43 +3,65 @@
   <div class="row">
     <div class="col-md-6 mb-3">
       <div class="border rounded shadow p-4 bg-white">
-        <label class="form-label fs-5 fw-light"
-          >Seleccione su Tarjeta:</label>
+        <label class="form-label fs-5 fw-light">Seleccione su Tarjeta:</label>
 
         <div class="d-flex flex-column">
-          
-        
-        <div class="btn-group-vertical w-100 p-1" role="group" aria-label="Vertical radio toggle button group">
-          @for (tarjeta of usuario.tarjetas; track tarjeta.id) {
-            <input type="radio" class="btn-check" (change)="cambioInput($event)" name="vbtn-radio" [value]="tarjeta.id" [id]="tarjeta.id" autocomplete="off">
-          <label class="btn btn-outline-primary p-1" [for]="tarjeta.id">
-            <div class="credit-card-component rounded text-dark shadow-sm p-2">
-              <div class="icon-card mb-2">
-                <i class="bi bi-shield-fill"></i>
-              </div>
-              <p class="fs-4 fw-bolder">Tarjeta de {{tarjeta.tipoTarjeta?.tipo}} ({{tarjeta.tipoMonedaTarjeta?.simbolo}})</p>
-              <p class="fs-5 fw-bold">{{tarjeta.monto}}</p>
-            </div>
-          </label>
-          }
-        </div>
-          <div class="mb-3">
-            <label for="monto" class="form-label fw-light fs-5">Monto</label>
+          <div
+            class="btn-group-vertical w-100 p-1"
+            role="group"
+            aria-label="Vertical radio toggle button group"
+          >
+            @for (tarjeta of usuario.tarjetas; track tarjeta.id) {
             <input
-              type="text"
-              class="form-control"
-              id="monto"
-              placeholder="Ingrese el monto"
-              [disabled]="!tarjetaSeleccionada"
-              pattern="[0-9]*"
-              oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              type="radio"
+              class="btn-check"
+              (change)="cambioInput($event)"
+              name="vbtn-radio"
+              [value]="tarjeta.id"
+              [id]="'Mitarjeta' + tarjeta.id"
+              autocomplete="off"
             />
+            <label
+              class="btn btn-outline-primary p-1"
+              [for]="'Mitarjeta' + tarjeta.id"
+            >
+              <div
+                class="credit-card-component rounded text-dark shadow-sm p-2"
+              >
+                <div class="icon-card mb-2">
+                  <i class="bi bi-shield-fill"></i>
+                </div>
+                <p class="fs-4 fw-bolder">
+                  Tarjeta de {{ tarjeta.tipoTarjeta?.tipo }} ({{
+                    tarjeta.tipoMonedaTarjeta?.simbolo
+                  }})
+                </p>
+                <p class="fs-5 fw-bold">{{ tarjeta.numeroTarjeta }} - Monto {{tarjeta.monto}}</p>
+              </div>
+            </label>
+            }
+          </div>
+          <div class="mb-3">
+            <form [formGroup]="formMonto">
+              <label for="monto" class="form-label fw-light fs-5">Monto</label>
+              <input
+                type="text"
+                class="form-control"
+                id="monto"
+                placeholder="Ingrese el monto"
+                pattern="[0-9]*"
+                formControlName="monto"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
+            </form>
+            
           </div>
 
           <div class="text-end mt-3">
             <button
               class="btn btn-success"
-              [disabled]="!tarjetaSeleccionadaBoton"
+              
+              (click)="realizarTransaccion()"
             >
               Continuar
             </button>
@@ -51,14 +73,14 @@
     <div class="col-md-6 mb-3">
       <div class="border rounded shadow p-4 bg-white">
         <label for="buscador" class="form-label fs-5 fw-light"
-          >Buscar Contactos</label
+          >Buscar Tarjeta</label
         >
         <div class="input-group">
           <input
             type="text"
             id="buscador"
             class="form-control"
-            placeholder="Escribe un nombre..."
+            placeholder="Escribe un numero"
             [disabled]="!tarjetaSeleccionada"
           />
           <button
@@ -70,29 +92,38 @@
           </button>
         </div>
         <label class="form-label fs-5 fw-light">Seleccione una tarjeta:</label>
-        <div *ngFor="let tarjeta of tarjetas; let i = index">
+        <div
+          class="btn-group-vertical w-100 p-1"
+          role="group"
+          aria-label="Vertical radio toggle button group"
+        >
+          @for (tarjeta of tarjetadSelecionadas.content; track tarjeta.id) {
           <input
             type="radio"
             class="btn-check"
-            name="options-base"
-            [id]="'option' + i"
-            [(ngModel)]="tarjetaSeleccionadaBoton"
-            [value]="tarjeta.valor"
+            (change)="cambioInputTarjetaDestino($event)"
+            name="vbtn-radio2"
+            [value]="tarjeta.id"
+            [id]="'Tarjeta' + tarjeta.id"
+            autocomplete="off"
           />
-
-          <label class="btn w-100 mb-2" [for]="'option' + i">
-            <div
-              class="credit-card-component rounded text-white shadow-sm p-2 bg-primary"
-            >
+          <label
+            class="btn btn-outline-primary p-1"
+            [for]="'Tarjeta' + tarjeta.id"
+          >
+            <div class="credit-card-component rounded text-dark shadow-sm p-2">
               <div class="icon-card mb-2">
                 <i class="bi bi-shield-fill"></i>
               </div>
-              <p class="fs-4 fw-bolder">Cuenta en {{ tarjeta.moneda }}</p>
-              <p class="fs-5 fw-bold">
-                {{ tarjeta.simbolo }} {{ tarjeta.monto | number : "1.2-2" }}
+              <p class="fs-4 fw-bolder">
+                Tarjeta de {{ tarjeta.tipoTarjeta?.tipo }} ({{
+                  tarjeta.tipoMonedaTarjeta?.simbolo
+                }})
               </p>
+              <p class="fs-5 fw-bold">{{ tarjeta.numeroTarjeta }} - Monto {{tarjeta.monto}}</p>
             </div>
           </label>
+          }
         </div>
       </div>
     </div>

@@ -13,4 +13,7 @@ export class TransacionService {
   realizarCambioyTransferencia(transacion : TransaccionConversionMoneda){
     return this.http.post<TransaccionConversionMoneda>(this.url + "/transacion/transferenciaDineroConvertido", transacion)
   }
+  realizarTransferencia(transacion: Transaccion){
+    return this.http.post<Transaccion>(this.url + "/transacion", transacion)
+  }
 }
