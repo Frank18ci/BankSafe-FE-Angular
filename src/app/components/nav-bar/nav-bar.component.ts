@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import User from "../../model/User";
 import Tarjeta from "../../model/Tarjeta";
 import UserI from "../../model/UserI";
+import { UsuarioService } from "../../services/usuario/usuario.service";
 
 @Component({
 	selector: "app-nav-bar",
@@ -13,7 +14,9 @@ import UserI from "../../model/UserI";
 	styleUrl: "./nav-bar.component.scss",
 })
 export class NavBarComponent {
-	@Input() usuario: UserI = {}
+	private userService = inject(UsuarioService);
+	private tarjetaService = inject(TarjetaService);
+	//@Input() usuario: UserI = {}
 
 	private cookieService = inject(CookieService)
 	private router = inject(Router)
@@ -24,6 +27,29 @@ export class NavBarComponent {
 		this.cookieService.delete("user")
 		this.cookieService.delete("username")
 		this.cookieService.delete("token")
-		this.router.navigate(['auth/login'])
+		this.consultaUsuario()
 	}
+	usuario: UserI = {};
+	  consultaUsuario() {
+		this.tarjetaService
+		  .findByNumeroTarjeta(this.cookieService.get('username'))
+		  .subscribe({next:
+			(data: any) => {
+			this.userService.findI(data.user.id).subscribe((data: any) => {
+			  if(data){
+				this.cookieService.set('user', JSON.stringify(data), {
+					path: '/',
+				  });
+				  this.usuario = data;
+				  console.log(this.usuario);
+			  } else{
+				this.removerCookies()
+			  }
+			});
+		  },
+		  error: error => {
+			this.removerCookies();
+			
+		  }});
+	  }
 }

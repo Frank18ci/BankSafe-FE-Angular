@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import UserI from '../../../model/UserI';
@@ -11,6 +11,9 @@ import { TipoMonedaTarjetaService } from '../../../services/tipoMonedaTarjeta/ti
 import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
 import { ToastrService } from 'ngx-toastr';
 import Transaccion from '../../../model/Transaccion';
+import Tarjeta from '../../../model/Tarjeta';
+import { Page } from '../../../model/Page';
+import { TransacionService } from '../../../services/transacion/transacion.service';
 
 @Component({
   selector: 'app-transferencia',
@@ -21,17 +24,16 @@ import Transaccion from '../../../model/Transaccion';
 export class TransferenciaComponent {
   tarjetaSeleccionada: string = ''; 
   tarjetaSeleccionadaBoton: string = '';
-  tarjetas = [
-    { moneda: 'Libras (GBP)', simbolo: '£', monto: 500, valor: 'GBP1' }
-  ];
   constructor(private usuarioService: UsuarioService,
     private cookieService : CookieService, 
     private router : Router,
     private tipoTarjetaService: TipoTarjetaService,
     private tipoMonedaTarjetasService: TipoMonedaTarjetaService,
     private tarjetaService: TarjetaService,
-    private toastrService: ToastrService){
+    private toastrService: ToastrService,
+    private transferenciaService: TransacionService){
       this.cargarUsuario()
+      this.buscarTarjeta()
   }
   usuario: UserI = {}
   formGroupTarjetaDestino = new FormGroup({
@@ -72,6 +74,66 @@ export class TransferenciaComponent {
     cambioInput(event : Event){
       const inputElement = event.target as HTMLInputElement;
       this.transacion.tarjetaOrigen.id = parseInt(inputElement.value);
-      console.log(this.transacion)
     }
+     cambioInputTarjetaDestino(event : Event){
+       const inputElement = event.target as HTMLInputElement;
+       this.transacion.tarjetaDestino.id = parseInt(inputElement.value);
+     }
+
+    //Busqueda de tarjeta 
+    
+
+      tarjetadSelecionadas : Page = {
+        content: [],
+        pageable: {
+          pageNumber: 0,
+          pageSize: 0,
+          sort: {
+            empty: false,
+            sorted: false,
+            unsorted: false
+          },
+          offset: 0,
+          paged: false,
+          unpaged: false
+        },
+        last: false,
+        totalElements: 0,
+        totalPages: 0,
+        size: 0,
+        number: 0,
+        sort: {
+          empty: false,
+          sorted: false,
+          unsorted: false
+        },
+        numberOfElements: 0,
+        first: false,
+        empty: false
+      }
+      
+      buscarTarjeta(){
+          this.tarjetaService.getPageByNumeroTarjeta().subscribe(data =>{
+            this.tarjetadSelecionadas = data
+          })
+          
+      }
+      realizarTransaccion(){
+        this.transacion.monto = parseFloat(this.formMonto.value.monto||"0")
+        console.log(this.transacion)
+        this.transferenciaService.realizarTransferencia(this.transacion).subscribe({
+          next: (data) => {
+            this.toastrService.success("Correcto", "Success")
+            console.log(data)
+            this.cargarUsuario()
+            this.buscarTarjeta()
+          },
+          error: () =>{
+            this.toastrService.error("Mal", "Error")
+          }
+        })
+      }
+      formMonto = new FormGroup({
+        monto: new FormControl('')
+      })
 }

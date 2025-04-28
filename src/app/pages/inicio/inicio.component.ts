@@ -37,7 +37,8 @@ export class InicioComponent {
   consultaUsuario() {
     this.tarjetaService
       .findByNumeroTarjeta(this.cookieService.get('username'))
-      .subscribe((data: any) => {
+      .subscribe({next:
+        (data: any) => {
         this.userService.findI(data.user.id).subscribe((data: any) => {
           if(data){
 			this.cookieService.set('user', JSON.stringify(data), {
@@ -49,7 +50,11 @@ export class InicioComponent {
 			this.removerCookies()
 		  }
         });
-      });
+      },
+      error: error => {
+        this.removerCookies();
+        
+      }});
   }
   removerCookies(){
 	this.cookieService.delete("user")
