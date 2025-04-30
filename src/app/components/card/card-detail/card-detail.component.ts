@@ -1,19 +1,21 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import {Chart, registerables} from 'chart.js/auto';
-import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
-import Tarjeta from '../../../model/Tarjeta';
-import { ToastrService } from 'ngx-toastr';
-import { CardTarjetaComponent } from "../card-tarjeta/card-tarjeta.component";
 import { CommonModule } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { CardTarjetaComponent } from '../card-tarjeta/card-tarjeta.component';
+import { ActivatedRoute } from '@angular/router';
+import Tarjeta from '../../../model/Tarjeta';
+import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
+import { ToastrService } from 'ngx-toastr';
+import { TransacionService } from '../../../services/transacion/transacion.service';
+import Transaccion from '../../../model/Transaccion';
+import {Chart, registerables} from 'chart.js/auto';
 Chart.register(...registerables)
 @Component({
-  selector: 'app-credit-card',
+  selector: 'app-card-detail',
   imports: [CardTarjetaComponent, CommonModule],
-  templateUrl: './credit-card.component.html',
-  styleUrl: './credit-card.component.scss'
+  templateUrl: './card-detail.component.html',
+  styleUrl: './card-detail.component.scss'
 })
-export class CreditCardComponent implements AfterViewInit {
+export class CardDetailComponent {
 
   @ViewChild('myChart', { static: false }) myChart!: ElementRef;
   @ViewChild('myChart2', { static: false }) myChart2!: ElementRef;
@@ -21,7 +23,8 @@ export class CreditCardComponent implements AfterViewInit {
   tarjetaSeleccionada : Tarjeta = {}
   constructor(private readonly route: ActivatedRoute,
      private readonly tarjetaService: TarjetaService,
-     private readonly toastrService: ToastrService){
+     private readonly toastrService: ToastrService,
+    private readonly transacionService: TransacionService){
       this.route.params.subscribe(p =>
         this.numeroTarjeta = p['numeroTarjeta']
       )
@@ -35,7 +38,16 @@ export class CreditCardComponent implements AfterViewInit {
           }
           
       })
+      this.transacionService.solicitarTransferenciasFechasNumeroTarjetaEnvio().subscribe({
+        next: (data) => {
+          this.transaciones = data;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
   }
+  transaciones : Transaccion[] = []
   date = new Date()
   getMesOfNumber(n: number): string {
     switch(n){
@@ -61,7 +73,7 @@ export class CreditCardComponent implements AfterViewInit {
     const mesActualTexto = this.getMesOfNumber(this.date.getMonth());
     
 
-    const centerTextPlugin = {
+    const centerTextPluginMounthPasado = {
       id: 'centerText',
       beforeDraw(chart: any) {
         const { width, height, ctx } = chart;
@@ -75,6 +87,27 @@ export class CreditCardComponent implements AfterViewInit {
         ctx.fillStyle = '#000';
         ctx.font = 'bold 16px sans-serif';
         ctx.fillText(mesAnteriorTexto, centerX, centerY - 10);
+
+        ctx.font = '14px sans-serif';
+        ctx.fillText('25% de Total', centerX, centerY + 12);
+
+        ctx.restore();
+      }
+    }
+     const centerTextPluginMounthActual = {
+      id: 'centerText',
+      beforeDraw(chart: any) {
+        const { width, height, ctx } = chart;
+        ctx.save();
+
+        const centerX = width / 2;
+        const centerY = height / 2;
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#000';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.fillText(mesActualTexto, centerX, centerY - 10);
 
         ctx.font = '14px sans-serif';
         ctx.fillText('25% de Total', centerX, centerY + 12);
@@ -101,7 +134,7 @@ export class CreditCardComponent implements AfterViewInit {
           tooltip: { enabled: false }
           }
         },
-        plugins: [centerTextPlugin]
+        plugins: [centerTextPluginMounthPasado]
       });
     const ctx2 = this.myChart2.nativeElement.getContext('2d');
     new Chart(ctx2, {
@@ -122,7 +155,7 @@ export class CreditCardComponent implements AfterViewInit {
          tooltip: {enabled: false} 
         }
       },
-      plugins: [centerTextPlugin]
+      plugins: [centerTextPluginMounthActual]
     });
   }
 
