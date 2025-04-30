@@ -1,20 +1,65 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {Chart, registerables} from 'chart.js/auto';
+import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
+import Tarjeta from '../../../model/Tarjeta';
+import { ToastrService } from 'ngx-toastr';
+import { CardTarjetaComponent } from "../card-tarjeta/card-tarjeta.component";
+import { CommonModule } from '@angular/common';
 Chart.register(...registerables)
 @Component({
   selector: 'app-credit-card',
-  imports: [],
+  imports: [CardTarjetaComponent, CommonModule],
   templateUrl: './credit-card.component.html',
   styleUrl: './credit-card.component.scss'
 })
 export class CreditCardComponent implements AfterViewInit {
+
   @ViewChild('myChart', { static: false }) myChart!: ElementRef;
   @ViewChild('myChart2', { static: false }) myChart2!: ElementRef;
+  numeroTarjeta = ''
+  tarjetaSeleccionada : Tarjeta = {}
+  constructor(private readonly route: ActivatedRoute,
+     private readonly tarjetaService: TarjetaService,
+     private readonly toastrService: ToastrService){
+      this.route.params.subscribe(p =>
+        this.numeroTarjeta = p['numeroTarjeta']
+      )
+      this.tarjetaService.findByNumeroTarjeta(this.numeroTarjeta).subscribe({
+        next:
+          data => this.tarjetaSeleccionada = data
+        ,
+        error: 
+          error => {
+            this.toastrService.error(error)
+          }
+          
+      })
+  }
+  date = new Date()
+  getMesOfNumber(n: number): string {
+    switch(n){
+      case 0: return "Ene";
+      case 1: return "Feb";
+      case 2: return "Mar";
+      case 3: return "Abr";
+      case 4: return "May";
+      case 5: return "Jun";
+      case 6: return "Jul";
+      case 7: return "Ago";
+      case 8: return "Sep";
+      case 9: return "Oct";
+      case 10: return "Nov";
+      case 11: return "Dic";
+      default: return "Mes no válido";
+    }
+  }
 
   ngAfterViewInit(): void {
-    
-
     const ctx = this.myChart.nativeElement.getContext('2d');
+    const mesAnteriorTexto = this.getMesOfNumber(this.date.getMonth() - 1);
+    const mesActualTexto = this.getMesOfNumber(this.date.getMonth());
+    
 
     const centerTextPlugin = {
       id: 'centerText',
@@ -29,7 +74,7 @@ export class CreditCardComponent implements AfterViewInit {
         ctx.textBaseline = 'middle';
         ctx.fillStyle = '#000';
         ctx.font = 'bold 16px sans-serif';
-        ctx.fillText('May', centerX, centerY - 10);
+        ctx.fillText(mesAnteriorTexto, centerX, centerY - 10);
 
         ctx.font = '14px sans-serif';
         ctx.fillText('25% de Total', centerX, centerY + 12);

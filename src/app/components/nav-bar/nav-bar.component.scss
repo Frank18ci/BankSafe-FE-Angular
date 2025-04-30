@@ -1,14 +1,45 @@
-.img-logo{
+@use '../../../styles.scss' as *;
+
+.navbar {
+    color: $primary;
+  }
+  
+  .img-logo {
     width: 6rem;
-}
-
-
-.container-img-user{
-    width: 2rem; 
-    height: 2rem; 
+  }
+  
+  .container-img-user {
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
     overflow: hidden;
-    padding: .2rem;
+    padding: 0.2rem;
     display: flex;
     align-items: center;
-}
+  }
+  
+  
+  .navbar-nav {
+    .nav-item {
+      margin: 0 1rem;
+    }
+  }
+  
+  .nav-link {
+    color: $primary;
+  }
+  
+  .nav-link:hover {
+    color: saturate($primary, 20%);
+  }
+  
+  .dropdown-menu {
+    background-color: #f1f1f1;
+    border-radius: 0.5rem;
+  }
+  
+  @media (max-width: 991px) {
+    .navbar-nav {
+      margin-top: 1rem;
+    }
+  }
