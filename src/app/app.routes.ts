@@ -4,7 +4,6 @@ import { LoginComponent } from "./pages/auth/login/login.component";
 import { RegisterComponent } from "./pages/auth/register/register.component";
 import { ConfiguracionComponent } from "./pages/usuario/configuracion/configuracion.component";
 import { userGuardGuard } from "./securty/UserGuard/user-guard.guard";
-import { CreditCardComponent } from "./components/card/credit-card/credit-card.component";
 import { SolicitarPrestamoComponent } from "./pages/opciones/solicitar-prestamo/solicitar-prestamo.component";
 import { CambiarMonedaComponent } from "./pages/opciones/cambiar-moneda/cambiar-moneda.component";
 import { TransferenciaComponent } from "./pages/opciones/transferencia/transferencia.component";
@@ -15,6 +14,7 @@ import { PagoDeServiciosComponent } from "./pages/operaciones/pago-de-servicios/
 import { SeguridadYSoporteComponent } from "./pages/explora/seguridad-y-soporte/seguridad-y-soporte.component";
 import { BeneficiosYPromocionesComponent } from "./pages/explora/beneficios-y-promociones/beneficios-y-promociones.component";
 import { MiPerfilComponent } from "./pages/usuario/mi-perfil/mi-perfil.component";
+import { CardDetailComponent } from "./components/card/card-detail/card-detail.component";
 
 export const routes: Routes = [
 	{
@@ -51,7 +51,7 @@ export const routes: Routes = [
 	},
 	{
 		path: "card/:numeroTarjeta",
-		component: CreditCardComponent
+		component: CardDetailComponent
 	},
 	{
 		path: "opciones",
