@@ -50,13 +50,8 @@ export const routes: Routes = [
 		canActivate: [userGuardGuard]
 	},
 	{
-		path: "card",
-		children:[
-			{
-				path:"credit-card",
-				component: CreditCardComponent
-			}
-		]
+		path: "card/:numeroTarjeta",
+		component: CreditCardComponent
 	},
 	{
 		path: "opciones",

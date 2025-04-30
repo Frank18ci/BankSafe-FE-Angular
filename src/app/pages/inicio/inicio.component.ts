@@ -7,10 +7,10 @@ import Tarjeta from '../../model/Tarjeta';
 import UserI from '../../model/UserI';
 import { TarjetaService } from '../../services/Tarjeta/tarjeta.service';
 import { UsuarioService } from '../../services/usuario/usuario.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-inicio',
-  imports: [CardAccionComponent, CardTarjetaComponent],
+  imports: [CardAccionComponent, CardTarjetaComponent, RouterLink],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss',
 })

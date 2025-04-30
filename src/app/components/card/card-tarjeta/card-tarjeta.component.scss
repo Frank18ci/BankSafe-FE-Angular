@@ -1,15 +1,27 @@
+
 @use '../../../../styles.scss' as *;
 
-.card-tarjeta{
-    color: $darkgray;
-    h5{
-        color: $primary;
+.card-tarjeta {
+    background: linear-gradient(135deg, $primary,  lighten($primary, 20%));
+    border: none;
+    border-radius: 1.5rem;
+    color: #fff;
+    transition: all 0.3s ease;
+  
+    .mdi {
+      color: #fff;
     }
-    border: 1px gray solid ;
-}
-.text-gray{
-    color: gray;
-}
-.saldo-disponible{
-    font-size: .9rem;
-}
+  
+    small {
+      font-size: 0.8rem;
+    }
+  
+    h6 {
+      letter-spacing: 2px;
+    }
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
