@@ -20,14 +20,14 @@ export class NavBarComponent {
 	private cookieService = inject(CookieService)
 	private router = inject(Router)
 	constructor(){
-		//console.log(this.usuario)
 	}
 	removerCookies(){
 		this.cookieService.delete("user")
 		this.cookieService.delete("username")
 		this.cookieService.delete("token")
-		this.consultaUsuario()
+		this.router.navigate(['/auth/login']);
 	}
+	
 	usuario: UserI = {};
 	  consultaUsuario() {
 		this.tarjetaService

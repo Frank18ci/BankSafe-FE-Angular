@@ -6,46 +6,32 @@
         <label class="form-label fs-5 fw-light">Seleccione su Tarjeta:</label>
 
         <div class="d-flex flex-column">
-          <div
-            class="btn-group-vertical w-100 p-1"
-            role="group"
-            aria-label="Vertical radio toggle button group"
-          >
+          <div class="btn-group-vertical w-100 p-1 btn-group-tarjetas" role="group" aria-label="Vertical radio toggle button group">
             @for (tarjeta of usuario.tarjetas; track tarjeta.id) {
-            <input
-              type="radio"
-              class="btn-check"
-              (change)="cambioInput($event)"
-              name="vbtn-radio"
-              [value]="tarjeta.id"
-              [id]="'Mitarjeta' + tarjeta.id"
-              autocomplete="off"
-            />
-            <label
-              class="btn btn-outline-primary p-1"
-              [for]="'Mitarjeta' + tarjeta.id"
-            >
-              <div
-                class="credit-card-component rounded text-dark shadow-sm p-2"
+              <input
+                type="radio"
+                class="btn-check"
+                (change)="cambioInput($event)"
+                name="vbtn-radio"
+                [value]="tarjeta.id"
+                [id]="'Mitarjeta' + tarjeta.id"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-outline-primary tarjeta-label"
+                [for]="'Mitarjeta' + tarjeta.id"
               >
-                <div class="icon-card mb-2">
-                  <i class="bi bi-shield-fill"></i>
+                <div class="m-1">
+                  <app-card-tarjeta class="text-start" [tarjeta]="tarjeta"></app-card-tarjeta>
                 </div>
-                <p class="fs-4 fw-bolder">
-                  Tarjeta de {{ tarjeta.tipoTarjeta?.tipo }} ({{
-                    tarjeta.tipoMonedaTarjeta?.simbolo
-                  }})
-                </p>
-                <p class="fs-5 fw-bold">{{ tarjeta.numeroTarjeta }} - Monto {{tarjeta.monto}}</p>
-              </div>
-            </label>
+              </label>
             }
           </div>
           <div class="mb-3">
             <form [formGroup]="formMonto">
               <label for="monto" class="form-label fw-light fs-5">Monto</label>
               <input
-                type="text"
+                type="number"
                 class="form-control"
                 id="monto"
                 placeholder="Ingrese el monto"
@@ -53,6 +39,10 @@
                 formControlName="monto"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
               />
+              <div class="text-danger" *ngIf="formMonto.get('monto')?.invalid && formMonto.get('monto')?.touched">
+                <small *ngIf="formMonto.get('monto')?.errors?.['required']">El monto es obligatorio.</small>
+                <small *ngIf="formMonto.get('monto')?.errors?.['min']">El monto debe ser mayor a 0.</small>
+              </div>
             </form>
             
           </div>
@@ -60,10 +50,10 @@
           <div class="text-end mt-3">
             <button
               class="btn btn-success"
-              
+              [disabled]="formMonto.invalid"
               (click)="realizarTransaccion()"
             >
-              Continuar
+              Transferir
             </button>
           </div>
         </div>
@@ -81,48 +71,43 @@
             id="buscador"
             class="form-control"
             placeholder="Escribe un numero"
-            [disabled]="!tarjetaSeleccionada"
+            [(ngModel)]="numeroTarjeta"
           />
           <button
             class="btn btn-primary"
             type="button"
-            [disabled]="!tarjetaSeleccionada"
+            (click)="realizarBusquedaTarjeta()"
           >
             Buscar
           </button>
         </div>
         <label class="form-label fs-5 fw-light">Seleccione una tarjeta:</label>
-        <div
-          class="btn-group-vertical w-100 p-1"
-          role="group"
-          aria-label="Vertical radio toggle button group"
-        >
-          @for (tarjeta of tarjetadSelecionadas.content; track tarjeta.id) {
-          <input
-            type="radio"
-            class="btn-check"
-            (change)="cambioInputTarjetaDestino($event)"
-            name="vbtn-radio2"
-            [value]="tarjeta.id"
-            [id]="'Tarjeta' + tarjeta.id"
-            autocomplete="off"
-          />
-          <label
-            class="btn btn-outline-primary p-1"
-            [for]="'Tarjeta' + tarjeta.id"
-          >
-            <div class="credit-card-component rounded text-dark shadow-sm p-2">
-              <div class="icon-card mb-2">
-                <i class="bi bi-shield-fill"></i>
-              </div>
-              <p class="fs-4 fw-bolder">
-                Tarjeta de {{ tarjeta.tipoTarjeta?.tipo }} ({{
-                  tarjeta.tipoMonedaTarjeta?.simbolo
-                }})
-              </p>
-              <p class="fs-5 fw-bold">{{ tarjeta.numeroTarjeta }} - Monto {{tarjeta.monto}}</p>
+        <div class="btn-group-vertical w-100 p-1 btn-group-tarjetas" role="group" aria-label="Vertical radio toggle button group">
+          @if(tarjetadSelecionadas.content.length > 0){
+            @for (tarjeta of tarjetadSelecionadas.content; track tarjeta.id) {
+              <input
+                type="radio"
+                class="btn-check"
+                (change)="cambioInputTarjetaDestino($event)"
+                name="vbtn-radio2"
+                [value]="tarjeta.id"
+                [id]="'Tarjeta' + tarjeta.id"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-outline-primary tarjeta-label"
+                [for]="'Tarjeta' + tarjeta.id"
+              >
+                <div class="m-1">
+                  <app-card-tarjeta class="text-start" [tarjeta]="tarjeta"></app-card-tarjeta>
+                </div>
+              </label>
+            }
+          }@else {
+            <div class="alert alert-warning text-center w-100" role="alert">
+              <p class="">Realice una busqueda</p>
             </div>
-          </label>
+            
           }
         </div>
       </div>

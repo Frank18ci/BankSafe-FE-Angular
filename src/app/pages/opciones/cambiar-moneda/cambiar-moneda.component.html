@@ -10,7 +10,11 @@
           <div class="mb-3">
             <label for="monto" class="form-label">Monto en {{tarjetaSeleccionada?.tipoMonedaTarjeta?.tipo}} </label>
             <input type="text" class="form-control" formControlName="monto"  id="monto" placeholder="Ej. 100" [max]="tarjetaSeleccionada?.monto" inputmode="numeric" pattern="[0-9]*"
-              oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+              >
+              <div class="text-danger" *ngIf="formGroupConvertir.get('monto')?.invalid && formGroupConvertir.get('monto')?.touched">
+                <small *ngIf="formGroupConvertir.get('monto')?.errors?.['required']">El monto es obligatorio.</small>
+                <small *ngIf="formGroupConvertir.get('monto')?.errors?.['min']">El monto debe ser mayor a 0.</small>
+              </div>
           </div>
   
           <!-- Selección de moneda -->
@@ -30,7 +34,7 @@
               </div>
             </div>
             <div class="col-md-6">
-              <div class="mt-2 text-center">
+              <div class=" text-center">
                 <h5>Resultado: <span class="fs-5 fw-semibold">{{resultado}}</span></h5>
               </div>
             </div>
@@ -53,27 +57,39 @@
         <div class="row">
           <div class="col-md-10">
             <div class="form-group my-3">
-              <label class="form-label" for="numeroTarjeta">Numero Tarjeta</label>
-              <input type="text" #numeroTarjetaB id="numeroTarjeta" class="form-control" placeholder="Ejemplo 1234" /> 
-            </div>
-          </div>
-          <div class="col-md-2 d-flex justify-content-end align-items-center">
-            <div>
-              <button (click)="buscarTarjeta()" class="btn btn-primary">Buscar</button>
+              <label for="buscador" class="form-label fs-5 fw-light"
+              >Buscar Tarjeta</label
+            >
+            <div class="input-group">
+              <input
+                type="text"
+                id="buscador"
+                class="form-control"
+                placeholder="Escribe un numero"
+                [(ngModel)]="numeroTarjetaBusqueda"
+              />
+              <button
+                class="btn btn-primary"
+                type="button"
+                (click)="realizarBusquedaTarjeta()"
+              >
+                Buscar
+              </button>
             </div>
           </div>
         </div>
         @if(tarjetadSelecionadas.size > 0){
-          <div class="btn-group-vertical w-100 p-1" role="group" aria-label="Vertical radio toggle button group">
+          <div class="btn-group-vertical w-100 p-1 btn-group-tarjetas" role="group" aria-label="Vertical radio toggle button group">
             @for (tarjeta of tarjetadSelecionadas.content; track tarjeta.id) {
-              <input type="radio" class="btn-check" (change)="cambioInput($event)" name="vbtn-radio" [value]="tarjeta.id" [id]="tarjeta.id" autocomplete="off">
-            <label class="btn btn-outline-primary p-1" [for]="tarjeta.id">
-              <div class="credit-card-component rounded text-dark shadow-sm p-2">
-                <div class="icon-card mb-2">
-                  <i class="bi bi-shield-fill"></i>
-                </div>
-                <p class="fs-4 fw-bolder">Tarjeta de {{tarjeta.tipoTarjeta?.tipo}} - {{tarjeta.id}} ({{tarjeta.tipoMonedaTarjeta?.simbolo}})</p>
-                <p class="fs-5 fw-bold">{{tarjeta.monto}}</p>
+              <input type="radio" 
+              class="btn-check" 
+              (change)="cambioInput($event)" 
+              name="vbtn-radio" [value]="tarjeta.id" [id]="'Tarjeta' + tarjeta.id"
+               autocomplete="off">
+            <label class="btn btn-outline-primary tarjeta-label"
+              [for]="'Tarjeta' + tarjeta.id">
+              <div class="m-1">
+                <app-card-tarjeta class="text-start" [tarjeta]="tarjeta"></app-card-tarjeta>
               </div>
             </label>
             }

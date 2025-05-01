@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Transaccion from '../../model/Transaccion';
 import TransaccionConversionMoneda from '../../model/TransaccionConversionMoneda';
@@ -19,6 +19,18 @@ export class TransacionService {
   }
 
   solicitarTransferenciasFechasNumeroTarjetaEnvio() : Observable<Transaccion[]>{
-    return this.http.get<Transaccion[]>(this.url + "/transacion/busquedaFechaNumeroTarjeta?fechaInicio=2022-02-02&fechaFin=2026-02-02&numeroTarjeta=123456")
+    return this.http.get<Transaccion[]>(this.url + "/transacion/busquedaFechaNumeroTarjeta?fechaInicio=2022-02-02&fechaFin=2026-02-02&numeroTarjeta=1234")
   }
+  solicitarTransferenciasFechasNumeroTarjetaEnvioUltimoMes(numeroTarjeta : string) : Observable<Transaccion[]>{
+    const params = new HttpParams()
+      .set('numeroTarjeta', numeroTarjeta)
+    return this.http.get<Transaccion[]>(this.url + "/transacion/busquedaFechaNumeroTarjetaMesAnterior", {params})
+  }
+  solicitarTransferenciasFechasNumeroTarjetaEnvioActualMes(numeroTarjeta : string) : Observable<Transaccion[]>{
+    const params = new HttpParams()
+      .set('numeroTarjeta', numeroTarjeta)
+    return this.http.get<Transaccion[]>(this.url + "/transacion/busquedaFechaNumeroTarjetaMesActual", {params})
+  }
+
+  
 }

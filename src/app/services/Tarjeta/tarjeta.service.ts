@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import Tarjeta from '../../model/Tarjeta';
 import { Page } from '../../model/Page';
@@ -25,7 +25,12 @@ export class TarjetaService {
       return localStorage.getItem('refreshToken') || ''
     }
 
-    getPageByNumeroTarjeta(){
-      return this.http.get<Page>(this.url + "/tarjeta/page");
+    getPageByNumeroTarjeta(numeroTarjeta: string, tipoMonedaTarjeta: string, numeroTarjetaExcluida : string){
+      const params = new HttpParams()
+      .set('numeroTarjeta', numeroTarjeta)
+      .set('tipoMonedaTarjeta', tipoMonedaTarjeta)
+      .set('numeroTarjetaExcluida', numeroTarjetaExcluida)
+
+      return this.http.get<Page>(this.url + "/tarjeta/page", {params});
     }
 }

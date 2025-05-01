@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import UserI from '../../../model/UserI';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
@@ -14,14 +14,15 @@ import Transaccion from '../../../model/Transaccion';
 import Tarjeta from '../../../model/Tarjeta';
 import { Page } from '../../../model/Page';
 import { TransacionService } from '../../../services/transacion/transacion.service';
+import { CardTarjetaComponent } from "../../../components/card/card-tarjeta/card-tarjeta.component";
 
 @Component({
   selector: 'app-transferencia',
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, CardTarjetaComponent],
   templateUrl: './transferencia.component.html',
   styleUrl: './transferencia.component.scss'
 })
-export class TransferenciaComponent {
+export class TransferenciaComponent implements OnInit{
   tarjetaSeleccionada: string = ''; 
   tarjetaSeleccionadaBoton: string = '';
   constructor(private usuarioService: UsuarioService,
@@ -31,9 +32,9 @@ export class TransferenciaComponent {
     private tipoMonedaTarjetasService: TipoMonedaTarjetaService,
     private tarjetaService: TarjetaService,
     private toastrService: ToastrService,
-    private transferenciaService: TransacionService){
+    private transferenciaService: TransacionService,
+    private formBuilder : FormBuilder){
       this.cargarUsuario()
-      this.buscarTarjeta()
   }
   usuario: UserI = {}
   formGroupTarjetaDestino = new FormGroup({
@@ -73,7 +74,36 @@ export class TransferenciaComponent {
     }
     cambioInput(event : Event){
       const inputElement = event.target as HTMLInputElement;
-      this.transacion.tarjetaOrigen.id = parseInt(inputElement.value);
+      this.transacion.tarjetaOrigen = this.usuario.tarjetas?.filter(t => t.id == parseInt(inputElement.value))[0] || {};
+      this.tarjetadSelecionadas = {
+        content: [],
+        pageable: {
+          pageNumber: 0,
+          pageSize: 0,
+          sort: {
+            empty: false,
+            sorted: false,
+            unsorted: false
+          },
+          offset: 0,
+          paged: false,
+          unpaged: false
+        },
+        last: false,
+        totalElements: 0,
+        totalPages: 0,
+        size: 0,
+        number: 0,
+        sort: {
+          empty: false,
+          sorted: false,
+          unsorted: false
+        },
+        numberOfElements: 0,
+        first: false,
+        empty: false
+      }
+      this.numeroTarjeta = ""
     }
      cambioInputTarjetaDestino(event : Event){
        const inputElement = event.target as HTMLInputElement;
@@ -111,29 +141,38 @@ export class TransferenciaComponent {
         first: false,
         empty: false
       }
-      
-      buscarTarjeta(){
-          this.tarjetaService.getPageByNumeroTarjeta().subscribe(data =>{
+      numeroTarjeta : string = ""
+      realizarBusquedaTarjeta(){
+          this.transacion.tarjetaDestino = {}
+          this.buscarTarjeta(this.numeroTarjeta, this.transacion.tarjetaOrigen.tipoMonedaTarjeta?.tipo || "", this.transacion.tarjetaOrigen.numeroTarjeta || "")
+      }
+      buscarTarjeta(numeroTarjeta: string, tipoMonedaTarjeta: string, numeroTarjetaExcluida : string){
+          this.tarjetaService.getPageByNumeroTarjeta(numeroTarjeta, tipoMonedaTarjeta, numeroTarjetaExcluida).subscribe(data =>{
             this.tarjetadSelecionadas = data
           })
           
       }
       realizarTransaccion(){
+        
         this.transacion.monto = parseFloat(this.formMonto.value.monto||"0")
-        console.log(this.transacion)
+        console.log(this.transacion.monto)
         this.transferenciaService.realizarTransferencia(this.transacion).subscribe({
           next: (data) => {
             this.toastrService.success("Correcto", "Success")
-            console.log(data)
             this.cargarUsuario()
-            this.buscarTarjeta()
+            this.realizarBusquedaTarjeta()
           },
           error: () =>{
             this.toastrService.error("Mal", "Error")
           }
         })
       }
-      formMonto = new FormGroup({
-        monto: new FormControl('')
-      })
+      formMonto!: FormGroup;
+      ngOnInit(): void {
+        this.formMonto = this.formBuilder.group({
+          monto: ['', [Validators.required, Validators.min(1)]]
+        });  
+      }
+      
+      
 }
