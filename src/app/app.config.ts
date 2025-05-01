@@ -24,6 +24,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     NgbModule,
 	  CookieService,
+    provideClientHydration(),
     provideAnimations(),
     provideToastr(),
     provideHttpClient(

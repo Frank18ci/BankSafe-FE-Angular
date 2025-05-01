@@ -30,7 +30,9 @@ export class CardDetailComponent {
       )
       this.tarjetaService.findByNumeroTarjeta(this.numeroTarjeta).subscribe({
         next:
-          data => this.tarjetaSeleccionada = data
+          data => {this.tarjetaSeleccionada = data;
+            this.calcularPorcentajeMesAnteriorMesActual()
+          }
         ,
         error: 
           error => {
@@ -46,8 +48,46 @@ export class CardDetailComponent {
           console.log(error);
         }
       });
+      this.transacionService.solicitarTransferenciasFechasNumeroTarjetaEnvioActualMes(this.numeroTarjeta).subscribe({
+        next: (data) => {
+          this.transacionesMesActual = data;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+      this.transacionService.solicitarTransferenciasFechasNumeroTarjetaEnvioUltimoMes(this.numeroTarjeta).subscribe({
+        next: (data) => {
+          this.transacionesMesAnterior = data;
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+      
+  }
+  gastoMesAnterior = 0;
+  gastoMesActual = 0;
+  porcentajeMesAnteriorN = 0
+  porcentajeMesActualN = 0
+  porcentajeMesAnterior = ''
+  porcentajeMesActual = ''
+  calcularPorcentajeMesAnteriorMesActual(){
+    this.gastoMesActual = this.transacionesMesActual
+                          .map(t => t.monto)
+                          .reduce((acc, monto) => acc + monto, 0);
+    this.gastoMesAnterior = this.transacionesMesAnterior
+                          .map(t => t.monto)
+                          .reduce((acc, monto) => acc + monto, 0);
+    this.porcentajeMesAnteriorN = (this.gastoMesAnterior * 100 / (this.tarjetaSeleccionada.monto || 0)) * 100;
+    this.porcentajeMesActualN = (this.gastoMesActual * 100 / (this.tarjetaSeleccionada.monto || 0)) * 100;
+    
+    this.porcentajeMesAnterior = this.porcentajeMesAnteriorN.toFixed(2) + "%"
+    this.porcentajeMesActual = this.porcentajeMesActualN.toFixed(2) + "%"
   }
   transaciones : Transaccion[] = []
+  transacionesMesAnterior : Transaccion[] = []
+  transacionesMesActual : Transaccion[] = []
   date = new Date()
   getMesOfNumber(n: number): string {
     switch(n){
@@ -71,8 +111,9 @@ export class CardDetailComponent {
     const ctx = this.myChart.nativeElement.getContext('2d');
     const mesAnteriorTexto = this.getMesOfNumber(this.date.getMonth() - 1);
     const mesActualTexto = this.getMesOfNumber(this.date.getMonth());
-    
-
+    const porcentajeMesActual = this.porcentajeMesActual
+    console.log(porcentajeMesActual)
+    const porcentajeMesAnterior = this.porcentajeMesAnterior
     const centerTextPluginMounthPasado = {
       id: 'centerText',
       beforeDraw(chart: any) {
@@ -89,7 +130,7 @@ export class CardDetailComponent {
         ctx.fillText(mesAnteriorTexto, centerX, centerY - 10);
 
         ctx.font = '14px sans-serif';
-        ctx.fillText('25% de Total', centerX, centerY + 12);
+        ctx.fillText(`${porcentajeMesAnterior} de Total`, centerX, centerY + 12);
 
         ctx.restore();
       }
@@ -110,7 +151,7 @@ export class CardDetailComponent {
         ctx.fillText(mesActualTexto, centerX, centerY - 10);
 
         ctx.font = '14px sans-serif';
-        ctx.fillText('25% de Total', centerX, centerY + 12);
+        ctx.fillText(`${porcentajeMesActual} de Total`, centerX, centerY + 12);
 
         ctx.restore();
       }

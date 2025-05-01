@@ -1,41 +1,33 @@
-.credit-card-component{
-    background-color: #2669D2;
-    animation: change-bg-lg 10s infinite alternate;
-    background-size: 100% 100%;
-    position: relative;
-    overflow: hidden;
-    .icon-card{
-        position: absolute;
-        right: 0;
-        top: 0;
-        transform: translateY(50%);
-        transform: translateX(40%);
-        i{
-            opacity: .7;
-            font-size: 8rem;
-        }
+$navyblue: #1E3A5F;
+$electricblue: #0074E4;
+$lightgray: #F5F7FA;
+$darkgray: #3A3D40;
+$acceptgreen: #2ECC71;
+$alertorange: #E67E22;
+$errorred: #E74C3C;
+
+.btn-group-tarjetas {
+    gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+  
+    .tarjeta-label {
+      padding: 0;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border-width: 2px;
+  
+      &:hover {
+        background-color: rgba(13, 110, 253, 0.05);
+        transform: translateY(-2px);
+      }
     }
-}
-@keyframes change-bg-lg{
-    0%{
-        background: linear-gradient(
-            to bottom left,
-            #c1c8d1, 
-            #999fa8a9 
-            );
+  
+    .btn-check:checked + .tarjeta-label {
+      background-color: #e3f2fd;
+      border-color: $electricblue;
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
     }
-    0%{
-        background: linear-gradient(
-            to bottom left,
-            #a5a8ad, 
-            #4b5361d2 
-            );
-    }
-    100%{
-        background: linear-gradient(
-            to bottom left,
-            #545a63a9,
-            #aeb6b6 
-            );
-    }
-}
+  }
+  

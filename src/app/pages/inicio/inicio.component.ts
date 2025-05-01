@@ -1,4 +1,4 @@
-import { Component, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CardAccionComponent } from '../../components/card/card-accion/card-accion.component';
 import { CardTarjetaComponent } from '../../components/card/card-tarjeta/card-tarjeta.component';
 import User from '../../model/User';
@@ -8,13 +8,14 @@ import UserI from '../../model/UserI';
 import { TarjetaService } from '../../services/Tarjeta/tarjeta.service';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { Router, RouterLink } from '@angular/router';
+import { error } from 'console';
 @Component({
   selector: 'app-inicio',
   imports: [CardAccionComponent, CardTarjetaComponent, RouterLink],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.scss',
 })
-export class InicioComponent {
+export class InicioComponent implements OnInit{
   cookieService = inject(CookieService);
   private tarjetaService = inject(TarjetaService);
   private userService = inject(UsuarioService);
@@ -39,17 +40,21 @@ export class InicioComponent {
       .findByNumeroTarjeta(this.cookieService.get('username'))
       .subscribe({next:
         (data: any) => {
-        this.userService.findI(data.user.id).subscribe((data: any) => {
-          if(data){
-			this.cookieService.set('user', JSON.stringify(data), {
-				path: '/',
-			  });
-			  this.usuario = data;
-			  console.log(this.usuario);
-		  } else{
-			this.removerCookies()
-		  }
-        });
+        this.userService.findI(data.user.id).subscribe({
+          next: (data: any) => {
+                if(data){
+            this.cookieService.set('user', JSON.stringify(data), {
+              path: '/',
+              });
+              this.usuario = data;
+              console.log(this.usuario);
+            } else{
+            this.removerCookies()
+            }
+        },
+        error: (error) => {
+          this.removerCookies()
+        }});
       },
       error: error => {
         this.removerCookies();
@@ -60,10 +65,15 @@ export class InicioComponent {
 	this.cookieService.delete("user")
 	this.cookieService.delete("username")
 	this.cookieService.delete("token")
-	this.router.navigate(['auth/login'])
+  this.router.navigate(['auth/login'])
 }
+
+
   login = false;
   constructor() {
+    
+  }
+  ngOnInit(): void {
     if (this.cookieService.get('token') && this.cookieService.get('username')) {
       this.login = true;
       this.consultaUsuario();

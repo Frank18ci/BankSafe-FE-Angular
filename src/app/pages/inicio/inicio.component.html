@@ -52,9 +52,12 @@
       <h4 class="text-primary fw-bold">Tarjetas</h4>
       <div class="py-2">
         @for(t of usuario.tarjetas; track t.id){
-            <a [routerLink]="'card/' + t.numeroTarjeta" class="text-decoration-none">
-              <app-card-tarjeta [tarjeta]="t"></app-card-tarjeta>
-            </a>
+            <div class="my-3">
+              <a [routerLink]="'card/' + t.numeroTarjeta" class="text-decoration-none">
+                <app-card-tarjeta class="" [tarjeta]="t"></app-card-tarjeta>
+              </a>
+            </div>
+            
         }
       </div>
     </div>

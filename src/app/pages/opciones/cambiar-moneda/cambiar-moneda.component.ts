@@ -6,7 +6,7 @@ import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstra
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 import UserI from '../../../model/UserI';
 import { CookieService } from 'ngx-cookie-service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Tarjeta from '../../../model/Tarjeta';
 import { Page } from '../../../model/Page';
 import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
@@ -14,10 +14,12 @@ import Transaccion from '../../../model/Transaccion';
 import { TransacionService } from '../../../services/transacion/transacion.service';
 import { ToastrService } from 'ngx-toastr';
 import TransaccionConversionMoneda from '../../../model/TransaccionConversionMoneda';
+import { CommonModule } from '@angular/common';
+import { CardTarjetaComponent } from "../../../components/card/card-tarjeta/card-tarjeta.component";
 
 @Component({
   selector: 'app-cambiar-moneda',
-  imports: [NgbDatepickerModule, ReactiveFormsModule],
+  imports: [NgbDatepickerModule, FormsModule, ReactiveFormsModule, CommonModule, CardTarjetaComponent],
   templateUrl: './cambiar-moneda.component.html',
   styleUrl: './cambiar-moneda.component.scss'
 })
@@ -37,7 +39,7 @@ export class CambiarMonedaComponent implements AfterViewInit{
     idtarjeta: new FormControl()
   })
   formGroupConvertir = new FormGroup({
-    monto: new FormControl(),
+    monto: new FormControl('', [Validators.required, Validators.min(1)]),
     tipo: new FormControl(),
   })
 
@@ -50,7 +52,10 @@ export class CambiarMonedaComponent implements AfterViewInit{
   }
   @ViewChild('content') content!:TemplateRef<any>
   open(content: TemplateRef<any>) {
-		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+		this.modalService.open(content, {  ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      keyboard: false
+     }).result.then(
 			(result) => {
 				this.closeResult.set(`Closed with: ${result}`);
 			},
@@ -59,7 +64,21 @@ export class CambiarMonedaComponent implements AfterViewInit{
 			},
 		);
 	}
-
+  numeroTarjetaBusqueda : string = ""
+  realizarBusquedaTarjeta(){
+    this.transferenciaARealizar.tarjetaDestino = {}
+          this.buscarTarjeta(this.numeroTarjetaBusqueda, this.formGroupConvertir.value.tipo || "", this.tarjetaSeleccionada?.numeroTarjeta || "")
+  }
+  buscarTarjeta(numeroTarjeta: string, tipoMonedaTarjeta: string, numeroTarjetaExcluida : string){
+    console.log('numeroTarjeta', numeroTarjeta)
+    console.log('tipoMonedaTarjeta', tipoMonedaTarjeta)
+    console.log('numeroTarjetaExcluida', numeroTarjetaExcluida)
+    this.tarjetaService.getPageByNumeroTarjeta(numeroTarjeta, tipoMonedaTarjeta, numeroTarjetaExcluida).subscribe(data =>{
+      this.tarjetadSelecionadas = data
+      console.log(data)
+    })
+    
+}
 	private getDismissReason(reason: any): string {
 		switch (reason) {
 			case ModalDismissReasons.ESC:
@@ -73,7 +92,7 @@ export class CambiarMonedaComponent implements AfterViewInit{
   ngAfterViewInit(): void {
     this.cargarUsuario();
     this.open(this.content)
-    //this.cargarContenido();
+    this.cargarContenido();
   }
   usuario: UserI = {}
 
@@ -109,11 +128,11 @@ export class CambiarMonedaComponent implements AfterViewInit{
       this.tipoMonedas = data
     })
   }
-  resultado =  0
+  resultado : string =  ""
 
   convertir(){
     const valorConversion = this.tipoMonedas.filter(t => t.tipo ==this.formGroupConvertir.value.tipo)[0].valor
-    this.resultado = this.formGroupConvertir.value.monto * valorConversion
+    this.resultado = ((Number(this.formGroupConvertir.value.monto) || 0) * valorConversion).toFixed(2)
   }
 
   transferenciaARealizar : TransaccionConversionMoneda = {
@@ -163,12 +182,6 @@ export class CambiarMonedaComponent implements AfterViewInit{
     first: false,
     empty: false
   }
-  buscarTarjeta(){
-      this.tarjetaService.getPageByNumeroTarjeta().subscribe(data =>{
-        this.tarjetadSelecionadas = data
-      })
-      console.log(this.numeroTarjetaB.nativeElement.value)
-  }
 
   //funcion de realizar transferencia 
   formGroupTarjetaDestino = new FormGroup({
@@ -176,15 +189,48 @@ export class CambiarMonedaComponent implements AfterViewInit{
   })
 
   realizarTransferencia(){
+    
     if(this.tarjetaSeleccionada){
       this.transferenciaARealizar.tarjetaOrigen = this.tarjetaSeleccionada
     }
-    this.transferenciaARealizar.montoTarjetaOrigen =  this.formGroupConvertir.value.monto
-    this.transferenciaARealizar.montoTarjetaDestino = this.resultado
+    this.transferenciaARealizar.montoTarjetaOrigen =  Number(this.formGroupConvertir.value.monto)
+    this.transferenciaARealizar.montoTarjetaDestino = parseFloat(this.resultado)
     console.log(this.transferenciaARealizar)
     this.transacionService.realizarCambioyTransferencia(this.transferenciaARealizar).subscribe(data =>{
       console.log("Resutado", data)
-      this.toastrService.success("Bien" , "Transacion")
+      this.toastrService.success("Enviado" , "Transacion")
+      
+      this.formGroupConvertir.reset()
+      this.resultado = ""
+      this.numeroTarjetaBusqueda = ""
+      this.tarjetadSelecionadas = {
+        content: [],
+        pageable: {
+          pageNumber: 0,
+          pageSize: 0,
+          sort: {
+            empty: false,
+            sorted: false,
+            unsorted: false
+          },
+          offset: 0,
+          paged: false,
+          unpaged: false
+        },
+        last: false,
+        totalElements: 0,
+        totalPages: 0,
+        size: 0,
+        number: 0,
+        sort: {
+          empty: false,
+          sorted: false,
+          unsorted: false
+        },
+        numberOfElements: 0,
+        first: false,
+        empty: false
+      }
     }, error => {
       this.toastrService.error("Mal" ,error)
     })
