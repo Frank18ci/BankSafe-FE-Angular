@@ -9,10 +9,13 @@
           <table class="table table-striped align-middle">
             <thead class="table-light">
               <tr>
-                <th>Monto</th>
-                <th>Meses</th>
-                <th>Inicio</th>
-                <th>Finaliza</th>
+                <th>Monto Prestado</th>
+                <th>Monto A Pagar</th>
+                <th>Porcentaje de Prestamo Anual</th>
+                <th>Plazo</th>
+                <th>Tipo Plazo</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
                 <th>Estado</th>
                 <th></th>
               </tr>
@@ -20,19 +23,21 @@
             <tbody>
               <tr *ngFor="let prestamo of prestamos">
                 <td>S/. {{ prestamo.monto }}</td>
-                <td>{{ prestamo.meses }}</td>
+                <td>S/. {{ prestamo.monto }}</td>
+                <td>{{ prestamo.plazos }}</td>
+                <td>{{ prestamo.tipoPlazo?.tipo }}</td>
                 <td>{{ prestamo.fechaInicio }}</td>
                 <td>{{ prestamo.fechaFin }}</td>
                 <td>
                   <span 
                     class="badge"
                     [ngClass]="{
-                      'bg-success': prestamo.estado === 'Pagado',
-                      'bg-warning text-dark': prestamo.estado === 'Activo',
-                      'bg-danger': prestamo.estado === 'Vencido'
+                      'bg-success': prestamo.estadoPrestamo === 'Pagado',
+                      'bg-warning text-dark': prestamo.estadoPrestamo === 'Activo',
+                      'bg-danger': prestamo.estadoPrestamo === 'Vencido'
                     }"
                   >
-                    {{ prestamo.estado }}
+                    {{ prestamo.estadoPrestamo }}
                   </span>
                 </td>
                 <td>

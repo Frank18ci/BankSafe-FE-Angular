@@ -132,7 +132,7 @@ export class CambiarMonedaComponent implements AfterViewInit{
 
   convertir(){
     const valorConversion = this.tipoMonedas.filter(t => t.tipo ==this.formGroupConvertir.value.tipo)[0].valor
-    this.resultado = ((Number(this.formGroupConvertir.value.monto) || 0) * valorConversion).toFixed(2)
+    this.resultado = ((Number(this.formGroupConvertir.value.monto) || 0) * (valorConversion || 0)).toFixed(2)
   }
 
   transferenciaARealizar : TransaccionConversionMoneda = {
