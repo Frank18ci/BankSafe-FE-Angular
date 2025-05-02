@@ -1,0 +1,109 @@
+<div class="container-xl mt-4">
+  <div class="row justify-content-center">
+    <div class="p-0">
+      <app-nav-bar-prestamo></app-nav-bar-prestamo>
+      <div class="shadow p-4 rounded text-center w-100">
+        <h3>Solicitar Prestamo</h3>
+        <form>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="montoPrestamo" class="form-label"
+                >Monto del Préstamo</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="montoPrestamo"
+                name="montoPrestamo"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="interes" class="form-label">Interés (%)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="interes"
+                name="interes"
+                required
+              />
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="plazoMeses" class="form-label">Plazo (meses)</label>
+              <input
+                type="number"
+                class="form-control"
+                id="plazoMeses"
+                name="plazoMeses"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="estadoPrestamo" class="form-label"
+                >Estado del Préstamo</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="estadoPrestamo"
+                name="estadoPrestamo"
+                required
+              />
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="fechaRegistro" class="form-label"
+                >Fecha de Registro</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="fechaRegistro"
+                name="fechaRegistro"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="fechaFinalizado" class="form-label"
+                >Fecha de Finalización</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="fechaFinalizado"
+                name="fechaFinalizado"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="fechaInicio" class="form-label"
+                >Fecha de Inicio</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="fechaInicio"
+                name="fechaInicio"
+                required
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="fechaFin" class="form-label">Fecha de Fin</label>
+              <input
+                type="date"
+                class="form-control"
+                id="fechaFin"
+                name="fechaFin"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Procesar Préstamo
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
