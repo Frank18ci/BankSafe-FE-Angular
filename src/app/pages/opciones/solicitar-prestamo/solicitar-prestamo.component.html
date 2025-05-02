@@ -1,137 +1,68 @@
-<div class="container-fluid mt-4">
-    <div class="row justify-content-center">
-      <div class="col-md-10">
-  
-        <div class="d-flex justify-content-start gap-3 mb-4">
-          <button class="btn btn-primary">Mis Préstamos</button>
-          <button class="btn btn-secondary">Solicitar Préstamo</button>
+<div class="container-xl mt-4">
+  <div class="row justify-content-center">
+    <div class="mb-5 p-0">
+      <app-nav-bar-prestamo></app-nav-bar-prestamo>
+
+      @if (prestamos.length > 0) {
+      <div class="shadow p-4 rounded text-center w-100">
+        <div class="table-responsive">
+          <table class="table table-striped align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Monto</th>
+                <th>Meses</th>
+                <th>Inicio</th>
+                <th>Finaliza</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prestamo of prestamos">
+                <td>S/. {{ prestamo.monto }}</td>
+                <td>{{ prestamo.meses }}</td>
+                <td>{{ prestamo.fechaInicio }}</td>
+                <td>{{ prestamo.fechaFin }}</td>
+                <td>
+                  <span 
+                    class="badge"
+                    [ngClass]="{
+                      'bg-success': prestamo.estado === 'Pagado',
+                      'bg-warning text-dark': prestamo.estado === 'Activo',
+                      'bg-danger': prestamo.estado === 'Vencido'
+                    }"
+                  >
+                    {{ prestamo.estado }}
+                  </span>
+                </td>
+                <td>
+                  <a [routerLink]="'/opciones/solicitar-prestamo/prestamo-detalle/' + 1" class="btn btn-outline-primary btn-sm ">
+                    <i class="mdi mdi-eye"></i>
+                    Detalles
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-  
-        <!-- Caso: No hay ningún préstamo -->
-        <div class="shadow p-4 rounded text-center w-100">
-          <p class="mb-0">
-            No hay préstamos, solicite
-            <a href="#" class="text-primary fw-bold">aquí</a>.
-          </p>
-        </div>
-        
+      </div>
+      } @else {
+      <div class="shadow p-4 py-5 rounded text-center w-100">
+        <p class="mb-0 py-5">
+          No hay préstamos, solicite
+          <a routerLink="/opciones/solicitar-prestamo/solicitar" class="text-primary fw-bold">aquí</a>.
+        </p>
+      </div>
+      }
+      <div class="d-none d-md-block">
         <br>
-
-        <!-- Caso: Si hay prestamos -->
-        <div class="shadow p-4 rounded text-center w-100">
-            <table class="table">
-              <thead class="table-light">
-                <tr>
-                  <th>Monto</th>
-                  <th>Meses</th>
-                  <th>Inicio</th>
-                  <th>Finaliza</th>
-                  <th>Estado</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let prestamo of prestamos">
-                  <td>{{ prestamo.titulo1 }}</td>
-                  <td>{{ prestamo.titulo2 }}</td>
-                  <td>{{ prestamo.titulo3 }}</td>
-                  <td>{{ prestamo.titulo4 }}</td>
-                  <td>{{ prestamo.titulo5 }}</td>
-                  <td>
-                    <button class="btn btn-success">Ver Detalles</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-          
         <br>
-        <!-- Caso: Detalles de un prestamo -->
-
-        <div class="shadow p-4 rounded text-center w-100">
-            <h5 class="mb-4 text-primary fw-bold">Detalles del Préstamo</h5>
-            
-            <div class="row mb-2">
-                <div class="col-md-6"><strong>ID:</strong> {{ prestamo.id }}</div>
-                <div class="col-md-6"><strong>Monto:</strong> {{ prestamo.montoPrestamo }}</div>
-            </div>
-            
-            <div class="row mb-2">
-                <div class="col-md-6"><strong>Interés:</strong> {{ prestamo.interes }}</div>
-                <div class="col-md-6"><strong>Plazo (meses):</strong> {{ prestamo.plazoMeses }}</div>
-            </div>
-            
-            <div class="row mb-2">
-                <div class="col-md-6"><strong>Fecha de inicio:</strong> {{ prestamo.fechaInicio | date }}</div>
-                <div class="col-md-6"><strong>Fecha de fin:</strong> {{ prestamo.fechaFin | date }}</div>
-            </div>
-            
-            <div class="row mb-2">
-                <div class="col-md-6"><strong>Estado del préstamo:</strong> {{ prestamo.estadoPrestamo }}</div>
-                <div class="col-md-6"><strong>Estado:</strong> {{ prestamo.estado ? 'Activo' : 'Inactivo' }}</div>
-            </div>
-            
-            <div class="row mb-2">
-                <div class="col-md-6"><strong>Fecha de registro:</strong> {{ prestamo.fechaRegistro | date }}</div>
-                <div class="col-md-6"><strong>Fecha de finalización:</strong> {{ prestamo.fechaFinalizado | date }}</div>
-            </div>
-        </div>
-
         <br>
-
-        <!-- Caso: Solicitar prestamo -->
-        <div class="shadow p-4 rounded text-center w-100">
-            <h3>Solicitar Prestamo</h3>
-            <form>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="montoPrestamo" class="form-label">Monto del Préstamo</label>
-                        <input type="number" class="form-control" id="montoPrestamo" name="montoPrestamo" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="interes" class="form-label">Interés (%)</label>
-                        <input type="number" class="form-control" id="interes" name="interes" required>
-                    </div>
-            
-                    <div class="col-md-6 mb-3">
-                        <label for="plazoMeses" class="form-label">Plazo (meses)</label>
-                        <input type="number" class="form-control" id="plazoMeses" name="plazoMeses" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="estadoPrestamo" class="form-label">Estado del Préstamo</label>
-                        <input type="text" class="form-control" id="estadoPrestamo" name="estadoPrestamo" required>
-                    </div>
-            
-                    <div class="col-md-6 mb-3">
-                        <label for="fechaRegistro" class="form-label">Fecha de Registro</label>
-                        <input type="date" class="form-control" id="fechaRegistro" name="fechaRegistro" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="fechaFinalizado" class="form-label">Fecha de Finalización</label>
-                        <input type="date" class="form-control" id="fechaFinalizado" name="fechaFinalizado">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
-                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="fechaFin" class="form-label">Fecha de Fin</label>
-                        <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
-                    </div>
-            
-            
-            
-                </div>
-            
-                <button type="submit" class="btn btn-primary">Procesar Préstamo</button>
-            </form>
-
-        </div>
-
         <br>
-        
+        <br>
+        <br>
       </div>
     </div>
+    
   </div>
-  
-  
+</div>

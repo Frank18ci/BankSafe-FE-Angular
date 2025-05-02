@@ -15,6 +15,8 @@ import { SeguridadYSoporteComponent } from "./pages/explora/seguridad-y-soporte/
 import { BeneficiosYPromocionesComponent } from "./pages/explora/beneficios-y-promociones/beneficios-y-promociones.component";
 import { MiPerfilComponent } from "./pages/usuario/mi-perfil/mi-perfil.component";
 import { CardDetailComponent } from "./components/card/card-detail/card-detail.component";
+import { SolicitarComponent } from "./pages/opciones/solicitar-prestamo/solicitar/solicitar.component";
+import { PrestamoDetalleComponent } from "./pages/opciones/solicitar-prestamo/prestamo-detalle/prestamo-detalle.component";
 
 export const routes: Routes = [
 	{
@@ -58,7 +60,20 @@ export const routes: Routes = [
 		children:[
 			{
 				path:"solicitar-prestamo",
-				component: SolicitarPrestamoComponent
+				children: [
+					{
+						path: "",
+						component: SolicitarPrestamoComponent
+					},
+					{
+						path: "solicitar",
+						component: SolicitarComponent
+					},
+					{
+						path: "prestamo-detalle/:id",
+						component: PrestamoDetalleComponent
+					},
+				]
 			},
 			{
 				path:"cambiar-moneda",

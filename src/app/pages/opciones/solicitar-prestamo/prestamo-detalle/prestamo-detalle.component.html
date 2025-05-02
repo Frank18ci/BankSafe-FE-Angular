@@ -1,0 +1,96 @@
+<div class="container-xl mt-4">
+  <div class="row justify-content-center">
+    <div class="p-0">
+      <app-nav-bar-prestamo></app-nav-bar-prestamo>
+      <div class="shadow p-4 rounded text-center w-100">
+        <h1 class="mb-4 text-primary text-start">Detalles del Préstamo</h1>
+        <div class="text-start">
+          <div class="row mb-2">
+            <div class="col-md-6"><strong>ID:</strong> {{ prestamo.id }}</div>
+            <div class="col-md-6">
+              <strong>Monto:</strong> {{ prestamo.montoPrestamo }}
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Interés:</strong> {{ prestamo.interes }}
+            </div>
+            <div class="col-md-6">
+              <strong>Plazo (meses):</strong> {{ prestamo.plazoMeses }}
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Fecha de inicio:</strong>
+              {{ prestamo.fechaInicio | date }}
+            </div>
+            <div class="col-md-6">
+              <strong>Fecha de fin:</strong> {{ prestamo.fechaFin | date }}
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Estado del préstamo:</strong>
+              {{ prestamo.estadoPrestamo }}
+            </div>
+            <div class="col-md-6">
+              <strong>Estado:</strong>
+              {{ prestamo.estado ? "Activo" : "Inactivo" }}
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Fecha de registro:</strong>
+              {{ prestamo.fechaRegistro | date }}
+            </div>
+            <div class="col-md-6">
+              <strong>Fecha de finalización:</strong>
+              {{ prestamo.fechaFinalizado | date }}
+            </div>
+          </div>
+        </div>
+        <hr class="my-5" />
+        <div>
+          <h2 class="text-primary mb-4 text-start">Fechas de Pago</h2>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Monto</th>
+                  <th>Meses</th>
+                  <th>Inicio</th>
+                  <th>Finaliza</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let prestamo of prestamos">
+                  <td>S/. {{ prestamo.monto }}</td>
+                  <td>{{ prestamo.meses }}</td>
+                  <td>{{ prestamo.fechaInicio }}</td>
+                  <td>{{ prestamo.fechaFin }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-success': prestamo.estado === 'Pagado',
+                        'bg-warning text-dark': prestamo.estado === 'Activo',
+                        'bg-danger': prestamo.estado === 'Vencido'
+                      }"
+                    >
+                      {{ prestamo.estado }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
