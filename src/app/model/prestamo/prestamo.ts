@@ -17,7 +17,7 @@ export interface Prestamo {
 	FechaFinalizado?: string;
 	
 	estadoPrestamo?: string;
-	user?: User;
+	user: User;
 	tipoPlazo?: TipoPlazo;
-	tarjetaRecepcion?: Tarjeta;
+	tarjetaRecepcion: Tarjeta;
 }

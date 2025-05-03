@@ -19,4 +19,7 @@ export class PrestamoService {
   savePrestamo(prestamo: Prestamo): Observable<Prestamo>{
     return this.http.post<Prestamo>(this.urlPath + "/prestamo", prestamo);
   }
+  precalculoprestamo(prestamo: Prestamo): Observable<Prestamo>{
+    return this.http.post<Prestamo>(this.urlPath + "/prestamo/precalculoprestamo", prestamo);
+  }
 }

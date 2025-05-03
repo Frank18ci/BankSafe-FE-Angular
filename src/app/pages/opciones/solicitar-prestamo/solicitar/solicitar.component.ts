@@ -11,6 +11,8 @@ import { TipoPlazo } from '../../../../model/prestamo/tipo-plazo';
 import { TipoPlazoService } from '../../../../services/Prestamo/tipo-plazo.service';
 import { ToastrService } from 'ngx-toastr';
 import { Prestamo } from '../../../../model/prestamo/prestamo';
+import { PrestamoService } from '../../../../services/Prestamo/prestamo.service';
+import User from '../../../../model/User';
 
 @Component({
   selector: 'app-solicitar',
@@ -25,7 +27,8 @@ export class SolicitarComponent implements OnInit{
     private usuarioService: UsuarioService,
     private router: Router,
     private tipoPlazoService: TipoPlazoService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private prestamoService: PrestamoService
   ){
 
   }
@@ -52,21 +55,30 @@ export class SolicitarComponent implements OnInit{
         this.cookieService.delete("token")
         this.router.navigate(['auth/login'])
       }
-      prestamo! : Prestamo;
+      prestamo : Prestamo = {
+        user: {
+
+        },
+        tarjetaRecepcion: {
+
+        }
+      };
   prestamoFormGroup! : FormGroup; 
   ngOnInit(): void {
     this.cargarUsuario()
     this.cargarPlazos()
     this.prestamoFormGroup = this.formBuilder.group({
-      monto: (this.prestamo.monto, [Validators.required, Validators.min(1)]),
+      monto: [this.prestamo.monto, [Validators.required, Validators.min(1)]],
+      tipoPlazo: [this.prestamo.tipoPlazo, Validators.required],
+      plazos: [this.prestamo.plazos, [Validators.required, Validators.min(1)]],
+      fechaInicio: [this.prestamo.fechaInicio, Validators.required]
+    });
+  }
 
-    })  
-  }
-  get monto(){
-    return this.prestamoFormGroup.get('monto')
-  }
   cambioInput(event : Event){
     const inputElement = event.target as HTMLInputElement;
+    this.prestamo.tarjetaRecepcion = this.usuario.tarjetas?.filter(t => t.id == parseInt(inputElement.value))[0] || {};
+    console.log(this.prestamo)
   }
   cargarPlazos(){
     this.tipoPlazoService.getTipoPlazos().subscribe({
@@ -76,6 +88,32 @@ export class SolicitarComponent implements OnInit{
   }
   tipoPlazos : TipoPlazo[] = []
   solicitarPrestamo(){
-    console.log(this.prestamoFormGroup.value.monto)
+    if (!this.prestamo.user) {
+      this.prestamo.user = {} as User;
+    }
+    
+    this.prestamo.user.id = this.usuario.id || 0;
+    
+    this.prestamoService.savePrestamo(this.prestamo).subscribe({
+      next: data => {
+        console.log(data)
+        this.toastrService.error("Hecho", "Biem")
+      },
+      error: error => {
+        this.toastrService.error(error, "Error")
+      }    
+    })
   }
+  calcularPrestamo(){
+    this.prestamo = this.prestamoFormGroup.value
+    
+    this.prestamoService.precalculoprestamo(this.prestamo).subscribe({
+      next: data => {
+        this.prestamo = data
+        console.log(this.prestamo)
+        this.fechaFin = new Date(this.prestamo.fechaFin!).toLocaleDateString("es-Pe") || "";
+      }
+    })
+  }
+  fechaFin = ""
 }
