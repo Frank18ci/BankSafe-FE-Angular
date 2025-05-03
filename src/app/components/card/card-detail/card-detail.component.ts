@@ -112,7 +112,6 @@ export class CardDetailComponent {
     const mesAnteriorTexto = this.getMesOfNumber(this.date.getMonth() - 1);
     const mesActualTexto = this.getMesOfNumber(this.date.getMonth());
     const porcentajeMesActual = this.porcentajeMesActual
-    console.log(porcentajeMesActual)
     const porcentajeMesAnterior = this.porcentajeMesAnterior
     const centerTextPluginMounthPasado = {
       id: 'centerText',
