@@ -89,6 +89,10 @@ export class SolicitarComponent implements OnInit{
   }
   tipoPlazos : TipoPlazo[] = []
   solicitarPrestamo(){
+    if(!this.prestamo.tarjetaRecepcion.id) {
+      this.toastrService.info("Seleccione una tarjeta")
+      return
+    }
     if (!this.prestamo.user) {
       this.prestamo.user = {} as User;
     }
@@ -98,10 +102,10 @@ export class SolicitarComponent implements OnInit{
     this.prestamoService.savePrestamo(this.prestamo).subscribe({
       next: data => {
         console.log(data)
-        this.toastrService.error("Hecho", "Biem")
+        this.toastrService.success("Hecho", "Biem")
       },
       error: error => {
-        this.toastrService.error(error, "Error")
+        this.toastrService.error(error.message, "Error")
       }    
     })
   }

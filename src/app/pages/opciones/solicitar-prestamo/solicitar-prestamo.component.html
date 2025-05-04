@@ -7,11 +7,11 @@
       <div class="shadow p-4 rounded text-center w-100">
         <div class="table-responsive">
           <table class="table table-striped align-middle">
-            <thead class="table-light">
+            <thead class="table-dark">
               <tr>
                 <th>Monto Prestado</th>
-                <th>Monto A Pagar</th>
-                <th>Porcentaje de Prestamo Anual</th>
+                <th>Monto Pagar</th>
+                <th>Porcentaje Anual</th>
                 <th>Plazo</th>
                 <th>Tipo Plazo</th>
                 <th>Fecha Inicio</th>
@@ -22,26 +22,27 @@
             </thead>
             <tbody>
               <tr *ngFor="let prestamo of prestamos">
-                <td>S/. {{ prestamo.monto }}</td>
-                <td>S/. {{ prestamo.monto }}</td>
+                <td>{{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ prestamo.monto }}</td>
+                <td>{{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ prestamo.montoPrestamo }}</td>
+                <td>{{ ((prestamo.interesAnual || 0) * 100).toFixed(0)}} %</td>
                 <td>{{ prestamo.plazos }}</td>
                 <td>{{ prestamo.tipoPlazo?.tipo }}</td>
-                <td>{{ prestamo.fechaInicio }}</td>
-                <td>{{ prestamo.fechaFin }}</td>
+                <td>{{ prestamo.fechaInicio | date }}</td>
+                <td>{{ prestamo.fechaFin | date  }}</td>
                 <td>
                   <span 
                     class="badge"
                     [ngClass]="{
-                      'bg-success': prestamo.estadoPrestamo === 'Pagado',
-                      'bg-warning text-dark': prestamo.estadoPrestamo === 'Activo',
-                      'bg-danger': prestamo.estadoPrestamo === 'Vencido'
+                      'bg-success': prestamo.estadoPrestamo?.estadoPrestamo === 'Pagado',
+                      'bg-warning text-dark': prestamo.estadoPrestamo?.estadoPrestamo === 'Activo',
+                      'bg-danger': prestamo.estadoPrestamo?.estadoPrestamo === 'Vencido'
                     }"
                   >
-                    {{ prestamo.estadoPrestamo }}
+                    {{ prestamo.estadoPrestamo?.estadoPrestamo }}
                   </span>
                 </td>
                 <td>
-                  <a [routerLink]="'/opciones/solicitar-prestamo/prestamo-detalle/' + 1" class="btn btn-outline-primary btn-sm ">
+                  <a [routerLink]="'/opciones/solicitar-prestamo/prestamo-detalle/' + prestamo.id" class="btn btn-outline-primary btn-sm ">
                     <i class="mdi mdi-eye"></i>
                     Detalles
                   </a>

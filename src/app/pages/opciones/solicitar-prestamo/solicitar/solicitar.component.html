@@ -124,7 +124,7 @@
                   type="text"
                   class="form-control-plaintext fw-bold"
                   readonly
-                  [value]="this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario + ' ' + ((this.prestamo.montoPrestamo || 0))"
+                  [value]="(this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || '') + ' ' + ((this.prestamo.montoPrestamo || 0))"
                 />
               </div>
 
@@ -134,7 +134,7 @@
                 type="text"
                 class="form-control-plaintext fw-bold"
                 readonly
-                [value]="this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario + ' ' + ((this.prestamo.montoPorPlazo || 0))"
+                [value]="(this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || '') + ' ' + ((this.prestamo.montoPorPlazo || 0))"
                 />
               </div>
 
@@ -149,7 +149,7 @@
               </div>
 
               <div class="text-end">
-                <button type="submit" class="btn btn-primary">Solicitar</button>
+                <button [disabled]="prestamoFormGroup.invalid" type="submit" class="btn btn-primary">Solicitar</button>
               </div>
             </form>
           </div>
