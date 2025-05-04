@@ -22,4 +22,7 @@ export class PrestamoService {
   precalculoprestamo(prestamo: Prestamo): Observable<Prestamo>{
     return this.http.post<Prestamo>(this.urlPath + "/prestamo/precalculoprestamo", prestamo);
   }
+  realizarPago(id: number): Observable<Prestamo>{
+    return this.http.get<Prestamo>(this.urlPath + "/prestamo/realizarPago/" + id);
+  }
 }

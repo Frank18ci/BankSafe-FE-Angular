@@ -16,8 +16,12 @@ export interface Prestamo {
 	FechaRegistro?: string;
 	FechaFinalizado?: string;
 	
-	estadoPrestamo?: string;
+	estadoPrestamo?: EstadoPrestamo;
 	user: User;
 	tipoPlazo?: TipoPlazo;
 	tarjetaRecepcion: Tarjeta;
+}
+export interface EstadoPrestamo{
+	id?: number,
+	estadoPrestamo?: string
 }
