@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +18,7 @@ import Tarjeta from '../../../model/Tarjeta';
 import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
 import { Router } from '@angular/router';
 import { Toast, ToastrService } from 'ngx-toastr';
+import { EmailService } from '../../../emailjs/services/email.service';
 
 @Component({
   selector: 'app-register',
@@ -31,23 +32,38 @@ export class RegisterComponent {
   tipoTarjetaService = inject(TipoTarjetaService);
   userService = inject(UsuarioService);
   tarjetaService = inject(TarjetaService);
-  toastService = inject(ToastrService)
-  
+  toastService = inject(ToastrService);
+  emailService = inject(EmailService)
   router = inject(Router)
   listaTipoDocumentoUser: tipoDocumentoUser[] = [];
   listTipoMonedaTarjeta: TipoMonedaTarjeta[] = [];
   listTipoTarjeta: TipoTarjeta[] = [];
 
   constructor() {
-    this.tipoDocumentoUserService.list().subscribe((data) => {
+    this.tipoDocumentoUserService.list().subscribe({
+      next: (data) => {
       if (data) this.listaTipoDocumentoUser = data;
-    });
-    this.tipoMonedaTarjetaService.list().subscribe((data) => {
+      },
+      error: (error) => {
+        this.toastService.error(error.message, "Error")
+      }
+  });
+    this.tipoMonedaTarjetaService.list().subscribe({
+      next: (data) => {
       if (data) this.listTipoMonedaTarjeta = data;
-    });
-    this.tipoTarjetaService.list().subscribe((data) => {
+      },
+      error: (error) => {
+        this.toastService.error(error.message, "Error")
+      }
+  });
+    this.tipoTarjetaService.list().subscribe({
+      next: (data) => {
       if (data) this.listTipoTarjeta = data;
-    });
+      },
+      error: (error) => {
+        this.toastService.error(error.message, "Error")
+      }
+  });
   }
 
   formRegisterUserTarjeta = new FormGroup({
@@ -56,6 +72,7 @@ export class RegisterComponent {
     numero: new FormControl('', Validators.required),
     nombres: new FormControl('', Validators.required),
     apellidos: new FormControl('', Validators.required),
+    correo: new FormControl('', Validators.required),
     fechaNacimiento: new FormControl('', Validators.required),
     tipoTarjeta: new FormControl('', Validators.required),
     tipoMoneda: new FormControl('', Validators.required),
@@ -69,6 +86,7 @@ export class RegisterComponent {
         numeroDocumento: fru.value.numeroDocumento,
         nombres: fru.value.nombres,
         apellidos: fru.value.apellidos,
+        correo: fru.value.correo,
         fechaNacimiento: fru.value.fechaNacimiento,
         tipoDocumentoUser: {
           id: fru.value.tipoDocumento,
@@ -91,10 +109,28 @@ export class RegisterComponent {
       this.formRegisterUserTarjeta
     );
     console.log('Datos guardos enviados', tarjeta);
-    this.tarjetaService.save(tarjeta).subscribe((data) => {
-      console.log('Datos guardos regresados', data);
+    this.tarjetaService.save(tarjeta).subscribe({
+      next: (data) => {
 	    this.router.navigate(['auth/login'])
       this.toastService.success( "ok", "Cuenta Registrada")
-    });
+      this.enviarCorreo(data);
+      },
+      error: (error) => {
+        this.toastService.error(error.message, "Error")
+      }
+  });
+  }
+  enviarCorreo(tarjetaSaved : Tarjeta) {
+    const templateParams = {
+      to_name: tarjetaSaved.user?.nombres + " " + tarjetaSaved.user?.apellidos,
+      message: "Bienvenido a Banksafe", 
+      to_email: tarjetaSaved.user?.correo
+    }
+
+    this.emailService.enviarEmail(templateParams)
+      .then((response) => {
+      }, (error) => {
+        console.error('Error al enviar', error);
+      });
   }
 }
