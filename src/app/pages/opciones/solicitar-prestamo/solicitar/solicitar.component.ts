@@ -43,6 +43,7 @@ export class SolicitarComponent implements OnInit{
           });
           this.usuario = data;
           console.log(this.usuario);
+          this.prestamo.user.id = this.usuario.id || 0;
         } else{
         this.removerCookies()
         }
@@ -92,7 +93,7 @@ export class SolicitarComponent implements OnInit{
       this.prestamo.user = {} as User;
     }
     
-    this.prestamo.user.id = this.usuario.id || 0;
+    
     
     this.prestamoService.savePrestamo(this.prestamo).subscribe({
       next: data => {
@@ -105,7 +106,10 @@ export class SolicitarComponent implements OnInit{
     })
   }
   calcularPrestamo(){
-    this.prestamo = this.prestamoFormGroup.value
+    this.prestamo.monto = this.prestamoFormGroup.value.monto
+    this.prestamo.tipoPlazo = this.prestamoFormGroup.value.tipoPlazo
+    this.prestamo.plazos = this.prestamoFormGroup.value.plazos
+    this.prestamo.fechaInicio = this.prestamoFormGroup.value.fechaInicio
     
     this.prestamoService.precalculoprestamo(this.prestamo).subscribe({
       next: data => {
