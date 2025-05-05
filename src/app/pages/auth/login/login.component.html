@@ -7,7 +7,7 @@
       <form (ngSubmit)="login()" [formGroup]="loginForm" class="w-100">
         <h1 class="text-center fw-bold">Login</h1>
         <div class="form-floating my-3">
-          <input type="text" id="username" class="form-control" formControlName="username" />
+          <input type="text" id="username" appCardInputMask class="form-control" formControlName="username" />
           <label class="form-label" for="username">Número Tarjeta</label>
         </div>
         <div class="form-floating my-3">

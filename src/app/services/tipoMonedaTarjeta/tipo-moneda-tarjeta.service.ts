@@ -3,16 +3,17 @@ import { inject, Injectable } from '@angular/core';
 import TipoMonedaTarjeta from '../../model/TipoMonedaTarjeta';
 import { catchError, Observable, throwError } from 'rxjs';
 import { of } from 'rxjs';
+import { enviroments } from '../enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TipoMonedaTarjetaService {
   private http = inject(HttpClient);
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor() { }
   //CRUD
-  list(): Observable<any>{
+  list(): Observable<TipoMonedaTarjeta[] | null>{
     return this.http.get<TipoMonedaTarjeta[]>(this.url + "/tipoMonedaTarjeta").pipe(
       catchError(error => {
         if(error.status === 404){
@@ -22,7 +23,7 @@ export class TipoMonedaTarjetaService {
       })
     )
   }
-  listaByTipe(tipo: String): Observable<any>{
+  listaByTipe(tipo: String): Observable<TipoMonedaTarjeta[]>{
     return this.http.get<TipoMonedaTarjeta[]>(this.url + "/cambioMoneda/" + tipo)
   }
 }

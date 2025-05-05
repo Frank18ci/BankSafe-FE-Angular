@@ -3,18 +3,19 @@ import { Injectable } from '@angular/core';
 import Transaccion from '../../model/Transaccion';
 import TransaccionConversionMoneda from '../../model/TransaccionConversionMoneda';
 import { Observable } from 'rxjs';
+import { enviroments } from '../enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransacionService {
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor(private http : HttpClient) { }
 
-  realizarCambioyTransferencia(transacion : TransaccionConversionMoneda){
+  realizarCambioyTransferencia(transacion : TransaccionConversionMoneda) : Observable<TransaccionConversionMoneda>{
     return this.http.post<TransaccionConversionMoneda>(this.url + "/transacion/transferenciaDineroConvertido", transacion)
   }
-  realizarTransferencia(transacion: Transaccion){
+  realizarTransferencia(transacion: Transaccion): Observable<Transaccion>{
     return this.http.post<Transaccion>(this.url + "/transacion", transacion)
   }
 

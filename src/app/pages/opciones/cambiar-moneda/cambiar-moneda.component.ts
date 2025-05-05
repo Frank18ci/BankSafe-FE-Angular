@@ -120,7 +120,8 @@ export class CambiarMonedaComponent implements AfterViewInit{
   }
   cargarContenido(){
     this.tipoMonedaService.list().subscribe(data =>{
-      this.tipoMonedas = data
+      if(data)
+        this.tipoMonedas = data
     })
   }
   cargarTipoMoneda(tipo: String){
