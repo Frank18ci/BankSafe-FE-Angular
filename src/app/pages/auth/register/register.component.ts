@@ -19,10 +19,11 @@ import { TarjetaService } from '../../../services/Tarjeta/tarjeta.service';
 import { Router } from '@angular/router';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { EmailService } from '../../../emailjs/services/email.service';
+import { CardInputMaskDirective } from '../../../directive/card-input-mask.directive';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CardInputMaskDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -108,6 +109,7 @@ export class RegisterComponent {
     const tarjeta: Tarjeta = this.convertFormGroudToTarjeta(
       this.formRegisterUserTarjeta
     );
+    tarjeta.numeroTarjeta!.replace(/ /g, "")
     console.log('Datos guardos enviados', tarjeta);
     this.tarjetaService.save(tarjeta).subscribe({
       next: (data) => {

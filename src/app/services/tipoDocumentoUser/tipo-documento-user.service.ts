@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import tipoDocumentoUser from '../../model/TipoDocumentoUser';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { enviroments } from '../enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TipoDocumentoUserService {
   private http = inject(HttpClient);
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor() { }
   //CRUD
-  list(){
+  list() : Observable<tipoDocumentoUser[] | null>{
     return this.http.get<tipoDocumentoUser[]>(this.url + "/tipoDocumentoUser").pipe(
           catchError(error => {
             if(error.status === 404){
@@ -21,7 +22,7 @@ export class TipoDocumentoUserService {
           })
         )
   }
-  find(id: number){
-    return this.http.get(this.url + `/tipoDocumentoUser/${id}`)
+  find(id: number) : Observable<tipoDocumentoUser>{
+    return this.http.get<tipoDocumentoUser>(this.url + `/tipoDocumentoUser/${id}`)
   }
 }

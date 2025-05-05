@@ -1,28 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import User from '../../model/User';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { enviroments } from '../enviroment/enviroment';
+import UserI from '../../model/UserI';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
 	private http = inject(HttpClient);
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor() { }
-  uploadUserImage(formData: FormData): any{
+  uploadUserImage(formData: FormData): Observable<any>{
     return this.http.post<any>(this.url + "/user/img", formData)
   }
 
   //crud operations
-  list(){
-    return this.http.get(this.url + "/user")
+  list(): Observable<User>{
+    return this.http.get<User>(this.url + "/user")
   }
-  find(id: number){
-    return this.http.get(this.url + `/user/${id}`)
+  find(id: number): Observable<User>{
+    return this.http.get<User>(this.url + `/user/${id}`)
   }
-  findI(id: number){
-    return this.http.get(this.url + `/user/userTarjetas/${id}`).pipe(
+  findI(id: number): Observable<UserI | null> {
+    return this.http.get<UserI>(this.url + `/user/userTarjetas/${id}`).pipe(
               catchError(error => {
                 if(error.status === 404){
                   return of(null);
@@ -31,13 +33,13 @@ export class UsuarioService {
               })
             )
   }
-  save(user: User){
-    return this.http.post(this.url + "/user", user)
+  save(user: User) : Observable<User>{
+    return this.http.post<User>(this.url + "/user", user)
   }
-  update(user: User){
-    return this.http.put(this.url + "/user", user)
+  update(user: User): Observable<User>{
+    return this.http.put<User>(this.url + "/user", user)
   }
-  delete(id: number){
-    return this.http.delete(this.url + `/user/${id}`)
+  delete(id: number): Observable<any>{
+    return this.http.delete<any>(this.url + `/user/${id}`)
   }
 }

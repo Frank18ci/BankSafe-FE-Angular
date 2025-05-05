@@ -1,18 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { enviroments } from '../enviroment/enviroment';
+import { Observable } from 'rxjs';
+import RoleUser from '../../model/RoleUser';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleUserService {
   private http = inject(HttpClient);
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor() { }
   //CRUD
-  list(){
-    return this.http.get(this.url + "/roleUser")
+  list() : Observable<RoleUser[]>{
+    return this.http.get<RoleUser[]>(this.url + "/roleUser")
   }
-  find(id: number){
-    return this.http.get(this.url + `/roleUser/${id}`)
+  find(id: number) : Observable<RoleUser>{
+    return this.http.get<RoleUser>(this.url + `/roleUser/${id}`)
   }
 }

@@ -52,7 +52,9 @@ export class SolicitarTarjetaComponent implements OnInit {
       this.tipoTarjetas = data || []
     })
     this.tipoMonedaTarjetasService.list().subscribe(data => {
-      this.tipoMonedaTarjetas = data
+      if(data){
+        this.tipoMonedaTarjetas = data
+      }
     })
   }
   usuario: UserI = {}

@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import TipoTarjeta from '../../model/TipoTarjeta';
-import { catchError, of, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
+import { enviroments } from '../enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TipoTarjetaService {
   private http = inject(HttpClient);
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor() { }
   //CRUD
-  list(){
+  list(): Observable<TipoTarjeta[] | null>{
     return this.http.get<TipoTarjeta[]>(this.url + "/tipoTarjeta").pipe(
           catchError(error => {
             if(error.status === 404){

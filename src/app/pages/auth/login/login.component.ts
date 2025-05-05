@@ -11,10 +11,11 @@ import { TarjetaService } from "../../../services/Tarjeta/tarjeta.service";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { CardInputMaskDirective } from "../../../directive/card-input-mask.directive";
 
 @Component({
 	selector: "app-login",
-	imports: [ReactiveFormsModule],
+	imports: [ReactiveFormsModule, CardInputMaskDirective],
 	templateUrl: "./login.component.html",
 	styleUrl: "./login.component.scss",
 })
@@ -45,13 +46,13 @@ export class LoginComponent {
 	login() {
 		this.user.numeroTarjeta =
 			this.loginForm.value.username != null
-				? this.loginForm.value.username
+				? this.loginForm.value.username.replace(/ /g, "")
 				: "";
 		this.user.claveInternet =
 			this.loginForm.value.password != null
 				? this.loginForm.value.password
 				: "";
-
+		console.log(this.user.numeroTarjeta)
 		this.apiService.login(this.user).subscribe((data: any) => {
 			if(data){
 				this.toastrService.success(data.Message, "Bienvenido");
