@@ -11,38 +11,9 @@ import UserI from "./model/UserI";
 
 @Component({
 	selector: "app-root",
-	imports: [RouterOutlet, NavBarComponent, FooterComponent],
+	imports: [RouterOutlet],
 	templateUrl: "./app.component.html",
 	styleUrl: "./app.component.scss",
 })
-export class AppComponent implements OnInit{
-	private cookieService = inject(CookieService)
-	private router = inject(Router)
-	
-	title = "Bank-Safe";
-	login : boolean = false
-
-	verificarLogin() {
-		const rutasPublicas = ['/auth/login', '/auth/register'];
-		const currentUrl = this.router.url;
-		const token = this.cookieService.get('token');
-		const username = this.cookieService.get('username');
-		if (token && username) {
-			this.login = true;
-		  } else {
-			this.login = false;
-			if (!rutasPublicas.some(r => currentUrl.startsWith(r))) {
-				this.router.navigate(['auth/login']);
-			  }
-		  }
-	  }
-
-	ngOnInit(): void {
-		this.router.events.subscribe((event) =>{
-			if(event instanceof NavigationEnd){
-				this.verificarLogin();
-			}
-		});
-		
-	}
+export class AppComponent {
 }

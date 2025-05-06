@@ -20,115 +20,16 @@ import { PrestamoDetalleComponent } from "./pages/opciones/solicitar-prestamo/pr
 
 export const routes: Routes = [
 	{
-		path: "",
-		component: InicioComponent,
-		canActivate: [userGuardGuard]
-	},
-	{
 		path: "auth",
-		children: [
-			{
-				path: "login",
-				component: LoginComponent,
-			},
-			{
-				path: "register",
-				component: RegisterComponent,
-			},
-		]
+		loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
 	},
 	{
-		path: "usuario",
-		children:[
-			{
-				path: "mi-perfil",
-				component: MiPerfilComponent,
-			},
-			{
-				path: "configuracion",
-				component: ConfiguracionComponent,
-			}
-		],
-		canActivate: [userGuardGuard]
+		path: "",
+		loadChildren: () => import('./app/app.module').then(m => m.AppModule),
 	},
 	{
-		path: "card/:numeroTarjeta",
-		component: CardDetailComponent
-	},
-	{
-		path: "opciones",
-		children:[
-			{
-				path:"solicitar-prestamo",
-				children: [
-					{
-						path: "",
-						component: SolicitarPrestamoComponent
-					},
-					{
-						path: "solicitar",
-						component: SolicitarComponent
-					},
-					{
-						path: "prestamo-detalle/:id",
-						component: PrestamoDetalleComponent
-					},
-				]
-			},
-			{
-				path:"cambiar-moneda",
-				component: CambiarMonedaComponent
-			},
-			{
-				path:"tranferencia",
-				component: TransferenciaComponent
-			},
-			{
-				path:"solicitar-tarjeta",
-				component: SolicitarTarjetaComponent
-			}
-		]
-	},
-	{
-		path: "operaciones",
-		children: [
-			{
-				path:"transferencias-internas",
-				component: TransferenciasInternasComponent
-			},
-			{
-				path:"transferencias-interbancaria",
-				component: TransferenciasInterbancariasComponent
-			},
-			{
-				path:"pago-de-servicio",
-				component: PagoDeServiciosComponent
-			},
-			{
-				path:"cambio-de-moneda",
-				component: CambiarMonedaComponent
-			},
-		]
-	},
-	{
-		path: "explora",
-		children: [
-			{
-				path:"prestamos-y-creditos",
-				component: SolicitarPrestamoComponent
-			},
-			{
-				path:"tarjetas",
-				component: SolicitarTarjetaComponent
-			},
-			{
-				path:"beneficios-y-promociones",
-				component: BeneficiosYPromocionesComponent
-			},
-			{
-				path:"seguridad-y-soporte",
-				component: SeguridadYSoporteComponent
-			},
-		]
+		path: "**",
+		redirectTo: "/auth/login",
+		pathMatch: "full",
 	}
 ];
