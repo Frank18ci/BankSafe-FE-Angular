@@ -25,25 +25,25 @@
         <app-card-accion
           title="Cambiar moneda"
           icon="fa-solid fa-money-bill"
-          url="opciones/cambiar-moneda"
+          url="/opciones/cambiar-moneda"
           class="col-md-6"
         ></app-card-accion>
         <app-card-accion
           title="Transferir"
           icon="fa-solid fa-money-bill"
-          url="opciones/tranferencia"
+          url="/opciones/tranferencia"
           class="col-md-6"
         ></app-card-accion>
         <app-card-accion
           title="Solicitar Prestamo"
           icon="fa-solid fa-money-bill"
-          url="opciones/solicitar-prestamo"
+          url="/opciones/solicitar-prestamo"
           class="col-md-6"
         ></app-card-accion>
         <app-card-accion
           title="Solicitar Tarjeta"
           icon="fa-solid fa-money-bill"
-          url="opciones/solicitar-tarjeta"
+          url="/opciones/solicitar-tarjeta"
           class="col-md-6"
         ></app-card-accion>
       </div>
@@ -53,7 +53,7 @@
       <div class="py-2">
         @for(t of usuario.tarjetas; track t.id){
             <div class="my-3">
-              <a [routerLink]="'card/' + t.numeroTarjeta" class="text-decoration-none">
+              <a [routerLink]="'/card/' + t.numeroTarjeta" class="text-decoration-none">
                 <app-card-tarjeta class="" [tarjeta]="t"></app-card-tarjeta>
               </a>
             </div>

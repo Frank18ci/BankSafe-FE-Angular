@@ -29,14 +29,9 @@ export class LoginComponent {
 	
 	private cookieService = inject(CookieService)
 
-	validarExistenciaToken(){
-		if(this.cookieService.get('token')){
-			this.router.navigate([''])
-		}
-	}
 
 	constructor() {
-		this.validarExistenciaToken()
+	
 	}
 	loginForm = new FormGroup({
 		username: new FormControl("", Validators.required),
