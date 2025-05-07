@@ -22,8 +22,8 @@
             </thead>
             <tbody>
               <tr *ngFor="let prestamo of prestamos">
-                <td>{{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ prestamo.monto }}</td>
-                <td>{{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ prestamo.montoPrestamo }}</td>
+                <td>{{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ (prestamo.monto?.toFixed(2)) }}</td>
+                <td>{{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ (prestamo.montoPrestamo?.toFixed(2)) }}</td>
                 <td>{{ ((prestamo.interesAnual || 0) * 100).toFixed(0)}} %</td>
                 <td>{{ prestamo.plazos }}</td>
                 <td>{{ prestamo.tipoPlazo?.tipo }}</td>

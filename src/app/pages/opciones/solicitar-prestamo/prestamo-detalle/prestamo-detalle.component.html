@@ -6,12 +6,17 @@
         <h1 class="mb-4 text-primary text-start">Detalles del Préstamo</h1>
         <div class="text-start">
           <div class="row mb-2">
-            <div class="col-md-6"><strong>ID:</strong> {{ prestamo.id }}</div>
+            <div class="col-md-6"><strong>Numero:</strong> {{ prestamo.id }}</div>
+          </div>
+          <div class="row mb-2">
             <div class="col-md-6">
-              <strong>Monto a Pagar:</strong> {{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ prestamo.montoPrestamo }}
+              <strong>Monto a Pagar:</strong> {{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ (prestamo.montoPrestamo?.toFixed(2)) }}
+            </div>
+            <div class="col-md-6">
+              <strong>Monto Pagado:</strong> {{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ (prestamo.montoPagado?.toFixed(2)) || 0 }}
             </div>
           </div>
-
+          
           <div class="row mb-2">
             <div class="col-md-6">
               <strong>Interés Anual:</strong> {{ ((prestamo.interesAnual || 0) * 100).toFixed(0) }} %
@@ -33,7 +38,7 @@
 
           
           <div class="text-end">
-            <button class="btn btn-primary"   [disabled]="prestamo.montoPagado === prestamo.montoPrestamo"
+            <button class="btn btn-primary"   [disabled]="(prestamo.montoPagado?.toFixed(0))  === (prestamo.montoPrestamo?.toFixed(0))"
             (click)="realizarPago()">Realizar un pago</button>
           </div>  
         </div>
