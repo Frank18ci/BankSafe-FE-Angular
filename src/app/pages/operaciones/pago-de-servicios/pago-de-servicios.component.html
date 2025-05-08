@@ -5,13 +5,19 @@
       <p class="text-muted">Paga tus servicios de manera rápida y sencilla</p>
     </div>
   
-
+    
     <div class="mb-4">
-      <input
-        type="text"
-        class="form-control rounded-pill shadow-sm"
-        placeholder="Buscar servicio (Ej: Luz, Agua, Internet)"
-      />
+      <label for="exampleDataList" class="form-label">Empresa de servicio</label>
+      <input [(ngModel)]="valorBusqueda" class="form-control rounded-pill shadow-sm" 
+      (input)="realizarBusquedaEmpresa()"
+      list="datalistOptions" 
+      id="exampleDataList" 
+      placeholder="Buscar Empresa de servicio (Ej: Luz, Agua, Internet)">
+      <datalist id="datalistOptions">
+        @for(empresa of empresas; track empresa.id) {
+          <option ngValue="{{empresa}}">{{empresa.nombre}} - {{empresa.tipoEmpresa?.descripcion}}</option>
+        }
+      </datalist>
     </div>
   
     <div class="mb-4">
