@@ -52,8 +52,15 @@ export class PrestamoDetalleComponent implements OnInit{
       const fechaPago = new Date(fechaInicio);
       fechaPago.setMonth(fechaPago.getMonth() + (i * mesesPorPlazo));
       
-      
-      if(i <= (this.prestamo.montoPagado! / this.prestamo.montoPorPlazo!)){
+      if(this.prestamo.montoPagado === this.prestamo.montoPrestamo){
+        this.prestamos.push({
+          monto: this.prestamo.montoPorPlazo,
+          fecha: this.formatearFecha(fechaPago),
+          estado: 'Pagado'
+        });
+
+      }
+      else if(i <= (this.prestamo.montoPagado! / this.prestamo.montoPorPlazo!)){
         this.prestamos.push({
           monto: this.prestamo.montoPorPlazo,
           fecha: this.formatearFecha(fechaPago),
