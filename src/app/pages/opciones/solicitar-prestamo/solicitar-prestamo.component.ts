@@ -19,7 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SolicitarPrestamoComponent implements OnInit{
 
-  //Carga de usuario 
+  
     usuario: UserI = {}
   
     cargarUsuario(){
@@ -31,8 +31,6 @@ export class SolicitarPrestamoComponent implements OnInit{
         path: '/',
         });
         this.usuario = data;
-        console.log(this.usuario);
-        //Carga los demas metodos
         this.cargarPrestamosdeUsuario()
       } else{
       this.removerCookies()
