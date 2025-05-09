@@ -20,10 +20,11 @@ import { Router } from '@angular/router';
 import { Toast, ToastrService } from 'ngx-toastr';
 import { EmailService } from '../../../emailjs/services/email.service';
 import { CardInputMaskDirective } from '../../../directive/card-input-mask.directive';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CardInputMaskDirective],
+  imports: [CommonModule, ReactiveFormsModule, CardInputMaskDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -68,19 +69,17 @@ export class RegisterComponent {
   }
 
   formRegisterUserTarjeta = new FormGroup({
-    tipoDocumento: new FormControl(0, Validators.required),
+    tipoDocumento: new FormControl('', Validators.required),
     numeroDocumento: new FormControl('', Validators.required),
-    numero: new FormControl('', Validators.required),
     nombres: new FormControl('', Validators.required),
     apellidos: new FormControl('', Validators.required),
-    correo: new FormControl('', Validators.required),
+    correo: new FormControl('', [Validators.required, Validators.email]),
     fechaNacimiento: new FormControl('', Validators.required),
     tipoTarjeta: new FormControl('', Validators.required),
     tipoMoneda: new FormControl('', Validators.required),
     numeroTarjeta: new FormControl('', Validators.required),
     clave: new FormControl('', Validators.required),
   });
-
   convertFormGroudToTarjeta(fru: FormGroup): Tarjeta {
     const tarjeta: Tarjeta = {
       user: {
@@ -109,7 +108,7 @@ export class RegisterComponent {
     const tarjeta: Tarjeta = this.convertFormGroudToTarjeta(
       this.formRegisterUserTarjeta
     );
-    tarjeta.numeroTarjeta!.replace(/ /g, "")
+    tarjeta.numeroTarjeta = tarjeta.numeroTarjeta?.toString().replace(/ /g, "");
     console.log('Datos guardos enviados', tarjeta);
     this.tarjetaService.save(tarjeta).subscribe({
       next: (data) => {

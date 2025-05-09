@@ -1,114 +1,126 @@
-<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center">
-    <div class="row shadow border rounded overflow-hidden m-2 m-md-0">
-      <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-4">
-        <img class="img-fluid" src="logo.png" alt="imagen logo">
-      </div>
-        <div class="col-md-6 px-3 py-3">
-          <div class="mx-1 d-flex justify-content-center">
-            <form (submit)="saveUserTarjeta()" [formGroup]="formRegisterUserTarjeta">
-              <h1 class="fw-bold">User</h1>
-              <div class="form-group">
-                <label class="col-md-6 mb-1 pe-md-3">
-                  <i class="bi bi-person"></i>
-                  Tipo Documento
-                  <select name="tipoDocumento" id="tipoDocumento" formControlName="tipoDocumento" class="form-select">
-                    @if(listaTipoDocumentoUser){
-                      <option>Elige tipo de documento</option>
-                      @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
-                        <option value="{{tipoDocumentoUser.id}}">{{tipoDocumentoUser.tipo}}</option>
-                      }
-                    } @else {
-                      <option>No han cargado</option>
-                    }
-                  </select>
-                </label>
-                <label class="col-md-6">
-                    <i class="bi bi-person"></i>
-                    Numero Documento
-                    <input type="text" class="form-control" formControlName="numeroDocumento" />
-                  </label>
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center p-4">
+  <div class="row shadow border rounded overflow-hidden m-2 m-md-0 w-100" style="max-width: 900px">
+    <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-4">
+      <img class="img-fluid" src="logo.png" alt="imagen logo" />
+    </div>
+
+    <div class="col-md-6 px-3 py-3">
+      <form (submit)="saveUserTarjeta()" [formGroup]="formRegisterUserTarjeta" novalidate>
+        <h2 class="fw-bold text-center mb-3">Datos Usuario</h2>
+
+        <div class="row">
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Tipo Documento</label>
+            <select formControlName="tipoDocumento" class="form-select">
+              <option value="">Elige tipo de documento</option>
+              @for (tipoDocumentoUser of listaTipoDocumentoUser; track tipoDocumentoUser.id) {
+                <option [value]="tipoDocumentoUser.id">{{tipoDocumentoUser.tipo}}</option>
+              }
+            </select>
+              <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('tipoDocumento')?.invalid && formRegisterUserTarjeta.get('tipoDocumento')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('tipoDocumento')?.errors?.['required']">El Tipo documento obligatorio.</small>
               </div>
-              <div class="form-group mb-3">
-                <label class="col-md-6 pe-3">
-                  <i class="bi bi-person"></i>
-                  Nombres
-                  <input type="text" class="form-control" formControlName="nombres" />
-                </label>
-                <label class="col-md-6">
-                    <i class="bi bi-person"></i>
-                    Apellidos
-                    <input type="text" class="form-control" formControlName="apellidos" />
-                  </label>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Número Documento</label>
+            <input type="number" class="form-control" formControlName="numeroDocumento" />
+              <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('numeroDocumento')?.invalid && formRegisterUserTarjeta.get('numeroDocumento')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('numeroDocumento')?.errors?.['required']">Num doc es obligatorio.</small>
               </div>
-              <div class="form-group mb-3">
-                <label class="col-md-12 pe-3">
-                  <i class="bi bi-person"></i>
-                  Correo Electronico
-                  <input type="email" class="form-control" formControlName="correo" />
-                </label>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" formControlName="nombres" />
+            <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('nombres')?.invalid && formRegisterUserTarjeta.get('nombres')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('nombres')?.errors?.['required']">Nombres obligatorios.</small>
               </div>
-              <div class="form-group mb-3">
-                <label class="col-12">
-                    <i class="bi bi-person"></i>
-                    Fecha Nacimiento
-                    <input type="date" class="form-control" formControlName="fechaNacimiento" />
-                  </label>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Apellidos</label>
+            <input type="text" class="form-control" formControlName="apellidos" />
+            <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('apellidos')?.invalid && formRegisterUserTarjeta.get('apellidos')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('apellidos')?.errors?.['required']">Apellidos obligatorios.</small>
               </div>
-              <hr>
-              <h1 class="fw-bold">Tarjeta</h1>
-              <div class="form-group">
-                <label class="col-md-6 mb-1 pe-md-3">
-                  <i class="bi bi-person"></i>
-                  Tipo Tarjeta
-                  <select name="tipoTarjeta" class="form-select" id="tipoTarjeta" formControlName="tipoTarjeta">
-                    
-                      <option value="0">Elige tipo de tarjeta</option>
-                      @for (tipoTarjeta of listTipoTarjeta; track tipoTarjeta.id) {
-                        <option value="{{tipoTarjeta.id}}">{{tipoTarjeta.tipo}}</option>
-                      }
-                    
-                  </select>
-                </label>
-                <label class="col-md-6 mb-1 ">
-                    <i class="bi bi-person"></i>
-                    Tipo Moneda
-                    <select name="tipoMoneda" class="form-select" id="tipoMoneda" formControlName="tipoMoneda">
-                      
-                        <option>Elige tipo de documento</option>
-                        @for (tipoMonedaTarjeta of listTipoMonedaTarjeta; track tipoMonedaTarjeta.id) {
-                          <option value="{{tipoMonedaTarjeta.id}}">{{tipoMonedaTarjeta.tipo}}</option>
-                        }
-                      
-                    </select>
-                  </label>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" formControlName="correo" />
+            <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('correo')?.invalid && formRegisterUserTarjeta.get('correo')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('correo')?.errors?.['required']">Correo obligatorio.</small>
+                <small *ngIf="formRegisterUserTarjeta.get('correo')?.errors?.['email']">Tiene que ser un correo.</small>
               </div>
-              <div class="form-group">
-                <label class="col-12">
-                  <i class="bi bi-person"></i>
-                  Numero Tarjeta
-                  <input type="text" appCardInputMask class="form-control " formControlName="numeroTarjeta" />
-                </label>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Fecha Nacimiento</label>
+            <input type="date" class="form-control" formControlName="fechaNacimiento" />
+            <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('fechaNacimiento')?.invalid && formRegisterUserTarjeta.get('fechaNacimiento')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('fechaNacimiento')?.errors?.['required']">Fecha Nacimiento obligatorio.</small>
               </div>
-              <div class="form-group">
-                <label class="col-12">
-                  <i class="bi bi-person"></i>
-                  Contraseña
-                  <input type="password" class="form-control " formControlName="clave" />
-                </label>
-              </div>
-              
-              <div class="mt-3 text-end">
-                <button class="btn btn-primary w-100">
-                  Registrar
-                </button>
-                
-              </div>
-              <div class="text-center mt-1">
-                <span>Si tienes cuentas puedes </span>
-                <a class="text-decoration-underline text-primary fw-semibold"  href="auth/login">Iniciar Session</a>
-              </div>
-            </form>
           </div>
         </div>
+
+        <hr class="my-3">
+
+        <h2 class="fw-bold text-center mb-3">Datos Tarjeta</h2>
+
+        <div class="row">
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Tipo Tarjeta</label>
+            <select formControlName="tipoTarjeta" class="form-select">
+              <option value="">Elige tipo de tarjeta</option>
+              @for (tipoTarjeta of listTipoTarjeta; track tipoTarjeta.id) {
+                <option [value]="tipoTarjeta.id">{{tipoTarjeta.tipo}}</option>
+              }
+            </select>
+            <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('tipoTarjeta')?.invalid && formRegisterUserTarjeta.get('tipoTarjeta')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('tipoTarjeta')?.errors?.['required']">Tipo tarjeta obligatorio.</small>
+              </div>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Tipo Moneda</label>
+            <select formControlName="tipoMoneda" class="form-select">
+              <option value="">Elige tipo de moneda</option>
+              @for (tipoMonedaTarjeta of listTipoMonedaTarjeta; track tipoMonedaTarjeta.id) {
+                <option [value]="tipoMonedaTarjeta.id">{{tipoMonedaTarjeta.tipo}}</option>
+              }
+            </select>
+                        <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('tipoMoneda')?.invalid && formRegisterUserTarjeta.get('tipoMoneda')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('tipoMoneda')?.errors?.['required']">Tipo Moneda obligatorio.</small>
+              </div>
+
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Número Tarjeta</label>
+            <input type="number" appCardInputMask class="form-control" formControlName="numeroTarjeta" />
+                         <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('numeroTarjeta')?.invalid && formRegisterUserTarjeta.get('numeroTarjeta')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('numeroTarjeta')?.errors?.['required']">Numero Tarjeta obligatorio.</small>
+              </div>
+          </div>
+
+          <div class="col-12 col-md-6 mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" formControlName="clave" />
+                 <div class="text-danger" *ngIf="formRegisterUserTarjeta.get('clave')?.invalid && formRegisterUserTarjeta.get('clave')?.touched">
+                <small *ngIf="formRegisterUserTarjeta.get('clave')?.errors?.['required']">Contraseña obligatorio.</small>
+              </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button [disabled]="formRegisterUserTarjeta.invalid || !formRegisterUserTarjeta.dirty" type="submit" class="btn btn-primary w-100">Registrar</button>
+        </div>
+        <div class="text-center mt-3">
+          <span>¿Ya tienes cuenta? </span>
+          <a class="text-decoration-underline text-primary fw-semibold" href="auth/login">Iniciar Sesión</a>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

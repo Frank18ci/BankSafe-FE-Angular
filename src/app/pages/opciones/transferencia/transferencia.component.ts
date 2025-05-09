@@ -158,12 +158,13 @@ export class TransferenciaComponent implements OnInit{
         console.log(this.transacion.monto)
         this.transferenciaService.realizarTransferencia(this.transacion).subscribe({
           next: (data) => {
-            this.toastrService.success("Correcto", "Success")
+            this.toastrService.success("Trasaccion Realizada", "Success")
             this.cargarUsuario()
             this.realizarBusquedaTarjeta()
           },
-          error: () =>{
-            this.toastrService.error("Mal", "Error")
+          error: (error) =>{
+            console.log(error)
+            this.toastrService.error(error.error.mensaje, "Error")
           }
         })
       }

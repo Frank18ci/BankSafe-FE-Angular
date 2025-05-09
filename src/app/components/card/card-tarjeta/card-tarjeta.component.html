@@ -11,7 +11,7 @@
       <div>
         <small class="text-light-50">Saldo disponible</small>
         <h5 class="fw-bold m-0">
-          {{tarjeta.tipoMonedaTarjeta?.simbolo}} {{tarjeta.monto | number:'1.2-2'}}
+            {{tarjeta.tipoMonedaTarjeta?.simbolo}} {{tarjeta.monto ? (tarjeta.monto | number:'1.2-2') : '0.00'}}
         </h5>
       </div>
       <i class="mdi mdi-wallet-outline fs-4"></i>

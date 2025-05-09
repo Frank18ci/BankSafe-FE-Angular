@@ -60,6 +60,10 @@
                   formControlName="monto"
                   required
                 />
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('monto')?.invalid && prestamoFormGroup.get('monto')?.touched">
+                    <small *ngIf="prestamoFormGroup.get('monto')?.errors?.['required']">Debe tener un monto.</small>
+                    <small *ngIf="prestamoFormGroup.get('monto')?.errors?.['min']">El monto debe ser mayor a 0.</small>
+                  </div>
               </div>
 
               <div class="mb-3">
@@ -74,6 +78,9 @@
                   <option [ngValue]="tipoPlazo">{{ tipoPlazo.tipo }}</option>
                   }
                 </select>
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('tipoPlazo')?.invalid && prestamoFormGroup.get('tipoPlazo')?.touched">
+                    <small *ngIf="prestamoFormGroup.get('tipoPlazo')?.errors?.['required']">Debe seleccionar un tipo de plazo.</small>
+                </div>
               </div>
 
               <div class="mb-3">
@@ -85,6 +92,11 @@
                   formControlName="plazos"
                   required
                 />
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('plazos')?.invalid && prestamoFormGroup.get('plazos')?.touched">
+                    <small *ngIf="prestamoFormGroup.get('plazos')?.errors?.['required']">Debe poner plazos.</small>
+                    <small *ngIf="prestamoFormGroup.get('plazos')?.errors?.['min']">Debe ser mayor a 0.</small>
+                </div>
+
               </div>
 
               <div class="mb-3">
@@ -98,12 +110,16 @@
                   formControlName="fechaInicio"
                   required
                 />
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('fechaInicio')?.invalid && prestamoFormGroup.get('fechaInicio')?.touched" >
+                    <small *ngIf="prestamoFormGroup.get('fechaInicio')?.errors?.['required']">Debe poner fecha.</small>
+                </div>
               </div>
 
               <div class="text-end">
                 <button
                   type="button"
                   class="btn btn-warning me-2"
+                  [disabled]="prestamoFormGroup.invalid"
                   (click)="calcularPrestamo()"
                 >
                   Calcular

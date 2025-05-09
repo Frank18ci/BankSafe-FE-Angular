@@ -96,7 +96,7 @@ export class PrestamoDetalleComponent implements OnInit{
           this.cargarPrestamo()
         },
         error: error =>{
-          this.toastrService.error(error.message, "Error")
+          this.toastrService.error(error.error.mensaje, "Error")
         }
       })
     }

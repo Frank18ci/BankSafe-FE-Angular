@@ -153,7 +153,7 @@ export class PagoDeServiciosComponent implements OnInit {
             this.toastrService.error("No tienes permisos para realizar esta acción", "Error")
             this.removerCookies()
           } else{
-            this.toastrService.error("Error al realizar el pago", "Error")
+            this.toastrService.error(error.error.mensaje, "Error")
           }
         }
       })
