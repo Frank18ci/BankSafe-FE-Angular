@@ -109,6 +109,7 @@ export class RegisterComponent {
       this.formRegisterUserTarjeta
     );
     tarjeta.numeroTarjeta = tarjeta.numeroTarjeta?.toString().replace(/ /g, "");
+    tarjeta.monto = 0
     console.log('Datos guardos enviados', tarjeta);
     this.tarjetaService.save(tarjeta).subscribe({
       next: (data) => {
