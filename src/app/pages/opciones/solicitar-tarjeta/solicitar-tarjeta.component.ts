@@ -43,7 +43,7 @@ export class SolicitarTarjetaComponent implements OnInit {
     this.formularioTarjeta = this.fb.group({
       tipo: ['', Validators.required],
       tipoMoneda: ['', [Validators.required]],
-      limite: ['', [Validators.required, Validators.min(1000)]],
+      limite: ['', [Validators.required, Validators.min(1)]],
       claveInternet: ['', [Validators.required, Validators.maxLength(6)]]
     });
     
@@ -68,7 +68,6 @@ export class SolicitarTarjetaComponent implements OnInit {
       path: '/',
       });
       this.usuario = data;
-      console.log(this.usuario);
     } else{
     this.removerCookies()
     }

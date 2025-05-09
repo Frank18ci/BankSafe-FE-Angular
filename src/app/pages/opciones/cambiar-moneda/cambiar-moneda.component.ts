@@ -46,7 +46,6 @@ export class CambiarMonedaComponent implements AfterViewInit{
   tarjetaSeleccionada : Tarjeta | undefined = {}
   seleccionarTarjeta(){
     this.tarjetaSeleccionada = this.usuario.tarjetas?.filter(t =>t.id == this.formGroupTarjetaSelected.value.idtarjeta)[0];
-    console.log(this.tarjetaSeleccionada)
     this.cargarTipoMoneda(this.tarjetaSeleccionada?.tipoMonedaTarjeta?.simbolo || "")
     this.modalService.dismissAll()
   }
@@ -55,14 +54,7 @@ export class CambiarMonedaComponent implements AfterViewInit{
 		this.modalService.open(content, {  ariaLabelledBy: 'modal-basic-title',
       backdrop: 'static',
       keyboard: false
-     }).result.then(
-			(result) => {
-				this.closeResult.set(`Closed with: ${result}`);
-			},
-			(reason) => {
-				this.closeResult.set(`Dismissed ${this.getDismissReason(reason)}`);
-			},
-		);
+     })
 	}
   numeroTarjetaBusqueda : string = ""
   realizarBusquedaTarjeta(){
@@ -70,25 +62,11 @@ export class CambiarMonedaComponent implements AfterViewInit{
           this.buscarTarjeta(this.numeroTarjetaBusqueda, this.formGroupConvertir.value.tipo || "", this.tarjetaSeleccionada?.numeroTarjeta || "")
   }
   buscarTarjeta(numeroTarjeta: string, tipoMonedaTarjeta: string, numeroTarjetaExcluida : string){
-    console.log('numeroTarjeta', numeroTarjeta)
-    console.log('tipoMonedaTarjeta', tipoMonedaTarjeta)
-    console.log('numeroTarjetaExcluida', numeroTarjetaExcluida)
     this.tarjetaService.getPageByNumeroTarjeta(numeroTarjeta, tipoMonedaTarjeta, numeroTarjetaExcluida).subscribe(data =>{
       this.tarjetadSelecionadas = data
-      console.log(data)
     })
     
 }
-	private getDismissReason(reason: any): string {
-		switch (reason) {
-			case ModalDismissReasons.ESC:
-				return 'by pressing ESC';
-			case ModalDismissReasons.BACKDROP_CLICK:
-				return 'by clicking on a backdrop';
-			default:
-				return `with: ${reason}`;
-		}
-	}
   ngAfterViewInit(): void {
     this.cargarUsuario();
     this.open(this.content)
@@ -105,7 +83,6 @@ export class CambiarMonedaComponent implements AfterViewInit{
       path: '/',
       });
       this.usuario = data;
-      console.log(this.usuario);
     } else{
     this.removerCookies()
     }
@@ -132,6 +109,14 @@ export class CambiarMonedaComponent implements AfterViewInit{
   resultado : string =  ""
 
   convertir(){
+    if(parseFloat(this.formGroupConvertir.value.monto!) > this.tarjetaSeleccionada?.monto!){
+      this.toastrService.error("No tienes suficiente dinero en la tarjeta de origen, " + "Solo tienes " + (this.tarjetaSeleccionada?.monto?.toFixed(2) || 0), "Error")
+      return;
+    }
+    if(!this.formGroupConvertir.value.tipo){
+      this.toastrService.error("Selecciona un tipo de moneda", "Error")
+      return;
+    }
     const valorConversion = this.tipoMonedas.filter(t => t.tipo ==this.formGroupConvertir.value.tipo)[0].valor
     this.resultado = ((Number(this.formGroupConvertir.value.monto) || 0) * (valorConversion || 0)).toFixed(2)
   }
@@ -151,7 +136,6 @@ export class CambiarMonedaComponent implements AfterViewInit{
   cambioInput(event : Event){
     const inputElement = event.target as HTMLInputElement;
     this.transferenciaARealizar.tarjetaDestino.id = parseInt(inputElement.value);
-    console.log(this.transferenciaARealizar)
   }
 
   @ViewChild('numeroTarjetaB') numeroTarjetaB!:ElementRef<HTMLInputElement>
@@ -196,9 +180,7 @@ export class CambiarMonedaComponent implements AfterViewInit{
     }
     this.transferenciaARealizar.montoTarjetaOrigen =  Number(this.formGroupConvertir.value.monto)
     this.transferenciaARealizar.montoTarjetaDestino = parseFloat(this.resultado)
-    console.log(this.transferenciaARealizar)
     this.transacionService.realizarCambioyTransferencia(this.transferenciaARealizar).subscribe(data =>{
-      console.log("Resutado", data)
       this.toastrService.success("Enviado" , "Transacion")
       
       this.formGroupConvertir.reset()
@@ -233,7 +215,7 @@ export class CambiarMonedaComponent implements AfterViewInit{
         empty: false
       }
     }, error => {
-      this.toastrService.error("Mal" ,error)
+      this.toastrService.error(error.error.mensaje ,"Error")
     })
   }
 

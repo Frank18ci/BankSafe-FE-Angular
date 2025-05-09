@@ -119,7 +119,7 @@
           <label for="idtarjeta">Tarjeta</label>
           <select class="form-select" id="idtarjeta" formControlName="idtarjeta">
             @for(tarjeta of usuario.tarjetas; track tarjeta.id){
-              <option [value]="tarjeta.id">{{tarjeta.numeroTarjeta}} - {{tarjeta.tipoTarjeta?.tipo}} - {{tarjeta.tipoMonedaTarjeta?.simbolo}} {{tarjeta.monto || 0}}</option>
+              <option [value]="tarjeta.id">{{tarjeta.numeroTarjeta}} - {{tarjeta.tipoTarjeta?.tipo}} - {{tarjeta.tipoMonedaTarjeta?.simbolo}} {{tarjeta.monto!.toFixed(2) || 0}}</option>
             }
           </select>
         </div>

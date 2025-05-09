@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Prestamo } from '../../../../model/prestamo/prestamo';
 import { PrestamoService } from '../../../../services/Prestamo/prestamo.service';
 import User from '../../../../model/User';
+import { fechaMinimaValidator } from '../../../../validators/fechaMinimaHoy.validators';
 
 @Component({
   selector: 'app-solicitar',
@@ -70,9 +71,9 @@ export class SolicitarComponent implements OnInit{
     this.cargarPlazos()
     this.prestamoFormGroup = this.formBuilder.group({
       monto: [this.prestamo.monto, [Validators.required, Validators.min(1)]],
-      tipoPlazo: [this.prestamo.tipoPlazo, Validators.required],
+      tipoPlazo: [this.prestamo.tipoPlazo, Validators.required, Validators.min(1)],
       plazos: [this.prestamo.plazos, [Validators.required, Validators.min(1)]],
-      fechaInicio: [this.prestamo.fechaInicio, Validators.required]
+      fechaInicio: [this.prestamo.fechaInicio, [Validators.required]]
     });
   }
 
@@ -102,7 +103,8 @@ export class SolicitarComponent implements OnInit{
     this.prestamoService.savePrestamo(this.prestamo).subscribe({
       next: data => {
         console.log(data)
-        this.toastrService.success("Hecho", "Biem")
+        this.toastrService.success("Prestamo solicitado", "Bien")
+        this.cargarUsuario();
       },
       error: error => {
         this.toastrService.error(error.message, "Error")
