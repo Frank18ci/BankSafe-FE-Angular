@@ -37,6 +37,7 @@
                   <div class="mb-3">
                     <label for="email" class="form-label">Correo Electrónico</label>
                     <input type="email" class="form-control" id="email" formControlName="correoElectrico" placeholder="FranklinCarpio@gmail.com">
+
                   </div>
 
                   <div class="mb-3">
@@ -65,7 +66,7 @@
                     </div>
                   </div>
                   
-                  <button class="btn btn-success">
+                  <button [disabled]="formGroupConfiguracion.invalid" class="btn btn-success">
                     Guardar Cambios
                   </button>
                 </form>
@@ -129,6 +130,14 @@
     <div class="col-md-6 px-2">
       <div>
         <h3 class="text-primary">Tarjetas</h3>
+      </div>
+            <div class="py-2">
+        @for(t of usuarioCargado.tarjetas; track t.id){
+            <div class="my-3">
+                <app-card-tarjeta [tarjeta]="t"></app-card-tarjeta>
+            </div>
+            
+        }
       </div>
     </div>
 

@@ -1,8 +1,10 @@
 <div class="container-xl my-4">
-    <div class="row">
-            <div class="col-md-6 border-end">
-                <h3>Tarjeta de {{tarjetaSeleccionada.tipoTarjeta?.tipo | lowercase}}</h3>
-                <!--<nav class="me-5 py-2 ms-2 ">
+  <div class="row">
+    <div class="col-md-6 border-end">
+      <h3>
+        Tarjeta de {{ tarjetaSeleccionada.tipoTarjeta?.tipo | lowercase }}
+      </h3>
+      <!--<nav class="me-5 py-2 ms-2 ">
                     <ul class="nav nav-tabs justify-content-around ">
                         <li class="nav-item">
                             <a class="nav-link active" href="">Presupuesto</a>
@@ -16,47 +18,66 @@
                     </ul>
                 </nav>
                 /-->
-                <div class="py-2 my-4 mx-4">
-                    <app-card-tarjeta [tarjeta]="tarjetaSeleccionada"></app-card-tarjeta>
-                </div>
-            </div>
-        <div class="col-md-6 px-4">
-            <h3>Mis gastos</h3>
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    <h4>$4,320.00</h4>
-                    <canvas #myChart>
-                        <p>May</p>
-                        <p>25% de Total</p>
-                    </canvas>
-                </div>
-                <div class="col-md-6 text-center">
-                    <h4>$6,105.00</h4>
-                    <canvas #myChart2></canvas>
-                </div>
-          </div>           
-        </div>
+      <div class="py-2 my-4 mx-4">
+        <app-card-tarjeta [tarjeta]="tarjetaSeleccionada"></app-card-tarjeta>
+      </div>
     </div>
-    <div class="py-2 my-4 mx-5">
-        <h3>Últimas Transacciones</h3>
-        <div class="px-2">
-            @for(transacion of transaciones; track transacion.id){
-                <div class="d-flex justify-content-between align-items-center text-secondary border-bottom mt-3">        
-                                <div class="d-flex align-items-center gap-4 justify-content-center">
-                                    <i class="bi bi-send-fill"></i>
-                                    <div>
-                                        <div class="fw-semibold">{{transacion.tarjetaDestino.user?.nombres}}</div>
-                                        <div>Sent</div>
-                                    </div>
-                                </div>
-                                <div class="fw-semibold">
-                                    - {{transacion.tarjetaOrigen.tipoMonedaTarjeta?.simbolo}} {{transacion.monto}}
-                                </div>
-                            </div>
-            }
-            <div class="text-center mt-3">
-                <a class="fw-bold text-primary" href="">Ver más ...</a>
+    <div class="col-md-6 px-4">
+      <h3>Mis gastos</h3>
+      <div class="row">
+        <div class="col-md-6 text-center">
+          <h4>$4,320.00</h4>
+          <canvas #myChart>
+            <p>May</p>
+            <p>25% de Total</p>
+          </canvas>
+        </div>
+        <div class="col-md-6 text-center">
+          <h4>$6,105.00</h4>
+          <canvas #myChart2></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-2 my-4 mx-5">
+    <h3>Últimas Transacciones</h3>
+    <div class="px-2">
+      @if(transaciones.length > 0){ 
+        @for(transacion of transaciones; track transacion.id){
+     <div class="transaction-item d-flex justify-content-between align-items-center border-bottom py-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="transaction-icon bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center text-primary" style="width: 40px; height: 40px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send-fill" viewBox="0 0 16 16">
+            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z"/>
+            </svg>
+            </div>
+            <div>
+            <h6 class="mb-0 fw-semibold">
+                {{ transacion.tarjetaDestino.numeroTarjeta | slice:0:4 }}-****-****-{{ transacion.tarjetaDestino.numeroTarjeta | slice:12:16 }}
+            </h6>
+            <small class="text-muted">Envío a tarjeta</small>
+            <br>
+            <small class="text-secondary">
+                {{ transacion.fecha | date:'short' }}
+            </small>
             </div>
         </div>
+
+        <div class="text-end">
+            <h6 class="mb-0 fw-bold text-danger">
+            - {{ transacion.tarjetaOrigen.tipoMonedaTarjeta?.simboloSecundario }} {{ transacion.monto }}
+            </h6>
+        </div>
+        </div>
+      } @if(transaciones.length > 5){
+      <div class="text-center mt-3">
+        <a class="fw-bold text-primary" href="">Ver más ...</a>
+      </div>
+      } }@else {
+      <div class="text-center mt-3">
+        <h5 class="text-muted">Sin Transacciones</h5>
+      </div>
+      }
     </div>
+  </div>
 </div>

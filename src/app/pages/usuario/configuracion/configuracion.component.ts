@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario/usuario.service';
 import {
   FormControl,
@@ -12,14 +12,15 @@ import UserI from '../../../model/UserI';
 import { Router } from '@angular/router';
 import { error } from 'console';
 import { ToastrService } from 'ngx-toastr';
+import { CardTarjetaComponent } from "../../../components/card/card-tarjeta/card-tarjeta.component";
 
 @Component({
   selector: 'app-configuracion',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CardTarjetaComponent],
   templateUrl: './configuracion.component.html',
   styleUrl: './configuracion.component.scss',
 })
-export class ConfiguracionComponent {
+export class ConfiguracionComponent implements OnInit {
   toastrService = inject(ToastrService);
   userService = inject(UsuarioService);
   cookieService = inject(CookieService);
@@ -35,7 +36,8 @@ export class ConfiguracionComponent {
             path: '/',
           });
           this.usuarioCargado = data;
-          console.log(this.usuarioCargado);
+          this.cargarUsuarioEnFormulario()
+          
         } else {
           this.removerCookies();
         }
@@ -49,18 +51,35 @@ export class ConfiguracionComponent {
     this.router.navigate(['auth/login']);
   }
   constructor(private router: Router) {
-    this.cargarUsuario();
+    
   }
   formImagenUpdate = new FormGroup({
     imagen: new FormControl(''),
   });
   formGroupConfiguracion = new FormGroup({
-    nombres: new FormControl('', Validators.required),
-    apellidos: new FormControl(''),
-    correoElectrico: new FormControl(''),
-    fechaNacimiento: new FormControl(''),
-    numeroDocument: new FormControl(''),
-  });
+    nombres: new FormControl(this.usuarioCargado.nombres, Validators.required),
+    apellidos: new FormControl('', Validators.required),
+    correoElectrico: new FormControl('', [Validators.required, Validators.email]),
+    fechaNacimiento: new FormControl('', [Validators.required]),
+    numeroDocument: new FormControl('', Validators.required),
+    });
+  ngOnInit(): void {
+    this.cargarUsuario();
+
+    
+  }
+  cargarUsuarioEnFormulario() {
+    const usuarioCargado = {
+      nombres: this.usuarioCargado.nombres,
+      apellidos: this.usuarioCargado.apellidos,
+      correoElectrico: this.usuarioCargado.correo,
+      fechaNacimiento: this.usuarioCargado.fechaNacimiento,
+      numeroDocument: this.usuarioCargado.numeroDocumento,
+    }
+    console.log(this.usuarioCargado);
+    console.log(usuarioCargado);
+    this.formGroupConfiguracion.patchValue(usuarioCargado);
+  }
 
   pathImg: string = '';
   selectedFile: File = new File([], '');

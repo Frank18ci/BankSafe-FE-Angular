@@ -19,8 +19,12 @@ export class TransacionService {
     return this.http.post<Transaccion>(this.url + "/transacion", transacion)
   }
 
-  solicitarTransferenciasFechasNumeroTarjetaEnvio() : Observable<Transaccion[]>{
-    return this.http.get<Transaccion[]>(this.url + "/transacion/busquedaFechaNumeroTarjeta?fechaInicio=2022-02-02&fechaFin=2026-02-02&numeroTarjeta=1234")
+  solicitarTransferenciasFechasNumeroTarjetaEnvio(numeroTarjeta: string) : Observable<Transaccion[]>{
+    const params = new HttpParams()
+    .set("fechaInicio", "2022-02-02")
+    .set("fechaFin", "2026-02-02")
+    .set("numeroTarjeta", numeroTarjeta)
+    return this.http.get<Transaccion[]>(this.url + "/transacion/busquedaFechaNumeroTarjeta", {params})
   }
   solicitarTransferenciasFechasNumeroTarjetaEnvioUltimoMes(numeroTarjeta : string) : Observable<Transaccion[]>{
     const params = new HttpParams()
