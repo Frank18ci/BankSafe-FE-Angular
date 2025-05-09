@@ -25,9 +25,13 @@ export class CardDetailComponent {
      private readonly tarjetaService: TarjetaService,
      private readonly toastrService: ToastrService,
     private readonly transacionService: TransacionService){
-      this.route.params.subscribe(p =>
+      this.route.params.subscribe(p =>{
         this.numeroTarjeta = p['numeroTarjeta']
+        this.buscarTransacciones();
+      }
+        
       )
+      
       this.tarjetaService.findByNumeroTarjeta(this.numeroTarjeta).subscribe({
         next:
           data => {this.tarjetaSeleccionada = data;
@@ -40,14 +44,7 @@ export class CardDetailComponent {
           }
           
       })
-      this.transacionService.solicitarTransferenciasFechasNumeroTarjetaEnvio().subscribe({
-        next: (data) => {
-          this.transaciones = data;
-        },
-        error: (error) => {
-          console.log(error);
-        }
-      });
+     
       this.transacionService.solicitarTransferenciasFechasNumeroTarjetaEnvioActualMes(this.numeroTarjeta).subscribe({
         next: (data) => {
           this.transacionesMesActual = data;
@@ -65,6 +62,18 @@ export class CardDetailComponent {
         }
       });
       
+  }
+  buscarTransacciones(){
+ this.transacionService.solicitarTransferenciasFechasNumeroTarjetaEnvio(this.numeroTarjeta).subscribe({
+        next: (data) => {
+          
+          this.transaciones = data;
+          console.log(this.transaciones)
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
   }
   gastoMesAnterior = 0;
   gastoMesActual = 0;
