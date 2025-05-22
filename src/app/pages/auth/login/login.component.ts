@@ -9,12 +9,14 @@ import type tipoDocumentoUser from "../../../model/TipoDocumentoUser";
 import { AuthService } from "../../../services/auth/auth.service";
 import { TarjetaService } from "../../../services/Tarjeta/tarjeta.service";
 import { CookieService } from "ngx-cookie-service";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { CardInputMaskDirective } from "../../../directive/card-input-mask.directive";
+import { CommonModule } from "@angular/common";
 
 @Component({
 	selector: "app-login",
-	imports: [ReactiveFormsModule],
+	imports: [CommonModule, ReactiveFormsModule, CardInputMaskDirective, RouterLink],
 	templateUrl: "./login.component.html",
 	styleUrl: "./login.component.scss",
 })
@@ -28,14 +30,9 @@ export class LoginComponent {
 	
 	private cookieService = inject(CookieService)
 
-	validarExistenciaToken(){
-		if(this.cookieService.get('token')){
-			this.router.navigate([''])
-		}
-	}
 
 	constructor() {
-		this.validarExistenciaToken()
+	
 	}
 	loginForm = new FormGroup({
 		username: new FormControl("", Validators.required),
@@ -45,16 +42,17 @@ export class LoginComponent {
 	login() {
 		this.user.numeroTarjeta =
 			this.loginForm.value.username != null
-				? this.loginForm.value.username
+				? this.loginForm.value.username.replace(/ /g, "")
 				: "";
 		this.user.claveInternet =
 			this.loginForm.value.password != null
 				? this.loginForm.value.password
 				: "";
-
+		console.log(this.user)
 		this.apiService.login(this.user).subscribe((data: any) => {
 			if(data){
 				this.toastrService.success(data.Message, "Bienvenido");
+				this.user = { numeroTarjeta: "", claveInternet: "" };
 				this.cookieService.set('token', data.token, {
 					path: '/'
 				})
@@ -66,7 +64,7 @@ export class LoginComponent {
 				this.toastrService.error("Datos Incorrecto", "Error");
 			}},
 			(error) =>{
-				this.toastrService.error("Datos Incorrecto " + error.status, "Error");
+				this.toastrService.error("Datos Incorrecto ", "Error");
 			}
 		);
 	}

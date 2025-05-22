@@ -4,7 +4,6 @@ import { LoginComponent } from "./pages/auth/login/login.component";
 import { RegisterComponent } from "./pages/auth/register/register.component";
 import { ConfiguracionComponent } from "./pages/usuario/configuracion/configuracion.component";
 import { userGuardGuard } from "./securty/UserGuard/user-guard.guard";
-import { CreditCardComponent } from "./components/card/credit-card/credit-card.component";
 import { SolicitarPrestamoComponent } from "./pages/opciones/solicitar-prestamo/solicitar-prestamo.component";
 import { CambiarMonedaComponent } from "./pages/opciones/cambiar-moneda/cambiar-moneda.component";
 import { TransferenciaComponent } from "./pages/opciones/transferencia/transferencia.component";
@@ -15,110 +14,22 @@ import { PagoDeServiciosComponent } from "./pages/operaciones/pago-de-servicios/
 import { SeguridadYSoporteComponent } from "./pages/explora/seguridad-y-soporte/seguridad-y-soporte.component";
 import { BeneficiosYPromocionesComponent } from "./pages/explora/beneficios-y-promociones/beneficios-y-promociones.component";
 import { MiPerfilComponent } from "./pages/usuario/mi-perfil/mi-perfil.component";
+import { CardDetailComponent } from "./components/card/card-detail/card-detail.component";
+import { SolicitarComponent } from "./pages/opciones/solicitar-prestamo/solicitar/solicitar.component";
+import { PrestamoDetalleComponent } from "./pages/opciones/solicitar-prestamo/prestamo-detalle/prestamo-detalle.component";
 
 export const routes: Routes = [
 	{
-		path: "",
-		component: InicioComponent,
-		canActivate: [userGuardGuard]
-	},
-	{
 		path: "auth",
-		children: [
-			{
-				path: "login",
-				component: LoginComponent,
-			},
-			{
-				path: "register",
-				component: RegisterComponent,
-			},
-		]
+		loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
 	},
 	{
-		path: "usuario",
-		children:[
-			{
-				path: "mi-perfil",
-				component: MiPerfilComponent,
-			},
-			{
-				path: "configuracion",
-				component: ConfiguracionComponent,
-			}
-		],
-		canActivate: [userGuardGuard]
+		path: "",
+		loadChildren: () => import('./app/app.module').then(m => m.AppModule),
 	},
 	{
-		path: "card",
-		children:[
-			{
-				path:"credit-card",
-				component: CreditCardComponent
-			}
-		]
-	},
-	{
-		path: "opciones",
-		children:[
-			{
-				path:"solicitar-prestamo",
-				component: SolicitarPrestamoComponent
-			},
-			{
-				path:"cambiar-moneda",
-				component: CambiarMonedaComponent
-			},
-			{
-				path:"tranferencia",
-				component: TransferenciaComponent
-			},
-			{
-				path:"solicitar-tarjeta",
-				component: SolicitarTarjetaComponent
-			}
-		]
-	},
-	{
-		path: "operaciones",
-		children: [
-			{
-				path:"transferencias-internas",
-				component: TransferenciasInternasComponent
-			},
-			{
-				path:"transferencias-interbancaria",
-				component: TransferenciasInterbancariasComponent
-			},
-			{
-				path:"pago-de-servicio",
-				component: PagoDeServiciosComponent
-			},
-			{
-				path:"cambio-de-moneda",
-				component: CambiarMonedaComponent
-			},
-		]
-	},
-	{
-		path: "explora",
-		children: [
-			{
-				path:"prestamos-y-creditos",
-				component: SolicitarPrestamoComponent
-			},
-			{
-				path:"tarjetas",
-				component: SolicitarTarjetaComponent
-			},
-			{
-				path:"beneficios-y-promociones",
-				component: BeneficiosYPromocionesComponent
-			},
-			{
-				path:"seguridad-y-soporte",
-				component: SeguridadYSoporteComponent
-			},
-		]
+		path: "**",
+		redirectTo: "/auth/login",
+		pathMatch: "full",
 	}
 ];

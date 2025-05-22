@@ -10,6 +10,7 @@ export default interface UserI{
     fechaNacimiento?: string,
     imagePath?: string,
     roleUser?: RoleUser,
+    correo?: string,
     tipoDocumentoUser?: tipoDocumentoUser,
     tarjetas?: Tarjeta[]
 }

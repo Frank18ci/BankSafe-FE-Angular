@@ -1,11 +1,55 @@
-.container-redes{
-    a{
-        transition: transform .3s ease;
-        
+
+@use '../../../styles.scss' as *;
+
+.footer-bank {
+    background: $lightgray;
+    color: $dark;
+  
+    h2 {
+      font-size: 2rem;
     }
-    
-    
-}
-.container-redes a:hover{
-    transform: translateY(-3px);
-}
+  
+    p {
+      font-size: 0.95rem;
+    }
+  
+    .redes-footer {
+      a {
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+    }
+  
+    .icon-footer {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      transition: transform 0.3s ease, all 0.3s ease;
+      font-size: 1.1rem;
+    }
+  
+    .icon-footer:hover {
+      transform: translateY(-4px);
+      opacity: 0.9;
+    }
+  
+    .bg-facebook {
+      background-color: #3b5998;
+    }
+  
+    .bg-twitter {
+      background-color: #55acee;
+    }
+  
+    .bg-google {
+      background-color: #dd4b39;
+    }
+  
+    .bg-instagram {
+      background-color: #ac2bac;
+    }
+  }

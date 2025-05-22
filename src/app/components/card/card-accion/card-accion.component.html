@@ -1,9 +1,9 @@
-<div class="card-accion shadow rounded my-3 p-0 overflow-hidden align-items-center d-flex justify-content-center">
-    <a href="{{url}}" class="d-flex justify-content-md-around justify-content-center px-1 align-items-center gap-4">
-        <i  class="{{icon}}"></i>
-        <span class="fw-bold">{{title}}</span>
+<div class="card-accion shadow-sm rounded-4 my-3 p-0 overflow-hidden d-flex align-items-center justify-content-center">
+    <a [routerLink]="url" class="accion-link d-flex flex-column justify-content-center align-items-center gap-2 p-3 w-100 h-100 text-center">
+      <div class="icon-circle d-flex align-items-center justify-content-center">
+        <i class="{{icon}}"></i>
+      </div>
+      <span class="fw-semibold">{{title}}</span>
     </a>
-</div>    
-
-
-
+  </div>
+  

@@ -1,20 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import Tarjeta from '../../model/Tarjeta';
 import { Page } from '../../model/Page';
+import { Observable } from 'rxjs';
+import { enviroments } from '../enviroment/enviroment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TarjetaService {
   private http = inject(HttpClient);
-	url = "http://localhost:8080";
+	url = enviroments.URLBACKEND;
   constructor() { }
-    save(tarjeta: Tarjeta){
-      return this.http.post(this.url + "/tarjeta", tarjeta)
+    save(tarjeta: Tarjeta): Observable<Tarjeta>{
+      return this.http.post<Tarjeta>(this.url + "/tarjeta", tarjeta)
     }
-    findByNumeroTarjeta(numeroTarjeta: string){
-      return this.http.get(this.url + "/tarjeta/buscar/" +numeroTarjeta)
+    findByNumeroTarjeta(numeroTarjeta: string) : Observable<Tarjeta>{
+      return this.http.get<Tarjeta>(this.url + "/tarjeta/buscar/" +numeroTarjeta)
     }
 
     getAuthToken(){
@@ -24,7 +26,12 @@ export class TarjetaService {
       return localStorage.getItem('refreshToken') || ''
     }
 
-    getPageByNumeroTarjeta(){
-      return this.http.get<Page>(this.url + "/tarjeta/page");
+    getPageByNumeroTarjeta(numeroTarjeta: string, tipoMonedaTarjeta: string, numeroTarjetaExcluida : string): Observable<Page>{
+      const params = new HttpParams()
+      .set('numeroTarjeta', numeroTarjeta)
+      .set('tipoMonedaTarjeta', tipoMonedaTarjeta)
+      .set('numeroTarjetaExcluida', numeroTarjetaExcluida)
+
+      return this.http.get<Page>(this.url + "/tarjeta/page", {params});
     }
 }

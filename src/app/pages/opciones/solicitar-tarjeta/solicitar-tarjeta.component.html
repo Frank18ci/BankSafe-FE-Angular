@@ -6,17 +6,19 @@
             <h5 class="mb-0">Mis Tarjetas</h5>
           </div>
           <div class="card-body">
-            <div *ngFor="let tarjeta of tarjetas" class="mb-3">
+            @for(tarjeta of usuario.tarjetas; track tarjeta.id){
+              <div class="mb-3">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <h6 class="mb-0">{{ tarjeta.tipo }}</h6>
-                    <p class="text-muted mb-0">**** **** **** {{ tarjeta.ultimosDigitos }}</p>
+                    <h6 class="mb-0">{{ tarjeta.tipoTarjeta?.tipo }}</h6>
+                    <p class="text-muted mb-0">**** **** **** {{ tarjeta.numeroTarjeta?.slice(-4) }}</p>
                   </div>
                   <div>
-                    <p class="text-muted mb-0">Transacciones: {{ tarjeta.transacciones }}</p>
+                    <p class="text-muted mb-0">Saldo: {{ tarjeta.monto }}</p>
                   </div>
                 </div>
               </div>
+            }
           </div>
         </div>
       </div>
@@ -26,13 +28,13 @@
       <div class="col-md-6">
         <div class="card shadow-sm mb-4">
           <div class="card-header bg-info text-white">
-            <h5 class="mb-0">Tipos de Tarjetas</h5>
+            <h5 class="mb-0">Tipos de Tarjetas Disponibles</h5>
           </div>
           <div class="card-body">
             <ul>
-              <li><strong>Visa:</strong> Tarjeta aceptada en todo el mundo.</li>
-              <li><strong>MasterCard:</strong> Ideal para compras internacionales.</li>
-              <li><strong>American Express:</strong> Beneficios exclusivos y recompensas.</li>
+              @for(tipoTarjeta of tipoTarjetas; track tipoTarjeta.id){
+                <li><strong>{{tipoTarjeta.tipo}}</strong></li>
+              }
             </ul>
           </div>
         </div>
@@ -46,18 +48,44 @@
           <div class="card-body">
             <form [formGroup]="formularioTarjeta" (ngSubmit)="solicitarTarjeta()">
               <div class="mb-3">
-                <label for="tipo" class="form-label">Tipo de Tarjeta</label>
-                <select id="tipo" class="form-select" formControlName="tipo">
-                  <option value="Visa">Visa</option>
-                  <option value="MasterCard">MasterCard</option>
-                  <option value="American Express">American Express</option>
-                </select>
+                  <label for="tipo" class="form-label">Tipo de Tarjeta</label>
+                  <select id="tipo" class="form-select" formControlName="tipo">
+                    @for(tipoTarjeta of tipoTarjetas; track tipoTarjeta.id){
+                      <option value="{{tipoTarjeta.id}}">{{tipoTarjeta.tipo}}</option>
+                    }
+                  </select>
+                  <div class="text-danger" *ngIf="formularioTarjeta.get('tipo')?.invalid && formularioTarjeta.get('tipo')?.touched">
+                    <small *ngIf="formularioTarjeta.get('tipo')?.errors?.['required']">Debe seleccionar un Tipo.</small>
+                  </div>
               </div>
               <div class="mb-3">
-                <label for="limite" class="form-label">Límite de Crédito</label>
-                <input type="number" id="limite" class="form-control" formControlName="limite" placeholder="Ej: 5000">
+                  <label for="tipoMoneda" class="form-label">Tipo de Moneda</label>
+                  <select id="tipoMoneda" class="form-select" formControlName="tipoMoneda">
+                    @for(tipoMonedaTarjeta of tipoMonedaTarjetas; track tipoMonedaTarjeta.id){
+                      <option value="{{tipoMonedaTarjeta.id}}">{{tipoMonedaTarjeta.tipo}}</option>
+                    }
+                  </select>
+                  <div class="text-danger" *ngIf="formularioTarjeta.get('tipoMoneda')?.invalid && formularioTarjeta.get('tipoMoneda')?.touched">
+                    <small *ngIf="formularioTarjeta.get('tipoMoneda')?.errors?.['required']">Debe seleccionar un Tipo de Moneda.</small>
+                  </div>
               </div>
-              <button type="submit" class="btn btn-primary w-100" >Solicitar</button>
+              <div class="mb-3">
+                  <label for="limite" class="form-label">Límite de Crédito</label>
+                  <input type="number" id="limite" class="form-control" formControlName="limite" placeholder="Ej: 5000">
+                  <div class="text-danger" *ngIf="formularioTarjeta.get('limite')?.invalid && formularioTarjeta.get('limite')?.touched">
+                    <small *ngIf="formularioTarjeta.get('limite')?.errors?.['required']">El límite de crédito es obligatorio.</small>
+                    <small *ngIf="formularioTarjeta.get('limite')?.errors?.['min']">El límite de crédito debe ser mayor a 0.</small>
+                  </div>
+              </div>
+              <div class="mb-3">
+                  <label for="claveInternet" class="form-label">Clave Internet</label>
+                  <input type="password" id="claveInternet" class="form-control" formControlName="claveInternet" placeholder="123456">
+                  <div class="text-danger" *ngIf="formularioTarjeta.get('claveInternet')?.invalid && formularioTarjeta.get('claveInternet')?.touched">
+                    <small *ngIf="formularioTarjeta.get('claveInternet')?.errors?.['required']">La clave de internet es obligatoria.</small>
+                    <small *ngIf="formularioTarjeta.get('claveInternet')?.errors?.['maxlength']">La clave de internet debe ser máximo 6 dígitos.</small>
+                  </div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100" [disabled]="formularioTarjeta.invalid" >Solicitar</button>
             </form>
           </div>
         </div>

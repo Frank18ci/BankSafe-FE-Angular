@@ -7,4 +7,5 @@ export default interface Transaccion{
     tipoTransacion : TipoTransacion,
     tarjetaOrigen: Tarjeta,
     tarjetaDestino: Tarjeta,
+    fecha?: Date
 }

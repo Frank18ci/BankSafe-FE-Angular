@@ -1,133 +1,154 @@
 <div class="container-xl my-4">
   <div class="row">
-
-
-
     <div class="col-md-6 mb-2 mb-md-2 px-2">
       <div>
-
-        <div class="d-flex align-items-start gap-5 flex-wrap ">
-
-        <div class="col">
-          
-          <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button fw-bold" type="button" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                  Datos Personales
-                </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-
-                  <div class="mb-3">
-                    <label for="nombre" class="form-label">Nombres</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Franklin" >
-                  </div>
-                
-                  <div class="mb-3">
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido" placeholder="Carpio">
-                  </div>
-                
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" placeholder="FranklinCarpio@gmail.com">
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="fecha" class="form-label">Fecha de Nacimiento</label>
-                    <input type="date" class="form-control" id="fecha" />
-                  </div>                  
-                  
-                  <div class="mb-3">
-                    <label for="contraseña" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="contraseña" placeholder="1234">
-                  </div>
-
-                  <div>
-                    <label class="btn btn-primary">
-                      Seleccionar Imagen
-                      <input
-                        type="file"
-                        accept="image/*"
-                        (change)="onFileSelected($event)"
-                        name="image"
-                        hidden
-                      />
-                    </label>
-                    
-                  </div>
-                  <div class="overflow-hidden" style="width: 200px; height: 200px;">
-                      <img [src]="'http://localhost:8080/user/images/' + pathImg" alt="" class="img-thumbnail object-fit-cover img-150">
-                    </div>
-                  <button type="button" class="btn btn-success">
-                    Guardar Cambios
+        <div class="d-flex align-items-start gap-5 flex-wrap">
+          <div class="col">
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button fw-bold"
+                    type="button"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    Datos Personales
                   </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  class="accordion-collapse collapse show"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div class="accordion-body">
+                    <form
+                      [formGroup]="formGroupConfiguracion"
+                      enctype="multipart/form-data"
+                      (submit)="modificarUsuario()"
+                    >
+                      <div class="mb-3">
+                        <label for="numeroDocumento" class="form-label"
+                          >Numero de Documento</label
+                        >
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="numeroDocumento"
+                          formControlName="numeroDocument"
+                          placeholder="71743232"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombres</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="nombre"
+                          formControlName="nombres"
+                          placeholder="Franklin"
+                        />
+                      </div>
 
+                      <div class="mb-3">
+                        <label for="apellido" class="form-label"
+                          >Apellido</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="apellido"
+                          formControlName="apellidos"
+                          placeholder="Carpio"
+                        />
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="email" class="form-label"
+                          >Correo Electrónico</label
+                        >
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          formControlName="correoElectrico"
+                          placeholder="FranklinCarpio@gmail.com"
+                        />
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="fecha" class="form-label"
+                          >Fecha de Nacimiento</label
+                        >
+                        <input
+                          type="date"
+                          class="form-control"
+                          formControlName="fechaNacimiento"
+                          id="fecha"
+                        />
+                      </div>
+
+                      <div>
+                        <label class="btn btn-primary">
+                          Seleccionar Imagen
+                          <input
+                            type="file"
+                            accept="image/*"
+                            (change)="onFileSelected($event)"
+                            name="image"
+                            hidden
+                          />
+                        </label>
+                      </div>
+
+                      <div class="justify-content-center d-flex">
+                        <div
+                          class="overflow-hidden my-2"
+                          style="
+                            border-radius: 50%;
+                            width: 200px;
+                            height: 200px;
+                          "
+                        >
+                          <img
+                            [src]="pathImg"
+                            alt=""
+                            class="img-thumbnail p-0 object-fit-cover img-150"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        [disabled]="formGroupConfiguracion.invalid"
+                        class="btn btn-success"
+                      >
+                        Guardar Cambios
+                      </button>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>                
+            </div>
+          </div>
 
-                
-              </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
-
+          <div></div>
         </div>
-
-        <div >
-          
-
-          
-        </div>
-          
-        </div>
-
-        
-
-
-        
       </div>
     </div>
-
-
 
     <div class="col-md-6 px-2">
       <div>
         <h3 class="text-primary">Tarjetas</h3>
       </div>
+      <div class="py-2">
+        @for(t of usuarioCargado.tarjetas; track t.id){
+        <div class="my-3">
+          <app-card-tarjeta [tarjeta]="t"></app-card-tarjeta>
+        </div>
+
+        }
+      </div>
     </div>
-
-
   </div>
 </div>

@@ -1,57 +1,94 @@
-<div class="container my-5">
+<div class="container-xl my-5">
 
     <div class="text-center mb-4">
       <h2 class="text-primary fw-bold">Pago de Servicios</h2>
       <p class="text-muted">Paga tus servicios de manera rápida y sencilla</p>
     </div>
   
-
     <div class="mb-4">
-      <input
-        type="text"
-        class="form-control rounded-pill shadow-sm"
-        placeholder="Buscar servicio (Ej: Luz, Agua, Internet)"
-      />
+      <div class="mb-3">
+        <label for="nombreempresa" class="form-label">Nombre de empresa de servicio o servicio</label>
+        <div class="input-group mb-3">
+          <input list="datalistOptions"  [(ngModel)]="valorBusqueda" (input)="realizarBusquedaEmpresa()" type="text" id="nombreempresa" class="form-control" placeholder="Buscar por nombre de empresa o servicio" >
+          <datalist id="datalistOptions">
+            @for(empresa of empresas; track empresa.id) {
+              <option ngValue="{{empresa}}">{{empresa.nombre}} - {{empresa.tipoEmpresa?.descripcion}}</option>
+            }
+          </datalist>
+          <button (click)="buscarEmpresaSeleccionada()" class="btn btn-outline-primary" type="button" id="nombreempresa">Buscar</button>
+        </div>
+      </div>
     </div>
   
     <div class="mb-4">
       <h5 class="fw-bold">Servicios Populares</h5>
       <div class="d-flex flex-wrap gap-3">
-        <button class="btn btn-light shadow-sm rounded-pill px-4">Luz</button>
-        <button class="btn btn-light shadow-sm rounded-pill px-4">Agua</button>
-        <button class="btn btn-light shadow-sm rounded-pill px-4">Internet</button>
-        <button class="btn btn-light shadow-sm rounded-pill px-4">Teléfono</button>
+        @for(empresa of empresasOpciones; track empresa.id){
+          <button (click)="asignarEmpresaDeOpciones($event)" class="btn btn-light shadow-sm rounded-pill px-4">{{empresa.nombre}} - {{empresa.tipoEmpresa?.descripcion}}</button>
+        }
       </div>
     </div>
   
-    <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white text-center">
-        <h5 class="mb-0">Realizar Pago</h5>
+    @if(!empresaBuscadaValida){
+      <div class="alert alert-info text-center my-5" role="alert">
+        <h5 class="mb-0">No hay servicios disponibles para a empresa buscada</h5>
       </div>
-      <div class="card-body">
-        <form>
-          <div class="mb-3">
-            <label for="servicio" class="form-label">Servicio</label>
-            <select id="servicio" class="form-select rounded-pill">
-              <option value="Luz">Luz</option>
-              <option value="Agua">Agua</option>
-              <option value="Internet">Internet</option>
-              <option value="Teléfono">Teléfono</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="monto" class="form-label">Monto a Pagar</label>
-            <input
-              type="number"
-              id="monto"
-              class="form-control rounded-pill"
-              placeholder="Ingrese el monto"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary w-100 rounded-pill">
-            Pagar
-          </button>
-        </form>
+    }@else {
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+          <h5 class="mb-0">Realizar Pago | {{empresaBuscada}} </h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+              <label for="codigoservicio" class="form-label">Codigo de Servicio</label>
+              <div class="input-group mb-3">
+                <input [(ngModel)]="codigoBuscar" type="text" id="codigoservicio" class="form-control" placeholder="Buscar por codigo de servicio: PERU-001, SEDA-001" >
+                <button (click)="busquedaPorCodigoServicio()" class="btn btn-outline-primary" type="button" id="codigoservicio">Buscar</button>
+              </div>
+            </div>
+            @if(!hayPagosPendientes){
+              <div class="text-center mb-4">
+                <h6 class="text-muted">No hay pagos pendientes</h6>
+              </div>
+            }@else {
+              <div>
+                <h6>Lista de Pagos Pendientes</h6>
+                <div>
+                  <div>
+                    @for(pago of pagoServicios; track pago.id) {
+                      <div class="mb-3 border-bottom border-3 pb-2">
+                        <div class="d-flex justify-content-between align-items-center  ">
+                          <div class="d-flex flex-column">
+                            <span class="fw-bold">Servicio: {{pago.servicio?.empresa?.tipoEmpresa?.descripcion}}</span>
+                            <span class="text-muted">Monto: S/. {{pago.montoPago}}</span>
+                            <span class="text-muted">Fecha de Pago: {{pago.fechaPago | date}}</span>
+                            
+                          </div>        
+                          <button type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#formPago' + pago.id" class="btn btn-outline-success">Pagar</button>
+                        </div>
+                        <div class="collapse" [id]="'formPago' +pago.id" >
+                          <div class="card card-body">
+                            <label for="tarjetaPago" class="form-label">Selecciona Tarjeta</label>
+                            <select [(ngModel)]="tarjetaParaPagar" class="form-select mb-3" id="tarjetaPago">
+                              @for(tarjeta of tarjetasSoles; track tarjeta.id) {
+                                <option [ngValue]="tarjeta">
+                                  {{tarjeta.tipoTarjeta?.tipo}} - {{tarjeta.numeroTarjeta}} | 
+                                  Saldo: {{tarjeta.tipoMonedaTarjeta?.simboloSecundario}} {{tarjeta.monto}}
+                                </option>
+                              }
+                            </select>
+                            
+                            <button (click)="pagarServicio(pago)" class="btn btn-primary">Confirmar Pago</button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    }
+                </div>
+              </div>
+              </div>
+            }
+        </div>
       </div>
-    </div>
+    }
   </div>

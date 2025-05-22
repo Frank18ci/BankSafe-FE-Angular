@@ -1,0 +1,176 @@
+<div class="container-xl mt-4">
+  <div class="row justify-content-center">
+    <div class="p-0">
+      <app-nav-bar-prestamo></app-nav-bar-prestamo>
+      <div class="shadow p-3 rounded mx-3 text-start w-100">
+        <h2>Solicitar Prestamo</h2>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="">
+              <label class="form-label fs-5 fw-light"
+                >Seleccione su Tarjeta:</label
+              >
+
+              <div class="d-flex flex-column">
+                <div
+                  class="btn-group-vertical w-100 p-1 btn-group-tarjetas"
+                  role="group"
+                  aria-label="Vertical radio toggle button group"
+                >
+                  @for (tarjeta of usuario.tarjetas; track tarjeta.id) {
+                  <input
+                    type="radio"
+                    class="btn-check"
+                    (change)="cambioInput($event)"
+                    name="vbtn-radio"
+                    [value]="tarjeta.id"
+                    [id]="'Mitarjeta' + tarjeta.id"
+                    autocomplete="off"
+                  />
+                  <label
+                    class="btn btn-outline-primary tarjeta-label"
+                    [for]="'Mitarjeta' + tarjeta.id"
+                  >
+                    <div class="m-1">
+                      <app-card-tarjeta
+                        class="text-start"
+                        [tarjeta]="tarjeta"
+                      ></app-card-tarjeta>
+                    </div>
+                  </label>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 text-start">
+            <form
+              [formGroup]="prestamoFormGroup"
+              (submit)="solicitarPrestamo()"
+            >
+              <div class="mb-3">
+                <label for="montoPrestamo" class="form-label"
+                  >Monto del Préstamo a Solicitar en {{this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simbolo}}</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="montoPrestamo"
+                  formControlName="monto"
+                  required
+                />
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('monto')?.invalid && prestamoFormGroup.get('monto')?.touched">
+                    <small *ngIf="prestamoFormGroup.get('monto')?.errors?.['required']">Debe tener un monto.</small>
+                    <small *ngIf="prestamoFormGroup.get('monto')?.errors?.['min']">El monto debe ser mayor a 0.</small>
+                  </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="tipoPlazo" class="form-label">Tipo Plazo</label>
+                <select
+                  class="form-control"
+                  id="tipoPlazo"
+                  formControlName="tipoPlazo"
+                  required
+                >
+                  @for (tipoPlazo of tipoPlazos; track tipoPlazo.id) {
+                  <option [ngValue]="tipoPlazo">{{ tipoPlazo.tipo }}</option>
+                  }
+                </select>
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('tipoPlazo')?.invalid && prestamoFormGroup.get('tipoPlazo')?.touched">
+                    <small *ngIf="prestamoFormGroup.get('tipoPlazo')?.errors?.['required']">Debe seleccionar un tipo de plazo.</small>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="plazoMeses" class="form-label">Plazos</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="plazoMeses"
+                  formControlName="plazos"
+                  required
+                />
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('plazos')?.invalid && prestamoFormGroup.get('plazos')?.touched">
+                    <small *ngIf="prestamoFormGroup.get('plazos')?.errors?.['required']">Debe poner plazos.</small>
+                    <small *ngIf="prestamoFormGroup.get('plazos')?.errors?.['min']">Debe ser mayor a 0.</small>
+                </div>
+
+              </div>
+
+              <div class="mb-3">
+                <label for="fechaInicio" class="form-label"
+                  >Fecha de Inicio</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  id="fechaInicio"
+                  formControlName="fechaInicio"
+                  required
+                />
+                <div class="text-danger" *ngIf="prestamoFormGroup.get('fechaInicio')?.invalid && prestamoFormGroup.get('fechaInicio')?.touched" >
+                    <small *ngIf="prestamoFormGroup.get('fechaInicio')?.errors?.['required']">Debe poner fecha.</small>
+                </div>
+              </div>
+
+              <div class="text-end">
+                <button
+                  type="button"
+                  class="btn btn-warning me-2"
+                  [disabled]="prestamoFormGroup.invalid"
+                  (click)="calcularPrestamo()"
+                >
+                  Calcular
+                </button>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Interés Anual (%)</label>
+                <input
+                  type="text"
+                  class="form-control-plaintext fw-bold"
+                  readonly
+                  [value]="((this.prestamo.interesAnual || 0)* 100).toFixed(0)  + '%'"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Monto Total a pagar</label>
+                <input
+                  type="text"
+                  class="form-control-plaintext fw-bold"
+                  readonly
+                  [value]="(this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || '') + ' ' + (((this.prestamo.montoPrestamo?.toFixed(2)) || 0))"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Monto a pagar por plazo</label>
+                <input
+                type="text"
+                class="form-control-plaintext fw-bold"
+                readonly
+                [value]="(this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || '') + ' ' + (((this.prestamo.montoPorPlazo?.toFixed(2)) || 0))"
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Fecha de Fin</label>
+                <input
+                type="text"
+                class="form-control-plaintext fw-bold"
+                readonly
+                [value]="((this.fechaFin || 'Sin fecha establecida'))"
+                />
+              </div>
+
+              <div class="text-end">
+                <button [disabled]="prestamoFormGroup.invalid" type="submit" class="btn btn-primary">Solicitar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

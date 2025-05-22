@@ -1,0 +1,82 @@
+<div class="container-xl mt-4">
+  <div class="row justify-content-center">
+    <div class="p-0">
+      <app-nav-bar-prestamo></app-nav-bar-prestamo>
+      <div class="shadow p-4 rounded text-center w-100">
+        <h1 class="mb-4 text-primary text-start">Detalles del Préstamo</h1>
+        <div class="text-start">
+          <div class="row mb-2">
+            <div class="col-md-6"><strong>Numero:</strong> {{ prestamo.id }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Monto a Pagar:</strong> {{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ (prestamo.montoPrestamo?.toFixed(2)) }}
+            </div>
+            <div class="col-md-6">
+              <strong>Monto Pagado:</strong> {{prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || ""}} {{ (prestamo.montoPagado?.toFixed(2)) || 0 }}
+            </div>
+          </div>
+          
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Interés Anual:</strong> {{ ((prestamo.interesAnual || 0) * 100).toFixed(0) }} %
+            </div>
+            <div class="col-md-6">
+              <strong>Numero de plazos {{prestamo.tipoPlazo?.tipo | lowercase}}es:</strong> {{ prestamo.plazos }}
+            </div>
+          </div>
+
+          <div class="row mb-2">
+            <div class="col-md-6">
+              <strong>Fecha de inicio:</strong>
+              {{ prestamo.fechaInicio | date }}
+            </div>
+            <div class="col-md-6">
+              <strong>Fecha de fin:</strong> {{ prestamo.fechaFin | date }}
+            </div>
+          </div>
+
+          
+          <div class="text-end">
+            <button class="btn btn-primary"   [disabled]="(prestamo.montoPagado?.toFixed(0))  === (prestamo.montoPrestamo?.toFixed(0))"
+            (click)="realizarPago()">Realizar un pago</button>
+          </div>  
+        </div>
+        <hr class="my-5" />
+        
+        <div>
+          <h2 class="text-primary mb-4 text-start">Fechas de Pago</h2>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Monto</th>
+                  <th>Fecha</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let prestamo of prestamos">
+                  <td>{{(this.prestamo.tarjetaRecepcion.tipoMonedaTarjeta?.simboloSecundario || "")}} {{ prestamo.monto }}</td>
+                  <td>{{ prestamo.fecha }}</td>
+                  <td>
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-success': prestamo.estado === 'Pagado',
+                        'bg-warning text-dark': prestamo.estado === 'Pendiente',
+                        'bg-danger': prestamo.estado === 'Vencido'
+                      }"
+                    >
+                      {{ prestamo.estado }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

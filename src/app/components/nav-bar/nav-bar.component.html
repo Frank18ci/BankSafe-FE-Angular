@@ -1,99 +1,59 @@
 <div class="bg-light py-3">
-  <nav class="container-xl">
-    <div class="d-flex justify-content-between align-items-center">
-      <a href="/">
-        <img class="img-logo" src="logo.png" alt="logo" />
-      </a>
-      <div>
-        <ul class="nav">
-          <li class="nav-item">
-            <a href="/" class="nav-link fw-bold">Inicio</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle fw-bold"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              data-bs-target="#dropdownOperaciones"
-              aria-expanded="false"
-            >
-              Operaciones
-            </a>
-            <ul id="dropdownOperaciones" class="dropdown-menu">
-              <li><a class="dropdown-item" href="operaciones/transferencias-internas">Transferencias internas</a></li>
-              <li><a class="dropdown-item" href="operaciones/transferencias-interbancaria">Transferencias interbancarias</a></li>
-              <li><a class="dropdown-item" href="operaciones/pago-de-servicio">Pago de servicios</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="operaciones/cambio-de-moneda">Cambio de moneda</a></li>
-            </ul>
-          </li>
-          
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle fw-bold"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              data-bs-target="#dropdownExplora"
-              aria-expanded="false"
-            >
-              Explora
-            </a>
-            <ul id="dropdownExplora" class="dropdown-menu">
-              <li><a class="dropdown-item" href="explora/prestamos-y-creditos">Préstamos y créditos</a></li>
-              <li><a class="dropdown-item" href="explora/tarjetas">Tarjetas</a></li>
-              <li><a class="dropdown-item" href="explora/beneficios-y-promociones">Beneficios / Promociones</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="explora/seguridad-y-soporte">Seguridad y soporte</a></li>
-            </ul>
-          </li>
-          
-        </ul>
-      </div>
-      <div>
-        <div  class="nav-item dropdown">
-          <a
-            class="d-flex align-items-center nav-link dropdown-toggle fw-bold"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-              data-bs-target="#dropdownUsuario"
-            aria-expanded="false"
-          >
-            <div class="container-img-user">
-              @if(usuario.imagePath != null){
-                <img class="img-fluid" src="{{ usuario.imagePath }}" />
-              } @else {
-                <i class="fa-solid fa-user"></i>
-              }
-            </div>
-          </a>
-          <ul id="dropdownUsuario" class="dropdown-menu">
+  <nav class="navbar navbar-expand-lg container-xl px-md-0 px-2">
+    <a class="navbar-brand" routerLink="/">
+      <img class="img-logo" src="logo.png" alt="logo" />
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a class="nav-link fw-bold" routerLink="/">Inicio</a>
+        </li>
+        <li class="nav-item dropdown">
+          <button class="nav-link dropdown-toggle fw-bold" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Operaciones
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="operaciones/transferencias-internas">Transferencias internas</a></li>
+            <li><a class="dropdown-item" routerLink="operaciones/transferencias-interbancaria">Transferencias interbancarias</a></li>
+            <li><a class="dropdown-item" routerLink="operaciones/pago-de-servicio">Pago de servicios</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" routerLink="operaciones/cambio-de-moneda">Cambio de moneda</a></li>
+          </ul>
+        </li>
+        
+        <li class="nav-item dropdown">
+          <button class="nav-link dropdown-toggle fw-bold" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Explora
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="explora/prestamos-y-creditos">Préstamos y créditos</a></li>
+            <li><a class="dropdown-item" routerLink="explora/tarjetas">Tarjetas</a></li>
+            <li><a class="dropdown-item" routerLink="explora/beneficios-y-promociones">Beneficios / Promociones</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" routerLink="explora/seguridad-y-soporte">Seguridad y soporte</a></li>
             <li>
-              <a class="dropdown-item fw-bold" href="usuario/mi-perfil">
-                <i class="bi bi-gear-fill"></i>
-                Mi Perfil</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item fw-bold" href="usuario/configuracion">
-                <i class="bi bi-gear-fill"></i>
-                configuración</a
-              >
-            </li>
-            <li><hr class="dropdown-divider fw-bold" /></li>
-            <li>
-              <button
-                class="dropdown-item text-danger"
-                (click)="removerCookies()"
-              >
-                <i class="bi bi-box-arrow-right"></i>
-                Cerrar Sesión
-              </button>
+              
             </li>
           </ul>
-        </div>
+        </li>
+      </ul>
+
+      <div class="nav-item dropdown">
+        <button class="ms-md-0 ms-3 nav-link dropdown-toggle fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="container-img-user">
+            <i class="fa-solid fa-user"></i>
+          </div>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" routerLink="usuario/mi-perfil"><i class="bi bi-gear-fill"></i> Mi Perfil</a></li>
+          <li><a class="dropdown-item" routerLink="usuario/configuracion"><i class="bi bi-gear-fill"></i> Configuración</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li><button class="dropdown-item text-danger" (click)="removerCookies()"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</button></li>
+        </ul>
       </div>
     </div>
   </nav>

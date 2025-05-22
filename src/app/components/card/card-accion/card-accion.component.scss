@@ -1,16 +1,41 @@
+
 @use '../../../../styles.scss' as *;
 
-.card-accion{
-    background-color: $lightgray;
-    a{
-        text-decoration: none;
+.card-accion {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    min-height: 7rem;
+    transition: all 0.3s ease;
+    border-radius: 1.5rem;
+    text-align: center;
+  
+    .accion-link {
+      text-decoration: none;
+      color: #212529;
     }
-    min-height: 4rem;
-    transition: transform .3s ease;
-    i{
-        font-size: 2rem;
+  
+    .icon-circle {
+      background: rgba(0, 123, 255, 0.1);
+      border-radius: 50%;
+      width: 3rem;
+      height: 3rem;
+      transition: all 0.3s ease;
+  
+      i {
+        font-size: 1.6rem;
+        color: $primary	;
+      }
     }
-}
-.card-accion:hover{
-    transform: translateY(-5px);
-}
+  
+    span {
+      font-size: 0.9rem;
+    }
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+  
+      .icon-circle {
+        background: rgba(0, 123, 255, 0.2);
+      }
+    }
+  }

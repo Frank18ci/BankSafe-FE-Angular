@@ -1,12 +1,20 @@
-<div class="card-tarjeta shadow px-5 py-3 rounded my-3">
-    <div class="d-flex justify-content-between">
-        <div>
-            <h5 class="fw-bold">Tarjeta de {{tarjeta.tipoTarjeta?.tipo}}</h5>
-            <p><span>Nro°</span> {{tarjeta.numeroTarjeta}}</p>
-        </div>
-        <div class="d-flex flex-column justify-content-center align-items-center fw-bold">
-            <p class="m-0">S/. {{tarjeta.monto}}</p>
-            <p class="m-0 saldo-disponible fw-normal text-gray">Saldo disponible</p>
-        </div>
+<div class="card-tarjeta shadow p-4 rounded-4 text-white">
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <i class="mdi mdi-credit-card-outline fs-3"></i>
+      <small class="text-light-50">{{tarjeta.tipoTarjeta?.tipo}}</small>
     </div>
-</div>
+    <div class="mb-3">
+      <h6 class="mb-1">**** **** **** {{tarjeta.numeroTarjeta?.slice(-4)}}</h6>
+      <small class="text-light-50">Vence: {{tarjeta.fechaVencimiento | date:'MM/yy'}}</small>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <small class="text-light-50">Saldo disponible</small>
+        <h5 class="fw-bold m-0">
+            {{tarjeta.tipoMonedaTarjeta?.simbolo}} {{tarjeta.monto ? (tarjeta.monto | number:'1.2-2') : '0.00'}}
+        </h5>
+      </div>
+      <i class="mdi mdi-wallet-outline fs-4"></i>
+    </div>
+  </div>
+  
